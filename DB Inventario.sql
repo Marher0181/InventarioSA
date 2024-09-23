@@ -55,7 +55,7 @@ CREATE TABLE MovimientosInventario (
     cantidad INT NOT NULL,
     idUsuario INT FOREIGN KEY REFERENCES Usuarios(idUsuario),
     fechaMovimiento DATETIME DEFAULT GETDATE(),
-    motivo NVARCHAR(255) -- Descripción del motivo del movimiento (ej. Venta, Compra, Ajuste de stock)
+    motivo NVARCHAR(255) -- Descripciï¿½n del motivo del movimiento (ej. Venta, Compra, Ajuste de stock)
 );
 
 CREATE TABLE Ventas (
@@ -303,3 +303,47 @@ AS
 BEGIN
     DELETE FROM DetalleVentas WHERE idDetalleVenta = @idDetalleVenta;
 END
+
+CREATE TABLE Alertas(
+idAlerta INT PRIMARY KEY IDENTITY(1,1),
+idProducto INT,
+nivelMinimo INT DEFAULT 10,
+fecha DATE DEFAULT GETDATE()
+)
+
+CREATE OR ALTER PROCEDURE sp_EliminarAlerta
+@idAlerta INT
+AS
+BEGIN 
+DELETE FROM Alertas 
+WHERE idAlerta = @idAlerta
+END
+
+CREATE TRIGGER tr_alertas
+ON Productos
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @StockActual INT, @StockMinimo INT, @IdProducto INT;
+    
+    DECLARE cur CURSOR FOR
+    SELECT I.idProducto, I.cantidadEnStock, I.stockMinimo
+    FROM INSERTED I;
+
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @IdProducto, @StockActual, @StockMinimo;
+    
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        IF @StockActual < @StockMinimo
+        BEGIN
+            INSERT INTO Alertas (idProducto, nivelMinimo, fecha)
+            VALUES (@IdProducto, @StockMinimo, GETDATE());
+        END;
+
+        FETCH NEXT FROM cur INTO @IdProducto, @StockActual, @StockMinimo;
+    END;
+
+    CLOSE cur;
+    DEALLOCATE cur;
+END;

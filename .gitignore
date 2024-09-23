@@ -30,3 +30,5 @@ build/
 *.egg-info/
 
 config.py
+
+__pycache__/

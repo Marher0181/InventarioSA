@@ -36,7 +36,7 @@ def login():
                 if rol == 1:
                     return redirect(url_for('gestionar_alertas'))
                 elif rol == 2:
-                    return redirect(url_for('gestionar_usuarios'))
+                    return redirect(url_for('gestionar_ventas'))
             else:
                 flash("No se encontraron resultados o credenciales incorrectas.")
 
@@ -113,17 +113,7 @@ def gestionar_alertas():
     alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
 
     destinatarios = db.session.execute(text("""
-        SELECT Proveedores.email
-        FROM Alertas
-        INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
-        INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor
-    """)).fetchall()
-
-    whatsapp = db.session.execute(text("""
-        SELECT Proveedores.telefono
-        FROM Alertas
-        INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
-        INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor
+        SELECT * from dbo.vw_ProveedoresReqAbas
     """)).fetchall()
 
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo': 
@@ -133,14 +123,14 @@ def gestionar_alertas():
                 subject="Solicitud de reabastecimiento de producto",
                 recipients=[email],
                 body="Estimado proveedor,\n\n"
-                     "Nos dirigimos a usted para informarle que uno de sus productos ha alcanzado niveles mínimos de inventario. Confiamos en su excelente servicio para gestionar el reabastecimiento de este artículo a la mayor brevedad posible.\n\n"
+                     "Nos dirigimos a usted para informarle que uno de sus productos, más especificamente el producto: " + destinatario[3] + " ha alcanzado niveles mínimos de inventario. Confiamos en su excelente servicio para gestionar el reabastecimiento de este artículo a la mayor brevedad posible.\n\n"
                      "Agradecemos su atención y quedamos a su disposición para coordinar la entrega.\n\n"
                      "Atentamente,\n"
                      "Inventario S.A.",
                 html="""
                     <h1>Reabastecimiento de Producto</h1>
                     <p>Estimado proveedor,</p>
-                    <p>Le informamos que uno de sus productos ha alcanzado niveles críticos en nuestro inventario.</p>
+                    <p>Le informamos que uno de sus productos, más especificamente el producto: <strong>""" + destinatario[3] + """ </strong> ha alcanzado niveles críticos en nuestro inventario.</p>
                     <p>Confiamos en su capacidad para suministrarnos el artículo en cuestión lo antes posible, asegurando la continuidad de nuestras operaciones.</p>
                     <p>Quedamos atentos a cualquier consulta o coordinación que necesite realizar.</p>
                     <p>Atentamente,</p>
@@ -148,11 +138,22 @@ def gestionar_alertas():
                 """
             )
             mail.send(msg)
-            print(f"Correo enviado a {email}!")
+            idAlerta = destinatario[2]
+            print('este es el id alerta', idAlerta)
+            sql = text("EXEC sp_EliminarAlerta :idAlerta")
+            try:
+                db.session.execute(sql, {'idAlerta': idAlerta})
+                db.session.commit()
+                return render_template('gestionar_alertas.html', alertas=alertas)
+            
+            except Exception as e:
+                db.session.rollback()
+                flash(f"Error al eliminar Email: {e}")
+                
             
     if request.method == 'POST' and request.form.get('action') == 'enviarwhatsapp':
-        for destinatario in whatsapp:
-            telefono = destinatario[0]
+        for destinatario in destinatarios:
+            telefono = destinatario[1]
             mensaje = Client.messages.create(
                 body="Estimado proveedor, uno de sus productos ha alcanzado niveles mínimos. Agradecemos el reabastecimiento pronto.",
                 from_=app.config['TWILIO_WHATSAPP_FROM'],
