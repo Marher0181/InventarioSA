@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Alertas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        .container {
+            background-color: #495057;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .form-control, .btn-primary {
+            background-color: #6c757d;
+            color: #f8f9fa;
+            border: 1px solid #6c757d;
+        }
+        .form-control:focus, .btn-primary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+        .table {
+            background-color: #495057;
+        }
+        .table thead th {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Gestión de Alertas</h1>
+
+        <h2 class="mt-4">Lista de Alertas</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID Alerta</th>
+                    <th>Producto</th>
+                    <th>Min stock sobrepasado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alerta in alertas %}
+                    <tr>
+                        <td>{{ alerta.idAlerta }}</td>
+                        <td>{{ alerta.idProducto.nombre }}</td>
+                        <td>{{ alerta.nivelMinimo }}</td>
+                        <td>{{ alerta.fecha }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Botón para enviar correos -->
+        <form method="POST">
+            <button type="submit" name="action" value="enviarcorreo" class="btn btn-primary mt-3">
+                Enviar alertas a proveedores
+            </button>
+        </form>
+        <form method="POST">
+            <button type="submit" name="action" value="enviarwhatsapp" class="btn btn-primary mt-3">
+                Enviar alertas a proveedores por Whatsapp
+            </button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

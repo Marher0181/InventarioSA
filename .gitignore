@@ -1,0 +1,32 @@
+# Ignorar archivos de configuración
+config.py
+.env
+
+# Ignorar cachés de Python
+__pycache__/
+*.py[cod]
+
+# Ignorar entornos virtuales
+venv/
+env/
+.venv/
+
+# Ignorar archivos de logs
+*.log
+
+# Ignorar archivos de bases de datos
+*.sqlite3
+*.db
+
+# Ignorar archivos de IDEs y editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignorar archivos de compilación
+dist/
+build/
+*.egg-info/
+
+config.py
