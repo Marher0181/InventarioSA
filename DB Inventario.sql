@@ -347,3 +347,11 @@ BEGIN
     CLOSE cur;
     DEALLOCATE cur;
 END;
+
+CREATE VIEW vw_ProveedoresReqAbas
+AS
+    SELECT Proveedores.email, Proveedores.telefono, alertas.idAlerta, productos.nombre, Proveedores.nombre AS Nombre_Proveedor
+    FROM Alertas
+    INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
+    INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor;
+GO

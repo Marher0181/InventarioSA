@@ -148,6 +148,7 @@ def gestionar_alertas():
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo': 
         for destinatario in destinatarios:
             email = destinatario[0]
+            print(destinatario[0])
             msg = Message(
                 subject="Solicitud de reabastecimiento de producto",
                 recipients=[email],
@@ -158,7 +159,7 @@ def gestionar_alertas():
                      "Inventario S.A.",
                 html="""
                     <h1>Reabastecimiento de Producto</h1>
-                    <p>Estimado proveedor,</p>
+                    <p>Estimados Sres """ + destinatario[4]+ """: </p>
                     <p>Le informamos que uno de sus productos, más especificamente el producto: <strong>""" + destinatario[3] + """ </strong> ha alcanzado niveles críticos en nuestro inventario.</p>
                     <p>Confiamos en su capacidad para suministrarnos el artículo en cuestión lo antes posible, asegurando la continuidad de nuestras operaciones.</p>
                     <p>Quedamos atentos a cualquier consulta o coordinación que necesite realizar.</p>
@@ -173,13 +174,14 @@ def gestionar_alertas():
             try:
                 db.session.execute(sql, {'idAlerta': idAlerta})
                 db.session.commit()
-                return render_template('gestionar_alertas.html', alertas=alertas)
+                
             
             except Exception as e:
                 db.session.rollback()
                 flash(f"Error al eliminar Email: {e}")
                 
-            
+        return render_template('gestionar_alertas.html', alertas=alertas)
+    
     if request.method == 'POST' and request.form.get('action') == 'enviarwhatsapp':
         for destinatario in destinatarios:
             telefono = destinatario[1]
@@ -195,7 +197,6 @@ def gestionar_alertas():
 
 @app.route('/proveedores', methods=['POST', 'GET'])
 def gestionar_proveedores():
-    # Verifica si el usuario está autenticado
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('login'))
@@ -243,7 +244,18 @@ def editar_proveedor(id):
 
     return render_template('editar_proveedor.html', proveedor=proveedor)
 
-    
+@app.route('/producto', methods=['GET', 'POST'])
+def gestionar_producto():
+    query = request.args.get('q')
+    page = request.args.get('page', 1, type=int) 
+    per_page = 5  
+    if query and query != None and query != 'None' :
+        productos = Productos.query.filter(
+            Productos.nombre.ilike(f'%{query}%') | Productos.descripcion.ilike(f'%{query}%')
+        ).order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
+    else:
+        productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
+    return render_template('gestionar_producto.html', productos=productos)
 
 @app.route('/ventas', methods=['GET', 'POST'])
 def gestionar_ventas():
