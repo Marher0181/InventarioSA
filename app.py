@@ -34,7 +34,7 @@ def login():
                 print(user)
                 print(rol, "este es el ROL")
                 if rol == 1:
-                    return redirect(url_for('gestionar_alertas'))
+                    return redirect(url_for('dashboardAdmin'))
                 elif rol == 2:
                     return redirect(url_for('gestionar_ventas'))
             else:
@@ -44,6 +44,35 @@ def login():
             flash(f"Error: {e}")
 
     return render_template('Login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('usuarioSesion', None)
+    return redirect(url_for('login'))
+
+@app.route('/dashboardAdmin')
+def dashboardAdmin():
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('login'))
+    
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+    
+    if idRol == 1:
+        sql = db.text("SELECT COUNT(*) FROM Alertas")
+        alertas = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Ventas")
+        ventas = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Proveedores")
+        proveedores = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM MovimientosInventario")
+        movimientos = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Usuarios")
+        usuarios = db.session.execute(sql).fetchall()
+        return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos)
+    
+
 @app.route('/usuarios', methods=['GET', 'POST'])
 def gestionar_usuarios():
     if 'usuarioSesion' not in session:
@@ -164,6 +193,58 @@ def gestionar_alertas():
     return render_template('gestionar_alertas.html', alertas=alertas)
 
 
+@app.route('/proveedores', methods=['POST', 'GET'])
+def gestionar_proveedores():
+    # Verifica si el usuario está autenticado
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('login'))
+    
+    query = request.args.get('q')
+    page = request.args.get('page', 1, type=int)
+    per_page = 5  
+    
+    if query:
+        proveedores = Proveedores.query.filter(
+            Proveedores.nombre.ilike(f'%{query}%') | 
+            Proveedores.direccion.ilike(f'%{query}%')
+        ).order_by(Proveedores.nombre).paginate(page=page, per_page=per_page)
+    else:
+        proveedores = Proveedores.query.order_by(Proveedores.nombre).paginate(page=page, per_page=per_page)
+
+    if request.method == 'POST':
+        proveedor_id = request.form.get('proveedor_id')
+        proveedor = Proveedores.query.get(proveedor_id)
+        if proveedor:
+            db.session.delete(proveedor)
+            db.session.commit()
+            flash("Proveedor eliminado exitosamente.")
+        else:
+            flash("Proveedor no encontrado.")
+
+    usuario = session['usuarioSesion']
+    
+    return render_template('gestionar_proveedores.html', proveedores=proveedores)
+
+@app.route('/editar_proveedor/<int:id>', methods=['GET', 'POST'])
+def editar_proveedor(id):
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('login'))
+
+    proveedor = Proveedores.query.get_or_404(id)
+
+    if request.method == 'POST':
+        proveedor.nombre = request.form['nombre']
+        proveedor.direccion = request.form['direccion']
+        db.session.commit()
+        flash("Proveedor actualizado exitosamente.")
+        return redirect(url_for('gestionar_proveedores'))
+
+    return render_template('editar_proveedor.html', proveedor=proveedor)
+
+    
+
 @app.route('/ventas', methods=['GET', 'POST'])
 def gestionar_ventas():
     if 'usuarioSesion' not in session:
@@ -174,7 +255,7 @@ def gestionar_ventas():
     page = request.args.get('page', 1, type=int) 
     per_page = 5  
 
-    if query:
+    if query and query != None and query != 'None' :
         productos = Productos.query.filter(
             Productos.nombre.ilike(f'%{query}%') | Productos.descripcion.ilike(f'%{query}%')
         ).order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
@@ -221,3 +302,5 @@ def gestionar_ventas():
         return redirect(url_for('gestionar_ventas'))
 
     return render_template('gestionar_ventas.html', productos=productos)
+
+
