@@ -81,7 +81,9 @@ def dashboardAdmin():
         movimientos = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Usuarios")
         usuarios = db.session.execute(sql).fetchall()
-        return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos)
+        sql = db.text("SELECT COUNT(*) FROM Productos")
+        productos = db.session.execute(sql).fetchall()
+        return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos, productos=productos)
     
 
 @app.route('/usuarios', methods=['GET', 'POST'])
@@ -271,7 +273,7 @@ def gestionar_proveedores():
     return render_template('gestionar_proveedores.html', proveedores=proveedores)
 
 @app.route('/producto', methods=['GET', 'POST'])
-def gestionar_producto():
+def gestionar_productos():
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int) 
     per_page = 5  
@@ -281,7 +283,7 @@ def gestionar_producto():
         ).order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
     else:
         productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
-    return render_template('gestionar_producto.html', productos=productos)
+    return render_template('gestionar_productos.html', productos=productos)
 
 @app.route('/ventas', methods=['GET', 'POST'])
 def gestionar_ventas():

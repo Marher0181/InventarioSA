@@ -43,7 +43,7 @@
                     <th>ID Alerta</th>
                     <th>Producto</th>
                     <th>Min stock sobrepasado</th>
-                    <th>Fecha</th>
+                    <th>Fecha en que se generó</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,17 +58,18 @@
             </tbody>
         </table>
 
-        <!-- Botón para enviar correos -->
         <form method="POST">
             <button type="submit" name="action" value="enviarcorreo" class="btn btn-primary mt-3">
                 Enviar alertas a proveedores
             </button>
         </form>
+        <!--
         <form method="POST">
             <button type="submit" name="action" value="enviarwhatsapp" class="btn btn-primary mt-3">
                 Enviar alertas a proveedores por Whatsapp
             </button>
         </form>
+        -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

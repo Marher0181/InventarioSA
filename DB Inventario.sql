@@ -355,6 +355,7 @@ AS
     INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
     INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor;
 GO
+
 ALTER   PROCEDURE [dbo].[sp_AgregarUsuario]
     @nombre NVARCHAR(100),
     @email NVARCHAR(100),

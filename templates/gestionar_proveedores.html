@@ -72,10 +72,8 @@
                     <td>{{ proveedor.telefono}} </td>
                     <td>{{ proveedor.email}} </td>
                     <td>
-                        <!-- Botón de modificar, llena el formulario con los datos del proveedor -->
                         <button class="btn btn-warning btn-sm" onclick="modificarProveedor('{{ proveedor.idProveedor }}', '{{ proveedor.nombre }}', '{{ proveedor.direccion }}', '{{ proveedor.telefono }}', '{{ proveedor.email }}')">Modificar</button>
                         
-                        <!-- Botón de eliminar -->
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
                             <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
