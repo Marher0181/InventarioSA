@@ -18,6 +18,7 @@
             {% endif %}
         {% endwith %}
 
+        <!-- Formulario de búsqueda -->
         <form method="GET" class="mb-4">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Buscar proveedores..." value="{{ request.args.get('q') }}">
@@ -27,12 +28,38 @@
             </div>
         </form>
 
+        <!-- Formulario para agregar o modificar proveedor -->
+        <form method="POST" class="mb-4">
+            <div class="form-group">
+                <label for="nombre">Nombre del proveedor</label>
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección del proveedor</label>
+                <input type="text" name="direccion" class="form-control" placeholder="Dirección" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Télefono</label>
+                <input type="text" name="telefono" class="form-control" placeholder="Télefono" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Eléctronico</label>
+                <input type="email" name="email" class="form-control" placeholder="Correo Eléctronico" required>
+            </div>
+            <input type="hidden" name="proveedor_id" id="proveedor_id">
+            <button type="submit" name="agregar" class="btn btn-success">Agregar Proveedor</button>
+            <button type="submit" name="modificar" class="btn btn-warning">Modificar Proveedor</button>
+        </form>
+
+        <!-- Tabla de proveedores -->
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Dirección</th>
+                    <th>Télefono</th>
+                    <th>E-mail</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -42,9 +69,17 @@
                     <td>{{ proveedor.idProveedor }}</td>
                     <td>{{ proveedor.nombre }}</td>
                     <td>{{ proveedor.direccion }}</td>
+                    <td>{{ proveedor.telefono}} </td>
+                    <td>{{ proveedor.email}} </td>
                     <td>
-                        <a href="{{ url_for('editar_proveedor', id=proveedor.idProveedor) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="{{ url_for('editar_proveedor', id=proveedor.idProveedor) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <!-- Botón de modificar, llena el formulario con los datos del proveedor -->
+                        <button class="btn btn-warning btn-sm" onclick="modificarProveedor('{{ proveedor.idProveedor }}', '{{ proveedor.nombre }}', '{{ proveedor.direccion }}', '{{ proveedor.telefono }}', '{{ proveedor.email }}')">Modificar</button>
+                        
+                        <!-- Botón de eliminar -->
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
+                            <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
                 {% else %}
@@ -55,6 +90,7 @@
             </tbody>
         </table>
 
+        <!-- Paginación -->
         <div class="d-flex justify-content-between">
             <div>
                 {% if proveedores.has_prev %}
@@ -69,6 +105,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function modificarProveedor(id, nombre, direccion, telefono, email) {
+            document.querySelector('input[name="proveedor_id"]').value = id;
+            document.querySelector('input[name="nombre"]').value = nombre;
+            document.querySelector('input[name="direccion"]').value = direccion;
+            document.querySelector('input[name="telefono"]').value = telefono;
+            document.querySelector('input[name="email"]').value = email;
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

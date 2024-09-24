@@ -27,7 +27,6 @@ class Proveedores(db.Model):
     __tablename__ = 'Proveedores'
     idProveedor = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    contacto = db.Column(db.String(100))
     direccion = db.Column(db.String(255))
     telefono = db.Column(db.String(20))
     email = db.Column(db.String(100))

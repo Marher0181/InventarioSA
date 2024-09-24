@@ -355,3 +355,49 @@ AS
     INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
     INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor;
 GO
+ALTER   PROCEDURE [dbo].[sp_AgregarUsuario]
+    @nombre NVARCHAR(100),
+    @email NVARCHAR(100),
+    @password NVARCHAR(max),
+    @idRol INT,
+    @activo BIT = 1
+AS
+BEGIN
+    INSERT INTO Usuarios (nombre, email, password, idRol, activo)
+    VALUES (@nombre, @email, @password, @idRol, @activo);
+END
+
+ALTER PROCEDURE [dbo].[sp_Login]
+    @Email NVARCHAR(100)
+AS
+BEGIN
+    SELECT idUsuario, nombre, idRol, password 
+    FROM Usuarios 
+    WHERE email = @Email AND activo = 1
+END
+GO
+
+ALTER   PROCEDURE [dbo].[sp_AgregarProveedor]
+    @nombre NVARCHAR(100),
+    @direccion NVARCHAR(255),
+    @telefono NVARCHAR(20),
+    @email NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Proveedores (nombre, direccion, telefono, email)
+    VALUES (@nombre, @direccion, @telefono, @email);
+END
+
+ALTER   PROCEDURE [dbo].[sp_ModificarProveedor]
+    @idProveedor INT,
+    @nombre NVARCHAR(100),
+    @direccion NVARCHAR(255),
+    @telefono NVARCHAR(20),
+    @email NVARCHAR(100)
+AS
+BEGIN
+    UPDATE Proveedores
+    SET nombre = @nombre, direccion = @direccion, telefono = @telefono, email = @email
+    WHERE idProveedor = @idProveedor;
+END
+GO

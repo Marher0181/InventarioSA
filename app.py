@@ -12,38 +12,49 @@ app.config.from_object(Config)
 db.init_app(app)
 mail = Mail(app)
 
+def cifrar_contraseña(contraseña):
+    contraseña = contraseña.encode('utf-8')
+    sal = bcrypt.gensalt()
+    contraseña_cifrada = bcrypt.hashpw(contraseña, sal)
+    return contraseña_cifrada
+
+import bcrypt
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = request.form.get('password')
-        #password = password.encode('utf-8')
-        #sal = bcrypt.gensalt()
-        #hashed_password = bcrypt.hashpw(password, sal)
-        #password = hashed_password
-        sql = db.text("EXEC sp_Login :email, :password")
-        print(password)
+        password = request.form.get('password').encode('utf-8')
+
+        sql = db.text("EXEC sp_Login :email")
         try:
-            result = db.session.execute(sql, {'email': email, 'password': password})
+            result = db.session.execute(sql, {'email': email})
             rows = result.fetchall()
-
+            print(rows)
             if rows:
-                user = rows[0]._asdict() 
-                rol = user.get('idRol') 
-                session['usuarioSesion'] = user
-                print(user)
-                print(rol, "este es el ROL")
-                if rol == 1:
-                    return redirect(url_for('dashboardAdmin'))
-                elif rol == 2:
-                    return redirect(url_for('gestionar_ventas'))
+                user = rows[0]._asdict()
+                password_hash = user.get('password').encode('utf-8')
+                des = bcrypt.checkpw(password, password_hash)
+                print("este es des  ", des)
+                if des:
+                    rol = user.get('idRol')
+                    session['usuarioSesion'] = user
+                    flash("Inicio de sesión exitoso.")
+                    
+                    if rol == 1:
+                        return redirect(url_for('dashboardAdmin'))
+                    elif rol == 2:
+                        return redirect(url_for('gestionar_ventas'))
+                else:
+                    flash("Contraseña incorrecta.")
             else:
-                flash("No se encontraron resultados o credenciales incorrectas.")
-
+                flash("No se encontró el usuario o está inactivo.")
+        
         except Exception as e:
             flash(f"Error: {e}")
-
+    
     return render_template('Login.html')
+
 
 @app.route('/logout')
 def logout():
@@ -91,18 +102,18 @@ def gestionar_usuarios():
                 email = request.form.get('email')
                 password = request.form.get('password')
                 idRol = request.form.get('idRol')
-                password = password.encode('utf-8')
-                sal = bcrypt.gensalt()
-                hashed_password = bcrypt.hashpw(password, sal)
-                password = hashed_password
-                sql = text("EXEC sp_AgregarUsuario :nombre, :email, :password, :idRol")
+                password_cifrada = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+            
+                sql = db.text("EXEC sp_AgregarUsuario :nombre, :email, :password, :idRol")
+    
                 try:
-                    db.session.execute(sql, {'nombre': nombre, 'email': email, 'password': password, 'idRol': idRol})
+                    db.session.execute(sql, {'nombre': nombre, 'email': email, 'password': password_cifrada, 'idRol': idRol})
                     db.session.commit()
-                    flash("Usuario agregado correctamente.")
+                    flash("Usuario registrado correctamente.")
                 except Exception as e:
                     db.session.rollback()
-                    flash(f"Error al agregar usuario: {e}")
+                    flash(f"Error al registrar usuario: {e}")
 
             elif action == 'Modificar':
                 idUsuario = request.form.get('idUsuario')
@@ -136,6 +147,7 @@ def gestionar_usuarios():
     roles = db.session.execute(text("SELECT * FROM Roles")).fetchall()
 
     return render_template('gestionar_usuarios.html', usuarios=usuarios, idRol=idRol, roles=roles)
+
 
 @app.route('/gestionar_alertas', methods=['GET', 'POST'])
 def gestionar_alertas():
@@ -214,35 +226,49 @@ def gestionar_proveedores():
         proveedores = Proveedores.query.order_by(Proveedores.nombre).paginate(page=page, per_page=per_page)
 
     if request.method == 'POST':
-        proveedor_id = request.form.get('proveedor_id')
-        proveedor = Proveedores.query.get(proveedor_id)
-        if proveedor:
-            db.session.delete(proveedor)
-            db.session.commit()
-            flash("Proveedor eliminado exitosamente.")
-        else:
-            flash("Proveedor no encontrado.")
+        if 'agregar' in request.form:
 
-    usuario = session['usuarioSesion']
+            nombre=request.form['nombre']
+            direccion=request.form['direccion']
+            telefono = request.form['telefono']
+            email = request.form['email']
+
+            sql = text("EXEC sp_AgregarProveedor :nombre, :direccion, :telefono, :email")
+            try:
+                db.session.execute(sql, {'nombre': nombre, 'direccion': direccion, 'telefono': telefono, 'email': email})
+                db.session.commit()
+                flash("Proveedor Agregado correctamente.")
+                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+            except Exception as e:
+                db.session.rollback()
+                flash(f"Error al eliminar Proveedor: {e}")
+        
+        elif 'modificar' in request.form:
+            # Modificar un proveedor existente
+            proveedor_id = request.form['proveedor_id']
+            proveedor = Proveedores.query.get(proveedor_id)
+            if proveedor:
+                proveedor.nombre = request.form['nombre']
+                proveedor.direccion = request.form['direccion']
+                db.session.commit()
+                flash("Proveedor modificado exitosamente.")
+                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+            else:
+                flash("Proveedor no encontrado.")
+        
+        elif 'eliminar' in request.form:
+            # Eliminar un proveedor
+            proveedor_id = request.form['proveedor_id']
+            proveedor = Proveedores.query.get(proveedor_id)
+            if proveedor:
+                db.session.delete(proveedor)
+                db.session.commit()
+                flash("Proveedor eliminado exitosamente.")
+                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+            else:
+                flash("Proveedor no encontrado.")
     
     return render_template('gestionar_proveedores.html', proveedores=proveedores)
-
-@app.route('/editar_proveedor/<int:id>', methods=['GET', 'POST'])
-def editar_proveedor(id):
-    if 'usuarioSesion' not in session:
-        flash("Debes iniciar sesión para acceder a esta página.")
-        return redirect(url_for('login'))
-
-    proveedor = Proveedores.query.get_or_404(id)
-
-    if request.method == 'POST':
-        proveedor.nombre = request.form['nombre']
-        proveedor.direccion = request.form['direccion']
-        db.session.commit()
-        flash("Proveedor actualizado exitosamente.")
-        return redirect(url_for('gestionar_proveedores'))
-
-    return render_template('editar_proveedor.html', proveedor=proveedor)
 
 @app.route('/producto', methods=['GET', 'POST'])
 def gestionar_producto():
@@ -316,3 +342,30 @@ def gestionar_ventas():
     return render_template('gestionar_ventas.html', productos=productos)
 
 
+
+@app.route('/registrar_usuario', methods=['GET', 'POST'])
+def registrar_usuario():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        password = password.encode('utf-8')  
+        sal = bcrypt.gensalt() 
+        hashed_password = bcrypt.hashpw(password, sal)
+        sql = text("EXEC sp_AgregarUsuario :nombre, :email, :password, :idRol")
+        try:
+            db.session.execute(sql, {
+                'nombre': nombre,
+                'email': email,
+                'password': hashed_password.decode('utf-8'), 
+                'idRol': 1 
+            })
+            db.session.commit()
+            flash("Usuario registrado correctamente.")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error al registrar usuario: {e}")
+    roles = db.session.execute(text("SELECT * FROM Roles")).fetchall()
+
+    return render_template('registrar_usuario.html', roles=roles)

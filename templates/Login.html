@@ -22,6 +22,9 @@
             <button type="submit" class="btn btn-primary">Login</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
         </form>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('registrar_usuario') }}" class="btn btn-light">Crear un usuario</a>
+        </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="alert alert-info mt-3">
