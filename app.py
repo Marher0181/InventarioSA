@@ -1,4 +1,4 @@
-from flask  import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from models import db, Categorias, Roles, Usuarios, Proveedores, Productos, MovimientosInventario, Ventas, Productos, DetalleVentas
 from config import Config
 from datetime import datetime
@@ -440,4 +440,8 @@ def registrar_usuario():
     roles = db.session.execute(text("SELECT * FROM Roles")).fetchall()
 
     return render_template('registrar_usuario.html', roles=roles)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
