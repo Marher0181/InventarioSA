@@ -156,7 +156,6 @@ def gestionar_alertas():
     destinatarios = db.session.execute(text("""
         SELECT * from dbo.vw_ProveedoresReqAbas
     """)).fetchall()
-    print(destinatarios)
 
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo': 
         for destinatario in destinatarios:
