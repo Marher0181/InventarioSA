@@ -214,24 +214,26 @@ def gestionar_proveedores():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('login'))
-    
+
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)
-    per_page = 5  
-    
+    per_page = 5
+
     if query:
         proveedores = Proveedores.query.filter(
-            Proveedores.nombre.ilike(f'%{query}%') | 
+            Proveedores.nombre.ilike(f'%{query}%') |
             Proveedores.direccion.ilike(f'%{query}%')
         ).order_by(Proveedores.nombre).paginate(page=page, per_page=per_page)
     else:
         proveedores = Proveedores.query.order_by(Proveedores.nombre).paginate(page=page, per_page=per_page)
 
+    proveedor_seleccionado = None
+
     if request.method == 'POST':
         if 'agregar' in request.form:
-
-            nombre=request.form['nombre']
-            direccion=request.form['direccion']
+            # Agregar un nuevo proveedor
+            nombre = request.form['nombre']
+            direccion = request.form['direccion']
             telefono = request.form['telefono']
             email = request.form['email']
 
@@ -239,12 +241,12 @@ def gestionar_proveedores():
             try:
                 db.session.execute(sql, {'nombre': nombre, 'direccion': direccion, 'telefono': telefono, 'email': email})
                 db.session.commit()
-                flash("Proveedor Agregado correctamente.")
-                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+                flash("Proveedor agregado correctamente.")
+                return redirect(url_for('gestionar_proveedores'))
             except Exception as e:
                 db.session.rollback()
-                flash(f"Error al eliminar Proveedor: {e}")
-        
+                flash(f"Error al agregar proveedor: {e}")
+
         elif 'modificar' in request.form:
             # Modificar un proveedor existente
             proveedor_id = request.form['proveedor_id']
@@ -252,12 +254,14 @@ def gestionar_proveedores():
             if proveedor:
                 proveedor.nombre = request.form['nombre']
                 proveedor.direccion = request.form['direccion']
+                proveedor.telefono = request.form['telefono']
+                proveedor.email = request.form['email']
                 db.session.commit()
                 flash("Proveedor modificado exitosamente.")
-                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+                return redirect(url_for('gestionar_proveedores'))
             else:
                 flash("Proveedor no encontrado.")
-        
+
         elif 'eliminar' in request.form:
             # Eliminar un proveedor
             proveedor_id = request.form['proveedor_id']
@@ -266,24 +270,90 @@ def gestionar_proveedores():
                 db.session.delete(proveedor)
                 db.session.commit()
                 flash("Proveedor eliminado exitosamente.")
-                return render_template('gestionar_proveedores.html', proveedores=proveedores)
+                return redirect(url_for('gestionar_proveedores'))
             else:
                 flash("Proveedor no encontrado.")
-    
-    return render_template('gestionar_proveedores.html', proveedores=proveedores)
+        
+
+    return render_template('gestionar_proveedores.html', proveedores=proveedores, proveedor_seleccionado=proveedor_seleccionado)
+
+
 
 @app.route('/producto', methods=['GET', 'POST'])
 def gestionar_productos():
     query = request.args.get('q')
-    page = request.args.get('page', 1, type=int) 
-    per_page = 5  
-    if query and query != None and query != 'None' :
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+
+    # Obtener parámetros para editar si existen
+    idProducto = request.args.get('idProducto')
+    producto_a_editar = None
+
+    if idProducto:
+        producto_a_editar = Productos.query.get(idProducto)
+
+    # Si es un POST, determinar si es para agregar o editar
+    if request.method == 'POST':
+        idProducto_form = request.form.get('idProducto')
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        sku = request.form['sku']
+        precioCosto = request.form['precioCosto']
+        precioVenta = request.form['precioVenta']
+        stockMinimo = request.form['stockMinimo']
+        cantidadEnStock = request.form['cantidadEnStock']
+        idProveedor = request.form['idProveedor']
+        idCategoria = request.form['idCategoria']
+
+        if idProducto_form: 
+            producto = Productos.query.get(idProducto_form)
+            producto.nombre = nombre
+            producto.descripcion = descripcion
+            producto.sku = sku
+            producto.precioCosto = precioCosto
+            producto.precioVenta = precioVenta
+            producto.stockMinimo = stockMinimo
+            producto.cantidadEnStock = cantidadEnStock
+            producto.idProveedor = idProveedor
+            producto.idCategoria = idCategoria
+            db.session.commit()
+            flash('Producto actualizado correctamente')
+        else:  # Si no hay ID, es un nuevo producto
+            nuevo_producto = Productos(
+                nombre=nombre,
+                descripcion=descripcion,
+                sku=sku,
+                precioCosto=precioCosto,
+                precioVenta=precioVenta,
+                stockMinimo=stockMinimo,
+                cantidadEnStock=cantidadEnStock,
+                idProveedor=idProveedor,
+                idCategoria=idCategoria,
+                fechaCreacion=datetime.utcnow()
+            )
+            db.session.add(nuevo_producto)
+            db.session.commit()
+            flash('Producto agregado exitosamente')
+        return redirect(url_for('gestionar_productos'))
+
+    # Búsqueda y paginación
+    if query:
         productos = Productos.query.filter(
             Productos.nombre.ilike(f'%{query}%') | Productos.descripcion.ilike(f'%{query}%')
-        ).order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
+        ).order_by(Productos.nombre).paginate(page=page, per_page=per_page)
     else:
-        productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page) 
-    return render_template('gestionar_productos.html', productos=productos)
+        productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page)
+
+    # Eliminar producto
+    if request.args.get('delete'):
+        producto_id = request.args.get('delete')
+        producto = Productos.query.get(producto_id)
+        db.session.delete(producto)
+        db.session.commit()
+        flash('Producto eliminado exitosamente')
+        return redirect(url_for('gestionar_productos'))
+
+    return render_template('gestionar_productos.html', productos=productos, producto_a_editar=producto_a_editar)
 
 @app.route('/ventas', methods=['GET', 'POST'])
 def gestionar_ventas():

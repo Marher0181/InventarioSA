@@ -32,23 +32,23 @@
         <form method="POST" class="mb-4">
             <div class="form-group">
                 <label for="nombre">Nombre del proveedor</label>
-                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ proveedor_seleccionado.nombre if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="form-group">
                 <label for="direccion">Dirección del proveedor</label>
-                <input type="text" name="direccion" class="form-control" placeholder="Dirección" required>
+                <input type="text" name="direccion" class="form-control" placeholder="Dirección" value="{{ proveedor_seleccionado.direccion if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="form-group">
                 <label for="telefono">Télefono</label>
-                <input type="text" name="telefono" class="form-control" placeholder="Télefono" required>
+                <input type="text" name="telefono" class="form-control" placeholder="Télefono" value="{{ proveedor_seleccionado.telefono if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="form-group">
                 <label for="email">Correo Eléctronico</label>
-                <input type="email" name="email" class="form-control" placeholder="Correo Eléctronico" required>
+                <input type="email" name="email" class="form-control" placeholder="Correo Eléctronico" value="{{ proveedor_seleccionado.email if proveedor_seleccionado else '' }}" required>
             </div>
-            <input type="hidden" name="proveedor_id" id="proveedor_id">
-            <button type="submit" name="agregar" class="btn btn-success">Agregar Proveedor</button>
-            <button type="submit" name="modificar" class="btn btn-warning">Modificar Proveedor</button>
+            <input type="hidden" name="proveedor_id" value="{{ proveedor_seleccionado.idProveedor if proveedor_seleccionado else '' }}">
+            <button type="submit" name="agregar" class="btn btn-success" {% if proveedor_seleccionado %}disabled{% endif %}>Agregar Proveedor</button>
+            <button type="submit" name="modificar" class="btn btn-warning" {% if not proveedor_seleccionado %}disabled{% endif %}>Modificar Proveedor</button>
         </form>
 
         <!-- Tabla de proveedores -->
@@ -64,16 +64,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for proveedor in proveedores %}
+                {% for proveedor in proveedores.items %}
                 <tr>
                     <td>{{ proveedor.idProveedor }}</td>
                     <td>{{ proveedor.nombre }}</td>
                     <td>{{ proveedor.direccion }}</td>
-                    <td>{{ proveedor.telefono}} </td>
-                    <td>{{ proveedor.email}} </td>
+                    <td>{{ proveedor.telefono }} </td>
+                    <td>{{ proveedor.email }} </td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="modificarProveedor('{{ proveedor.idProveedor }}', '{{ proveedor.nombre }}', '{{ proveedor.direccion }}', '{{ proveedor.telefono }}', '{{ proveedor.email }}')">Modificar</button>
-                        
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
+                            <button type="submit" name="seleccionar" class="btn btn-warning btn-sm">Modificar</button>
+                        </form>
+
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
                             <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
@@ -82,7 +85,7 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="4" class="text-center">No se encontraron proveedores.</td>
+                    <td colspan="6" class="text-center">No se encontraron proveedores.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -103,16 +106,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function modificarProveedor(id, nombre, direccion, telefono, email) {
-            document.querySelector('input[name="proveedor_id"]').value = id;
-            document.querySelector('input[name="nombre"]').value = nombre;
-            document.querySelector('input[name="direccion"]').value = direccion;
-            document.querySelector('input[name="telefono"]').value = telefono;
-            document.querySelector('input[name="email"]').value = email;
-        }
-    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
