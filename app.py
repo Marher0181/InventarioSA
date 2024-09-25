@@ -18,8 +18,6 @@ def cifrar_contraseña(contraseña):
     contraseña_cifrada = bcrypt.hashpw(contraseña, sal)
     return contraseña_cifrada
 
-import bcrypt
-
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -158,6 +156,7 @@ def gestionar_alertas():
     destinatarios = db.session.execute(text("""
         SELECT * from dbo.vw_ProveedoresReqAbas
     """)).fetchall()
+    print(destinatarios)
 
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo': 
         for destinatario in destinatarios:
@@ -441,3 +440,4 @@ def registrar_usuario():
     roles = db.session.execute(text("SELECT * FROM Roles")).fetchall()
 
     return render_template('registrar_usuario.html', roles=roles)
+
