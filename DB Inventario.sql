@@ -402,3 +402,20 @@ BEGIN
     WHERE idProveedor = @idProveedor;
 END
 GO
+
+ALTER   TRIGGER [dbo].[tr_ActualizarStock]
+ON [dbo].[DetalleVentas]
+AFTER INSERT
+AS
+BEGIN
+	INSERT INTO MovimientosInventario (idProducto, tipoMovimiento, cantidad, idUsuario, fechaMovimiento, motivo)
+    SELECT I.idProducto, 'Salida', I.cantidad, 
+           (SELECT TOP(1) idUsuario FROM Ventas WHERE idVenta = I.idVenta), 
+           GETDATE(), 'Venta realizada'
+    FROM INSERTED I;
+
+    UPDATE Productos
+    SET Productos.cantidadEnStock = Productos.cantidadEnStock - I.cantidad
+    FROM Productos
+    INNER JOIN INSERTED I ON Productos.idProducto = I.idProducto;
+END;

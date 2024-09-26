@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Movimientos</title>
+    <!-- Enlazar Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Gestión de Movimientos de Inventario</h2>
+
+        <!-- Tabla de movimientos -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID Movimiento</th>
+                    <th>ID Producto</th>
+                    <th>Tipo de Movimiento</th>
+                    <th>Cantidad</th>
+                    <th>ID Usuario</th>
+                    <th>Fecha de Movimiento</th>
+                    <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if movimientos %}
+                    {% for movimiento in movimientos %}
+                        <tr>
+                            <td>{{ movimiento.idMovimiento }}</td>
+                            <td>{{ movimiento.idProducto }}</td>
+                            <td>{{ movimiento.tipoMovimiento }}</td>
+                            <td>{{ movimiento.cantidad }}</td>
+                            <td>{{ movimiento.idUsuario }}</td>
+                            <td>{{ movimiento.fechaMovimiento }}</td>
+                            <td>{{ movimiento.motivo }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">No hay movimientos registrados</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- Botón para descargar el reporte de productos más vendidos -->
+        <div class="text-center mb-3">
+            <a href="/reporte-productos-mas-vendidos" class="btn btn-success">Descargar Reporte de Productos Más Vendidos</a>
+        </div>
+
+        <!-- Botón para regresar al menú principal -->
+        <div class="text-center">
+            <a href="/" class="btn btn-primary">Volver al menú principal</a>
+        </div>
+    </div>
+
+    <!-- Enlazar Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
