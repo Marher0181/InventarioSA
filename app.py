@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask  import Flask, render_template, request, redirect, url_for, session, flash, send_file
 from models import db, Categorias, Roles, Usuarios, Proveedores, Productos, MovimientosInventario, Ventas, Productos, DetalleVentas
 from config import Config
 from datetime import datetime
-from sqlalchemy import text
+from sqlalchemy import text, func
+import pandas as pd
 import bcrypt
+from io import BytesIO
+import openpyxl
+from openpyxl.chart import BarChart, Reference
+from openpyxl.utils import get_column_letter
 from flask_mail import Mail, Message
 from twilio.rest import Client  # Importa Twilio Client
 
@@ -33,7 +38,6 @@ def login():
                 user = rows[0]._asdict()
                 password_hash = user.get('password').encode('utf-8')
                 des = bcrypt.checkpw(password, password_hash)
-                print("este es des  ", des)
                 if des:
                     rol = user.get('idRol')
                     session['usuarioSesion'] = user
@@ -253,7 +257,6 @@ def gestionar_proveedores():
                 flash(f"Error al agregar proveedor: {e}")
 
         elif 'modificar' in request.form:
-            # Modificar un proveedor existente
             proveedor_id = request.form['proveedor_id']
             proveedor = Proveedores.query.get(proveedor_id)
             if proveedor:
@@ -268,7 +271,6 @@ def gestionar_proveedores():
                 flash("Proveedor no encontrado.")
 
         elif 'eliminar' in request.form:
-            # Eliminar un proveedor
             proveedor_id = request.form['proveedor_id']
             proveedor = Proveedores.query.get(proveedor_id)
             if proveedor:
@@ -282,23 +284,31 @@ def gestionar_proveedores():
 
     return render_template('gestionar_proveedores.html', proveedores=proveedores, proveedor_seleccionado=proveedor_seleccionado)
 
-
-
 @app.route('/producto', methods=['GET', 'POST'])
 def gestionar_productos():
-    query = request.args.get('q')
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('login'))
+
+    usuario = session['usuarioSesion']
+    idUsuario = usuario['idUsuario']
+
     page = request.args.get('page', 1, type=int)
     per_page = 5
 
-    # Obtener parámetros para editar si existen
-    idProducto = request.args.get('idProducto')
-    producto_a_editar = None
+    # Reabastecer producto
+    if request.method == 'POST' and 'reabastecer' in request.form:
+        idProducto_form = request.form.get('idProductoReabastecer')
+        cantidad = request.form.get('cantidadReabastecer')
 
-    if idProducto:
-        producto_a_editar = Productos.query.get(idProducto)
+        sql = text("EXEC sp_ReabastecerProducto :idProducto, :cantidad, :idUsuario")
+        db.session.execute(sql, {'idProducto': idProducto_form, 'cantidad': cantidad, 'idUsuario': idUsuario})
+        db.session.commit()
+        flash('Producto reabastecido correctamente')
+        return redirect(url_for('gestionar_productos'))
 
-    # Si es un POST, determinar si es para agregar o editar
-    if request.method == 'POST':
+    # Agregar o modificar producto
+    if request.method == 'POST' and 'guardarProducto' in request.form:
         idProducto_form = request.form.get('idProducto')
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
@@ -312,18 +322,9 @@ def gestionar_productos():
 
         if idProducto_form: 
             producto = Productos.query.get(idProducto_form)
-            producto.nombre = nombre
-            producto.descripcion = descripcion
-            producto.sku = sku
-            producto.precioCosto = precioCosto
-            producto.precioVenta = precioVenta
-            producto.stockMinimo = stockMinimo
-            producto.cantidadEnStock = cantidadEnStock
-            producto.idProveedor = idProveedor
-            producto.idCategoria = idCategoria
-            db.session.commit()
+            # Lógica para modificar producto
             flash('Producto actualizado correctamente')
-        else:  # Si no hay ID, es un nuevo producto
+        else:
             nuevo_producto = Productos(
                 nombre=nombre,
                 descripcion=descripcion,
@@ -341,13 +342,8 @@ def gestionar_productos():
             flash('Producto agregado exitosamente')
         return redirect(url_for('gestionar_productos'))
 
-    # Búsqueda y paginación
-    if query:
-        productos = Productos.query.filter(
-            Productos.nombre.ilike(f'%{query}%') | Productos.descripcion.ilike(f'%{query}%')
-        ).order_by(Productos.nombre).paginate(page=page, per_page=per_page)
-    else:
-        productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page)
+    productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page)
+    return render_template('gestionar_productos.html', productos=productos)
 
     # Eliminar producto
     if request.args.get('delete'):

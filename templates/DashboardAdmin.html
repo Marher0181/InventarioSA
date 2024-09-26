@@ -5,58 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_DashboardAdmin.css') }}">
+    <style>
+        .dashboard-box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .dashboard-box:hover {
+            transform: scale(1.05);
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4 text-center">Dashboard Administrador</h1>
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+        <h1 class="my-4">Dashboard Administrador</h1>
+        <div class="row">
+            <div class="col-md-2">
                 <a href="{{ url_for('gestionar_alertas') }}" class="dashboard-box">
                     <h4>Alertas</h4>
-                    <div class="icon-container dashboard-alertas">
-                        <p class="notification">{{ alertas[0][0] }}</p>
-                    </div>
+                    <p>{{ alertas[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-md-2">
                 <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
-                    <div class="icon-container dashboard-ventas">
-                        <p class="notification">{{ ventas[0][0] }}</p>
-                    </div>
+                    <p>{{ ventas[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-md-2">
                 <a href="{{ url_for('gestionar_proveedores') }}" class="dashboard-box">
                     <h4>Proveedores</h4>
-                    <div class="icon-container dashboard-proveedores">
-                        <p class="notification">{{ proveedores[0][0] }}</p>
-                    </div>
+                    <p>{{ proveedores[0][0] }}</p>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('logout') }}" class="dashboard-box">
+                <a href="{{ url_for('gestionar_movimientos') }}" class="dashboard-box">
                     <h4>Movimientos</h4>
-                    <div class="icon-container dashboard-movimientos">
-                        <p class="notification">{{ movimientos[0][0] }}</p>
-                    </div>
+                    <p>{{ movimientos[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-md-2">
                 <a href="{{ url_for('gestionar_usuarios') }}" class="dashboard-box">
                     <h4>Usuarios</h4>
-                    <div class="icon-container dashboard-usuarios">
-                        <p class="notification">{{ usuarios[0][0] }}</p>
-                    </div>
+                    <p>{{ usuarios[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-md-2"></div>
                 <a href="{{ url_for('gestionar_productos') }}" class="dashboard-box">
                     <h4>Productos</h4>
-                    <div class="icon-container dashboard-productos">
-                        <p class="notification">{{ productos[0][0] }}</p>
-                    </div>
+                    <p>{{ productos[0][0] }}</p>
                 </a>
             </div>
         </div>
@@ -64,6 +66,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // Script para ocultar las notificaciones con valor 0
