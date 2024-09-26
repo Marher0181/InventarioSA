@@ -20,9 +20,9 @@
         </form>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="alert alert-info mt-3">
+                    <div class="flash-message" style="display: none;">
                         {% for category, message in messages %}
-                            <p>{{ message }}</p>
+                            {{ message }}
                         {% endfor %}
                     </div>
                 {% endif %}
