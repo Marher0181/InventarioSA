@@ -6,57 +6,173 @@
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .dashboard-box {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px;
-            transition: transform 0.2s;
-            cursor: pointer;
+        body {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727307374/v0d8vrudpt2mb7i106h3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #000000;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+        .dashboard-box {
+            width: 250px;
+            height: 250px;
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 0.9rem;¿
+            backdrop-filter: blur(10px);
+            text-align: center;
+            color: white;
+            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 10px;
+        }
+
         .dashboard-box:hover {
             transform: scale(1.05);
-            background-color: #f8f9fa;
+            color: black;
+        }
+
+        .dashboard-alertas {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310881/r1tvznosa6fytdweon4n.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-alertas h4 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-ventas {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727309715/b8mnqgcwdyrlpzjdfqaj.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-ventas h4 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-proveedores {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727309987/dbwlmzbce0pfym7yingz.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-proveedores h4 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-movimientos {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310284/gfqmugincj6y69kgtjcj.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-movimientos h4 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-usuarios {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310731/nk3chkje9woatluqwoav.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-usuarios h4 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-productos {
+            background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727311131/ypyr7lwtmagm3nkulko6.png');
+            background-size: contain;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-productos h4 {
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 3.5rem; /* Aumenta el tamaño del texto */
+            text-align: center;
+            color: #1f3c88; /* Cambia a un tono de azul profundo */
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif; /* Usa una fuente estilizada */
+            font-weight: 700; /* Aumenta el grosor de la fuente */
+            text-transform: uppercase; /* Convierte el texto a mayúsculas */
+            letter-spacing: 2px; /* Añade espacio entre las letras */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4">Dashboard Administrador</h1>
-        <div class="row">
-            <div class="col-md-2">
-                <a href="{{ url_for('gestionar_alertas') }}" class="dashboard-box">
+        <h1 class="my-4 text-center">Dashboard Administrador</h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('gestionar_alertas') }}" class="dashboard-box dashboard-alertas">
                     <h4>Alertas</h4>
                     <p>{{ alertas[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-md-2">
-                <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box dashboard-ventas">
                     <h4>Ventas</h4>
                     <p>{{ ventas[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-md-2">
-                <a href="{{ url_for('gestionar_proveedores') }}" class="dashboard-box">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('gestionar_proveedores') }}" class="dashboard-box dashboard-proveedores">
                     <h4>Proveedores</h4>
                     <p>{{ proveedores[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-md-2">
-                <a href="{{ url_for('logout') }}" class="dashboard-box">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('logout') }}" class="dashboard-box dashboard-movimientos">
                     <h4>Movimientos</h4>
                     <p>{{ movimientos[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-md-2">
-                <a href="{{ url_for('gestionar_usuarios') }}" class="dashboard-box">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('gestionar_usuarios') }}" class="dashboard-box dashboard-usuarios">
                     <h4>Usuarios</h4>
                     <p>{{ usuarios[0][0] }}</p>
                 </a>
             </div>
-            <div class="col-md-2"></div>
-                <a href="{{ url_for('gestionar_productos') }}" class="dashboard-box">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                <a href="{{ url_for('gestionar_productos') }}" class="dashboard-box dashboard-productos">
                     <h4>Productos</h4>
                     <p>{{ productos[0][0] }}</p>
                 </a>

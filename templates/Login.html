@@ -1,39 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-dark@5.1.0/dist/bootstrap-dark.min.css">
-</head>
-<body class="bg-dark text-light">
-    <div class="container mt-4">
-        <h1 class="text-center">Login</h1>
-        <form method="post" class="bg-secondary p-4 rounded">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+{% extends "index.html" %}
+
+{% block content %}
+    <div>
+        <h1 class="text-center mt-4" style="color: #ffffff h1">Login</h1>
+        <form method="post" class="p-4 rounded" style="background-color: transparent">
+            <div class="input-group mb-4 mt-4">
+                <input type="email" id="email" name="email" class="input" placeholder=" " autocomplete="on" required>
+                <label class="user-label">Email</label>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+            <div class="input-group mb-5 mt-5">
+                <input type="password" id="password" name="password" class="input" placeholder=" " autocomplete="off" required>
+                <label class="user-label">Password</label>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
+            <button type="submit" class="float-right ml-3 mb-4">Login</button>
+            <button type="reset" class="float-right mr-3 mb-4">Reset</button>
+            <div class="text-center float-left color: #ffffff">
+                <a href="{{ url_for('registrar_usuario') }}">Crear un usuario</a>
+            </div>
         </form>
-        <div class="text-center mt-3">
-            <a href="{{ url_for('registrar_usuario') }}" class="btn btn-light">Crear un usuario</a>
-        </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alert alert-info mt-3">
-                    {% for category, message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alert alert-info mt-3">
+                        {% for category, message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
     </div>
-</body>
-</html>
+{% endblock %}
