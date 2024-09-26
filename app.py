@@ -44,13 +44,20 @@ def login():
                     elif rol == 2:
                         return redirect(url_for('gestionar_ventas'))
                 else:
-                    flash("Contraseña incorrecta.")
+                    flash("Contraseña incorrecta.", "warning")
+
             else:
-                flash("No se encontró el usuario o está inactivo.")
-        
+                flash("No se encontró el usuario o está inactivo.", "warning")
+
+
+        except db.exc.OperationalError as e:
+            error_code = e.orig.args[0]
+            flash(f"Error de conexión. Inténtalo de nuevo más tarde. Código de error: {error_code}", "danger")
+
         except Exception as e:
-            flash(f"Error: {e}")
-    
+            error_code = getattr(e, 'code', 'N/A')
+            flash(f"Ha ocurrido un error inesperado. Por favor, intenta más tarde. Código {error_code} {e}",
+              "danger")
     return render_template('Login.html')
 
 
