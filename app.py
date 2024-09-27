@@ -38,7 +38,6 @@ def login():
                 user = rows[0]._asdict()
                 password_hash = user.get('password').encode('utf-8')
                 des = bcrypt.checkpw(password, password_hash)
-                print("este es des  ", des)
                 if des:
                     rol = user.get('idRol')
                     session['usuarioSesion'] = user
@@ -258,7 +257,6 @@ def gestionar_proveedores():
                 flash(f"Error al agregar proveedor: {e}")
 
         elif 'modificar' in request.form:
-            # Modificar un proveedor existente
             proveedor_id = request.form['proveedor_id']
             proveedor = Proveedores.query.get(proveedor_id)
             if proveedor:
@@ -273,7 +271,6 @@ def gestionar_proveedores():
                 flash("Proveedor no encontrado.")
 
         elif 'eliminar' in request.form:
-            # Eliminar un proveedor
             proveedor_id = request.form['proveedor_id']
             proveedor = Proveedores.query.get(proveedor_id)
             if proveedor:
@@ -286,8 +283,6 @@ def gestionar_proveedores():
         
 
     return render_template('gestionar_proveedores.html', proveedores=proveedores, proveedor_seleccionado=proveedor_seleccionado)
-
-
 
 @app.route('/producto', methods=['GET', 'POST'])
 def gestionar_productos():
@@ -338,7 +333,7 @@ def gestionar_productos():
             producto.idCategoria = idCategoria
             db.session.commit()
             flash('Producto actualizado correctamente')
-        else:  # Si no hay ID, es un nuevo producto
+        else:
             nuevo_producto = Productos(
                 nombre=nombre,
                 descripcion=descripcion,
@@ -359,6 +354,16 @@ def gestionar_productos():
     productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page)
     return render_template('gestionar_productos.html', productos=productos)
 
+    # Eliminar producto
+    if request.args.get('delete'):
+        producto_id = request.args.get('delete')
+        producto = Productos.query.get(producto_id)
+        db.session.delete(producto)
+        db.session.commit()
+        flash('Producto eliminado exitosamente')
+        return redirect(url_for('gestionar_productos'))
+
+    return render_template('gestionar_productos.html', productos=productos, producto_a_editar=producto_a_editar)
 
 @app.route('/ventas', methods=['GET', 'POST'])
 def gestionar_ventas():
@@ -407,6 +412,7 @@ def gestionar_ventas():
 
             sql = text("INSERT INTO DetalleVentas VALUES (:idVenta, :idProducto, :cantidad, :precioUnitario, :subtotal)")
             db.session.execute(sql, {'idVenta': venta.idVenta, 'idProducto': idProducto, 'cantidad': cantidad, 'precioUnitario': producto.precioVenta, 'subtotal': subtotal})
+            print('idVenta', venta.idVenta, 'idProducto', idProducto, 'cantidad', cantidad, 'precioUnitario', producto.precioVenta, 'subtotal', subtotal)
             db.session.commit()
             flash("Usuario modificado correctamente.")
 
