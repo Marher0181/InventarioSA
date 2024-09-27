@@ -5,7 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <style>
+    .select2-container--default .select2-selection--single {
+        background-color: rgba(26, 20, 70, 0.2) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 0.7rem !important;
+        padding: 1rem !important;
+        color: #f5f5f5 !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+</style>
 </head>
 <body>
     <div class="container mt-4">
@@ -19,31 +34,31 @@
             {% endif %}
         {% endwith %}
 
-        <form method="POST">
-            <div class="input-group mb-4 mt-4">
+        <form method="POST" class="mb-4">
+            <div class="input-group mb-3">
                 <label for="nombre" style="color: white">Nombre</label>
                 <input type="text" name="nombre" id="nombre" class="input" required>
             </div>
-            <div class="input-group mb-4 mt-4">
+            <div class="input-group mb-3">
                 <label for="email" style="color: white">Email</label>
                 <input type="email" name="email" id="email" class="input" required>
             </div>
-            <div class="input-group mb-4 mt-4">
+            <div class="input-group mb-3">
                 <label for="password" style="color: white">Contraseña</label>
                 <input type="password" name="password" id="password" class="input" required>
             </div>
-            <div class="input-group mb-4 mt-4">
+            <div class="input-group mb-3">
                 <label for="idRol" style="color: white">Rol</label>
-                <select name="idRol" id="idRol" class="input" required>
+                <select name="idRol" id="idRol" class="select2" required>
                     {% for rol in roles %}
                         <option value="{{ rol.idRol }}">{{ rol.nombreRol }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" name="action" value="Agregar" class="btn btn-primary">Agregar</button>
+            <button type="submit" name="action" value="Agregar" style="color: white" class="float-right mb-4">Agregar</button>
         </form>
 
-        <h2>Lista de Usuarios</h2>
+        <h1 class="mt-5">Lista de Usuarios</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -64,11 +79,11 @@
                     <td>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
-                            <button type="submit" name="action" value="Modificar" class="btn btn-warning btn-sm">Modificar</button>
+                            <button type="submit" name="action" value="Modificar" class="float-center">Modificar</button>
                         </form>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
-                            <button type="submit" name="action" value="Eliminar" class="btn btn-danger btn-sm">Eliminar</button>
+                            <button type="submit" name="action" value="Eliminar" class="float-center">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -84,5 +99,52 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Inicializa Select2
+        $('#idRol').select2({
+            theme: 'default'
+        });
+
+        // Forzar aplicación de estilos con JavaScript
+        function forceApplyStyles() {
+            $('.select2-container--default .select2-selection--single').css({
+                'background-color': 'rgba(26, 20, 70, 0.2) !important',
+                'border': '2px solid rgba(255, 255, 255, 0.3) !important',
+                'border-radius': '0.7rem !important',
+                'padding': '1rem !important',
+                'color': '#f5f5f5 !important',
+                'backdrop-filter': 'blur(25px) !important',
+                '-webkit-backdrop-filter': 'blur(25px) !important',
+                'display': 'flex !important',
+                'align-items': 'center !important'
+            });
+            $('.select2-container--default .select2-selection--single .select2-selection__rendered').css({
+                'color': '#f5f5f5 !important',
+                'font-family': 'inherit !important',
+                'font-size': '1rem !important',
+                'padding': '0 !important'
+            });
+            $('.select2-container--default .select2-selection--single .select2-selection__arrow').css({
+                'height': '100% !important',
+                'position': 'absolute !important',
+                'right': '10px !important',
+                'color': '#ffffff !important'
+            });
+        }
+
+        // Aplica los estilos inmediatamente después de la inicialización
+        forceApplyStyles();
+
+        // Observa cambios en el estilo y reaplica los estilos si Select2 los modifica
+        const observer = new MutationObserver(() => forceApplyStyles());
+        const targetNode = document.querySelector('.select2-container--default .select2-selection--single');
+        if (targetNode) {
+            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
+        }
+    });
+</script>
 </body>
 </html>

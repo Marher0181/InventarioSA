@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Ventas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_ventas.css') }}">
-
 </head>
 <body>
 
@@ -138,7 +138,7 @@
 
             <div class="input-group mt-4">
                 <label for="metodoPago" style="color: white">Seleccione un Método de Pago</label>
-                <select class="input" name="metodoPago" id="metodoPago" required>
+                <select class="select2-" name="metodoPago" id="metodoPago" required>
                     <option value="Efectivo">Efectivo</option>
                     <option value="Transferencia" selected>Transferencia</option>
                     <option value="Tarjeta">Tarjeta Crédito/Débito</option>
@@ -154,47 +154,54 @@
         </form>
     </div>
 </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        function agregarProducto(id, nombre, precio, stock) {
-            let tabla = document.getElementById('productosSeleccionados');
-            let row = tabla.insertRow();
+    $(document).ready(function () {
+        // Inicializa Select2
+        $('#idRol').select2({
+            theme: 'default'
+        });
 
-            row.innerHTML = `
-                <td>
-                    <input type="hidden" name="productos[]" value="${id}">${nombre}
-                </td>
-                <td>${precio}</td>
-                <td>
-                    <input type="number" name="cantidades[]" min="1" max="${stock}" value="1" onchange="actualizarSubtotal(this, ${precio}, ${stock})">
-                    <small class="text-danger" id="errorCantidad${id}" style="display: none;">La cantidad no puede exceder el stock.</small>
-                </td>
-                <td class="subtotal">${precio}</td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button>
-                </td>
-            `;
+        // Forzar aplicación de estilos con JavaScript
+        function forceApplyStyles() {
+            $('.select2-container--default .select2-selection--single').css({
+                'background-color': 'rgba(26, 20, 70, 0.2) !important',
+                'border': '2px solid rgba(255, 255, 255, 0.3) !important',
+                'border-radius': '0.7rem !important',
+                'padding': '1rem !important',
+                'color': '#f5f5f5 !important',
+                'backdrop-filter': 'blur(25px) !important',
+                '-webkit-backdrop-filter': 'blur(25px) !important',
+                'display': 'flex !important',
+                'align-items': 'center !important'
+            });
+            $('.select2-container--default .select2-selection--single .select2-selection__rendered').css({
+                'color': '#f5f5f5 !important',
+                'font-family': 'inherit !important',
+                'font-size': '1rem !important',
+                'padding': '0 !important'
+            });
+            $('.select2-container--default .select2-selection--single .select2-selection__arrow').css({
+                'height': '100% !important',
+                'position': 'absolute !important',
+                'right': '10px !important',
+                'color': '#ffffff !important'
+            });
         }
 
-        function actualizarSubtotal(input, precio, stock) {
-            let row = input.closest('tr');
-            let cantidad = parseInt(input.value);
-            let errorLabel = document.getElementById('errorCantidad' + input.closest('tr').cells[0].getElementsByTagName('input')[0].value);
+        // Aplica los estilos inmediatamente después de la inicialización
+        forceApplyStyles();
 
-            if (cantidad > stock) {
-                errorLabel.style.display = 'block';
-                input.value = stock;
-                cantidad = stock;
-            } else {
-                errorLabel.style.display = 'none';
-            }
-
-            let subtotal = precio * cantidad;
-            row.cells[3].textContent = subtotal.toFixed(2);
+        // Observa cambios en el estilo y reaplica los estilos si Select2 los modifica
+        const observer = new MutationObserver(() => forceApplyStyles());
+        const targetNode = document.querySelector('.select2-container--default .select2-selection--single');
+        if (targetNode) {
+            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
         }
-
-        function eliminarFila(button) {
-            let row = button.closest('tr');
-            row.remove();
-        }
-    </script>
+    });
+</script>
 </html>
