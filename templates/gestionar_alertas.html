@@ -1,79 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Alertas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #343a40;
-            color: #f8f9fa;
-        }
-        .container {
-            background-color: #495057;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .form-control, .btn-primary {
-            background-color: #6c757d;
-            color: #f8f9fa;
-            border: 1px solid #6c757d;
-        }
-        .form-control:focus, .btn-primary:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
-        .table {
-            background-color: #495057;
-        }
-        .table thead th {
-            background-color: #6c757d;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Gestión de Alertas</h1>
+        <h1 class="text-center">Gestión de Alertas</h1>
 
-        <h2 class="mt-4">Lista de Alertas</h2>
-        <table class="table table-striped">
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Botones adicionales -->
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-primary" onclick="location.href='{{ url_for('dashboardAdmin') }}'">Volver al menú principal</button>
+            <form method="POST">
+                <button type="submit" name="action" value="enviarcorreo" class="btn btn-success">Enviar alertas a proveedores</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Alertas -->
+        <table class="table table-bordered table-striped mt-4">
             <thead>
                 <tr>
                     <th>ID Alerta</th>
-                    <th>Producto</th>
-                    <th>Min stock sobrepasado</th>
-                    <th>Fecha en que se generó</th>
+                    <th>ID Producto</th>
+                    <th>Nivel Mínimo</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for alerta in alertas %}
+                {% if alertas %}
+                    {% for alerta in alertas %}
+                        <tr>
+                            <td>{{ alerta.idAlerta }}</td>
+                            <td>{{ alerta.idProducto }}</td>
+                            <td>{{ alerta.nivelMinimo }}</td>
+                            <td>{{ alerta.fecha }}</td>
+                            <td>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="idAlerta" value="{{ alerta.idAlerta }}">
+                                    <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta alerta?');">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td>{{ alerta.idAlerta }}</td>
-                        <td>{{ alerta.idProducto.nombre }}</td>
-                        <td>{{ alerta.nivelMinimo }}</td>
-                        <td>{{ alerta.fecha }}</td>
+                        <td colspan="5" class="text-center">No hay alertas registradas</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
 
-        <form method="POST">
-            <button type="submit" name="action" value="enviarcorreo" class="btn btn-primary mt-3">
-                Enviar alertas a proveedores
-            </button>
-        </form>
-        <!--
-        <form method="POST">
-            <button type="submit" name="action" value="enviarwhatsapp" class="btn btn-primary mt-3">
-                Enviar alertas a proveedores por Whatsapp
-            </button>
-        </form>
-        -->
+        <!-- Paginación -->
+        <div class="mt-4 d-flex justify-content-between">
+            <div>
+                {% if alertas.has_prev %}
+                    <a href="{{ url_for('gestionar_alertas', page=alertas.prev_num) }}" class="btn btn-secondary">Anterior</a>
+                {% endif %}
+                {% if alertas.has_next %}
+                    <a href="{{ url_for('gestionar_alertas', page=alertas.next_num) }}" class="btn btn-secondary">Siguiente</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

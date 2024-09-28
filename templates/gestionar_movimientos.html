@@ -4,16 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Movimientos</title>
-    <!-- Enlazar Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Gestión de Movimientos de Inventario</h2>
+    <div class="container mt-4">
+        <h1 class="text-center">Gestión de Movimientos de Inventario</h1>
+
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Botones adicionales -->
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ url_for('reporte_productos_mas_vendidos') }}" class="btn btn-success">Descargar Reporte de Productos Más Vendidos</a>
+            <a href="{{ url_for('dashboardAdmin') }}" class="btn btn-primary">Volver al menú principal</a>
+        </div>
 
         <!-- Tabla de movimientos -->
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+        <table class="table table-bordered table-striped mt-4">
+            <thead>
                 <tr>
                     <th>ID Movimiento</th>
                     <th>ID Producto</th>
@@ -45,20 +62,24 @@
             </tbody>
         </table>
 
-        <!-- Botón para descargar el reporte de productos más vendidos -->
-        <div class="text-center mb-3">
-            <a href="/reporte-productos-mas-vendidos" class="btn btn-success">Descargar Reporte de Productos Más Vendidos</a>
-        </div>
-
-        <!-- Botón para regresar al menú principal -->
-        <div class="text-center">
-            <a href="/" class="btn btn-primary">Volver al menú principal</a>
+        <!-- Paginación -->
+        <div class="mt-4 d-flex justify-content-between">
+            <div>
+                {% if movimientos.has_prev %}
+                    <a href="{{ url_for('gestionar_movimientos', page=movimientos.prev_num) }}" class="btn btn-secondary">Anterior</a>
+                {% endif %}
+                {% if movimientos.has_next %}
+                    <a href="{{ url_for('gestionar_movimientos', page=movimientos.next_num) }}" class="btn btn-secondary">Siguiente</a>
+                {% endif %}
+            </div>
+            <div>
+                <small>Página {{ movimientos.page }} de {{ movimientos.pages }}</small>
+            </div>
         </div>
     </div>
 
-    <!-- Enlazar Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
