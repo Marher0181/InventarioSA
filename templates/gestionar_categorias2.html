@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Categorías</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">Gestión de Categorías</h1>
+
+        <!-- Mensajes Flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        {{ message }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulario para agregar categoría -->
+        <form method="POST" class="mt-4">
+            <div class="input-group mb-3">
+                <label for="Categorias" class="user-label">Nueva Categoría</label>
+                <input type="text" class="input" name="Categorias" required>
+            </div>
+            <button type="submit" name="agregar" class="btn btn-primary">Agregar</button>
+        </form>
+
+        <!-- Lista de categorías -->
+        <h2 class="mt-5 text-center">Categorías Existentes</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Categoría</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias.items %}
+                <tr>
+                    <td>{{ categoria.idCategoria }}</td>
+                    <td>{{ categoria.nombreCategoria }}</td>
+                    <td>
+                        <!-- Formulario para modificar categoría -->
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
+                            <input type="text" name="nombreCategoria" placeholder="Nuevo nombre" required class="input">
+                            <button type="submit" name="modificar" class="btn btn-warning">Modificar</button>
+                        </form>
+                        
+                        <!-- Formulario para eliminar categoría -->
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
+                            <button type="submit" name="eliminar" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Paginación -->
+        <div class="mt-4 d-flex justify-content-between">
+            <div>
+                {% if categorias.has_prev %}
+                    <a href="{{ url_for('gestionar_categorias', page=categorias.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
+                {% endif %}
+                {% if categorias.has_next %}
+                    <a href="{{ url_for('gestionar_categorias', page=categorias.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
+                {% endif %}
+            </div>
+            <div>
+                <small>Página {{ categorias.page }} de {{ categorias.pages }}</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+</body>
+</html>

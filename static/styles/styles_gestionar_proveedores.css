@@ -1,0 +1,30 @@
+
+/* General styling for input fields to ensure consistency */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Container adjustments for better layout */
+.container {
+    margin-top: 20px;
+}
+
+/* Button adjustments */
+button {
+    margin-right: 10px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+/* Fixing overflow and layout issues */
+.form-group {
+    margin-bottom: 15px;
+}
