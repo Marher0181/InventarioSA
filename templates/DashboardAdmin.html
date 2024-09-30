@@ -26,44 +26,44 @@
         <h1 class="my-4">Dashboard Administrador</h1>
         <div class="row">
             <div class="col-md-2">
-                <a href="{{ url_for('gestionar_alertas') }}" class="dashboard-box">
+                <a href="{{ url_for('alertas.gestionar_alertas') }}" class="dashboard-box">
                     <h4>Alertas</h4>
                     <p>{{ alertas[0][0] }}</p>
                 </a>
             </div>
             <div class="col-md-2">
-                <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box">
+                <a href="{{ url_for('ventas.gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
                     <p>{{ ventas[0][0] }}</p>
                 </a>
             </div>
             <div class="col-md-2">
-                <a href="{{ url_for('gestionar_proveedores') }}" class="dashboard-box">
+                <a href="{{ url_for('proveedores.gestionar_proveedores') }}" class="dashboard-box">
                     <h4>Proveedores</h4>
                     <p>{{ proveedores[0][0] }}</p>
                 </a>
             </div>
             <div class="col-md-2">
-                <a href="{{ url_for('gestionar_movimientos') }}" class="dashboard-box">
+                <a href="{{ url_for('movimientos.gestionar_movimientos') }}" class="dashboard-box">
                     <h4>Movimientos</h4>
                     <p>{{ movimientos[0][0] }}</p>
                 </a>
             </div>
             <div class="col-md-2">
-                <a href="{{ url_for('gestionar_usuarios') }}" class="dashboard-box">
+                <a href="{{ url_for('usuarios.gestionar_usuarios') }}" class="dashboard-box">
                     <h4>Usuarios</h4>
                     <p>{{ usuarios[0][0] }}</p>
                 </a>
             </div>
             <div class="row">
             <div class="col-md-2"></div>
-                <a href="{{ url_for('gestionar_productos') }}" class="dashboard-box">
+                <a href="{{ url_for('productos.gestionar_productos') }}" class="dashboard-box">
                     <h4>Productos</h4>
                     <p>{{ productos[0][0] }}</p>
                 </a>
             </div>
             <div class="col-md-2"></div>
-                <a href="{{ url_for('gestionar_categorias') }}" class="dashboard-box">
+                <a href="{{ url_for('categorias.gestionar_categorias') }}" class="dashboard-box">
                     <h4>Categorias</h4>
                     <p>{{ categorias[0][0] }}</p>
                 </a>

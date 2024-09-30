@@ -18,7 +18,6 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Formulario de búsqueda -->
         <form method="GET" class="mb-4">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Buscar proveedores..." value="{{ request.args.get('q') }}">
@@ -27,8 +26,7 @@
                 </div>
             </div>
         </form>
-
-        <!-- Formulario para agregar o modificar proveedor -->
+        
         <form method="POST" class="mb-4">
             <div class="form-group">
                 <label for="nombre">Nombre del proveedor</label>
@@ -95,10 +93,10 @@
         <div class="d-flex justify-content-between">
             <div>
                 {% if proveedores.has_prev %}
-                    <a href="{{ url_for('gestionar_proveedores', page=proveedores.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
+                    <a href="{{ url_for('proveedores.gestionar_proveedores', page=proveedores.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
                 {% endif %}
                 {% if proveedores.has_next %}
-                    <a href="{{ url_for('gestionar_proveedores', page=proveedores.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
+                    <a href="{{ url_for('proveedores.gestionar_proveedores', page=proveedores.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
                 {% endif %}
             </div>
             <div>
