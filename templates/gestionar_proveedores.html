@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Proveedores</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Gestionar Proveedores</h1>
+        <h1 class="text-center">Gestionar Proveedores</h1>
 
+        <!-- Mensajes Flash -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="alert alert-warning">
@@ -18,33 +20,23 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Formulario de búsqueda -->
-        <form method="GET" class="mb-4">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Buscar proveedores..." value="{{ request.args.get('q') }}">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
-                </div>
-            </div>
-        </form>
-
         <!-- Formulario para agregar o modificar proveedor -->
         <form method="POST" class="mb-4">
-            <div class="form-group">
-                <label for="nombre">Nombre del proveedor</label>
-                <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ proveedor_seleccionado.nombre if proveedor_seleccionado else '' }}" required>
+            <div class="input-group mb-3">
+                <label for="nombre" class="user-label">Nombre del proveedor</label>
+                <input type="text" name="nombre" class="input" placeholder="Nombre" value="{{ proveedor_seleccionado.nombre if proveedor_seleccionado else '' }}" required>
             </div>
-            <div class="form-group">
-                <label for="direccion">Dirección del proveedor</label>
-                <input type="text" name="direccion" class="form-control" placeholder="Dirección" value="{{ proveedor_seleccionado.direccion if proveedor_seleccionado else '' }}" required>
+            <div class="input-group mb-3">
+                <label for="direccion" class="user-label">Dirección del proveedor</label>
+                <input type="text" name="direccion" class="input" placeholder="Dirección" value="{{ proveedor_seleccionado.direccion if proveedor_seleccionado else '' }}" required>
             </div>
-            <div class="form-group">
-                <label for="telefono">Télefono</label>
-                <input type="text" name="telefono" class="form-control" placeholder="Télefono" value="{{ proveedor_seleccionado.telefono if proveedor_seleccionado else '' }}" required>
+            <div class="input-group mb-3">
+                <label for="telefono" class="user-label">Teléfono</label>
+                <input type="text" name="telefono" class="input" placeholder="Teléfono" value="{{ proveedor_seleccionado.telefono if proveedor_seleccionado else '' }}" required>
             </div>
-            <div class="form-group">
-                <label for="email">Correo Eléctronico</label>
-                <input type="email" name="email" class="form-control" placeholder="Correo Eléctronico" value="{{ proveedor_seleccionado.email if proveedor_seleccionado else '' }}" required>
+            <div class="input-group mb-3">
+                <label for="email" class="user-label">Correo Electrónico</label>
+                <input type="email" name="email" class="input" placeholder="Correo Electrónico" value="{{ proveedor_seleccionado.email if proveedor_seleccionado else '' }}" required>
             </div>
             <input type="hidden" name="proveedor_id" value="{{ proveedor_seleccionado.idProveedor if proveedor_seleccionado else '' }}">
             <button type="submit" name="agregar" class="btn btn-success" {% if proveedor_seleccionado %}disabled{% endif %}>Agregar Proveedor</button>
@@ -58,7 +50,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Dirección</th>
-                    <th>Télefono</th>
+                    <th>Teléfono</th>
                     <th>E-mail</th>
                     <th>Acciones</th>
                 </tr>
@@ -69,14 +61,13 @@
                     <td>{{ proveedor.idProveedor }}</td>
                     <td>{{ proveedor.nombre }}</td>
                     <td>{{ proveedor.direccion }}</td>
-                    <td>{{ proveedor.telefono }} </td>
-                    <td>{{ proveedor.email }} </td>
+                    <td>{{ proveedor.telefono }}</td>
+                    <td>{{ proveedor.email }}</td>
                     <td>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
                             <button type="submit" name="seleccionar" class="btn btn-warning btn-sm">Modificar</button>
                         </form>
-
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
                             <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
