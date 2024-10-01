@@ -916,3 +916,82 @@ USE [master]
 GO
 ALTER DATABASE [GestorInventario] SET  READ_WRITE 
 GO
+
+
+
+
+USE [GestorInventario]
+GO
+
+/****** Object:  Trigger [dbo].[tr_alertas]    Script Date: 01/10/2024 9:16:01 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE TRIGGER [dbo].[tr_alertas]
+ON [dbo].[Productos]
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @StockActual INT, @StockMinimo INT, @IdProducto INT;
+    
+    DECLARE cur CURSOR FOR
+    SELECT I.idProducto, I.cantidadEnStock, I.stockMinimo
+    FROM INSERTED I;
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @IdProducto, @StockActual, @StockMinimo;
+    
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        IF @StockActual < @StockMinimo
+        BEGIN
+            INSERT INTO Alertas (idProducto, nivelMinimo, fecha)
+            VALUES (@IdProducto, @StockMinimo, GETDATE());
+        END;
+        FETCH NEXT FROM cur INTO @IdProducto, @StockActual, @StockMinimo;
+    END;
+    CLOSE cur;
+    DEALLOCATE cur;
+END
+GO
+
+ALTER TABLE [dbo].[Productos] ENABLE TRIGGER [tr_alertas]
+GO
+
+
+USE [GestorInventario]
+GO
+
+/****** Object:  Trigger [dbo].[tr_ActualizarStock]    Script Date: 01/10/2024 9:16:54 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE     TRIGGER [dbo].[tr_ActualizarStock]
+ON [dbo].[DetalleVentas]
+AFTER INSERT
+AS
+BEGIN
+	INSERT INTO MovimientosInventario (idProducto, tipoMovimiento, cantidad, idUsuario, fechaMovimiento, motivo)
+    SELECT I.idProducto, 'Salida', I.cantidad, 
+           (SELECT TOP(1) idUsuario FROM Ventas WHERE idVenta = I.idVenta), 
+           GETDATE(), 'Venta realizada'
+    FROM INSERTED I;
+
+    UPDATE Productos
+    SET Productos.cantidadEnStock = Productos.cantidadEnStock - I.cantidad
+    FROM Productos
+    INNER JOIN INSERTED I ON Productos.idProducto = I.idProducto;
+END;
+GO
+
+ALTER TABLE [dbo].[DetalleVentas] ENABLE TRIGGER [tr_ActualizarStock]
+GO
