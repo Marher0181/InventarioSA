@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Movimientos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -44,7 +50,10 @@
         </table>
 
         <div class="text-center mb-3">
-            <a href="/reporte-productos-mas-vendidos" class="btn btn-success">Descargar Reporte de Productos Más Vendidos</a>
+            <button class="btn btn-success" data-toggle="modal" data-target="#reporteProductosMasVendidos">Generar Reporte de Productos Más Vendidos</button>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#reporteProductosMenosVendidos">Generar Reporte de Productos Menos Vendidos</button>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#reporteMejoresVendedores">Generar Reporte de Mejores Vendedores</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#reporteMovimientosMes">Generar Reporte de Movimientos por Mes</button>
         </div>
 
         <div class="text-center">
@@ -52,8 +61,178 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Modal para Productos Más Vendidos -->
+    <div class="modal fade" id="reporteProductosMasVendidos" tabindex="-1" aria-labelledby="reporteProductosMasVendidosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reporteProductosMasVendidosLabel">Reporte de Productos Más Vendidos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reporte-productos-mas-vendidos" method="POST">
+                        <div class="form-group">
+                            <label for="mes">Mes:</label>
+                            <select class="form-control" id="mes" name="mes" required>
+                                <option value="">Seleccione un mes</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="anio">Año:</label>
+                            <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Productos Menos Vendidos -->
+    <div class="modal fade" id="reporteProductosMenosVendidos" tabindex="-1" aria-labelledby="reporteProductosMenosVendidosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reporteProductosMenosVendidosLabel">Reporte de Productos Menos Vendidos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reporte-productos-menos-vendidos" method="POST">
+                        <div class="form-group">
+                            <label for="mes">Mes:</label>
+                            <select class="form-control" id="mes" name="mes" required>
+                                <option value="">Seleccione un mes</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="anio">Año:</label>
+                            <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Mejores Vendedores -->
+    <div class="modal fade" id="reporteMejoresVendedores" tabindex="-1" aria-labelledby="reporteMejoresVendedoresLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reporteMejoresVendedoresLabel">Reporte de Mejores Vendedores</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/reporte-mejores-vendedores" method="POST">
+                        <div class="form-group">
+                            <label for="mes">Mes:</label>
+                            <select class="form-control" id="mes" name="mes" required>
+                                <option value="">Seleccione un mes</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="anio">Año:</label>
+                            <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal para Movimientos por Mes -->
+<div class="modal fade" id="reporteMovimientosMes" tabindex="-1" aria-labelledby="reporteMovimientosMesLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="reporteMovimientosMesLabel">Reporte de Movimientos por Mes</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span>&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form action="/reporte-movimientos-por-mes" method="POST">
+    <div class="form-group">
+        <label for="mes">Mes:</label>
+        <select class="form-control" id="mes" name="mes" required>
+            <option value="">Seleccione un mes</option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="anio">Año:</label>
+        <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Generar Reporte</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

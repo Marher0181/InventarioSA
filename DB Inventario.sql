@@ -739,3 +739,23 @@ USE [master]
 GO
 ALTER DATABASE [GestorInventario] SET  READ_WRITE 
 GO
+
+CREATE OR ALTER PROCEDURE ObtenerMejorVendedorPorMesYAño
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP 5 u.nombre, 
+           YEAR(v.fechaVenta) AS Anio, 
+           DATENAME(month, v.fechaVenta) AS Mes, 
+           COUNT(*) AS Ventas_Realizadas 
+    FROM MovimientosInventario
+    INNER JOIN Usuarios u ON MovimientosInventario.idUsuario = u.idUsuario
+    INNER JOIN Ventas v ON MovimientosInventario.idUsuario = v.idUsuario
+    WHERE tipoMovimiento = 'Salida'
+    AND MONTH(v.fechaVenta) = @Mes
+    AND YEAR(v.fechaVenta) = @Anio
+    GROUP BY u.nombre, YEAR(v.fechaVenta), DATENAME(month, v.fechaVenta), MONTH(v.fechaVenta)
+    ORDER BY Ventas_Realizadas DESC;
+END;
+GO
