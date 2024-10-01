@@ -36,9 +36,9 @@ def login():
                     elif rol == 2:
                         return redirect(url_for('ventas.gestionar_ventas'))
                 else:
-                    flash("Contraseña incorrecta.")
+                    flash("Error al iniciar sesión.")
             else:
-                flash("No se encontró el usuario o está inactivo.")
+                flash("Error al iniciar Sesión.")
         
         except Exception as e:
             flash(f"Error: {e}")

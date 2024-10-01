@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from models import db, Categorias
-
+from sqlalchemy import text
 categorias_bp = Blueprint('categorias', __name__)
 
 @categorias_bp.route('/categorias', methods=['GET', 'POST'])
 def gestionar_categorias():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)
@@ -31,7 +31,7 @@ def gestionar_categorias():
             except Exception as e:
                 db.session.rollback()
                 flash(f"Error al agregar categoría: {e}")
-            return redirect(url_for('gestionar_categorias'))
+            return redirect(url_for('categorias.gestionar_categorias'))
 
         elif 'modificar' in request.form:
             categoria_id = request.form['categoria_id']
@@ -53,6 +53,6 @@ def gestionar_categorias():
                 flash("Categoría eliminada exitosamente.")
             else:
                 flash("Categoría no encontrada.")
-            return redirect(url_for('gestionar_categorias'))
+            return redirect(url_for('categorias.gestionar_categorias'))
 
     return render_template('gestionar_categorias.html', categorias=categorias)

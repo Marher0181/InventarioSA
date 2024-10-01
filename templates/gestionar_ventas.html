@@ -31,7 +31,7 @@
                 {% for producto in productos.items %}
                 <tr>
                     <td>{{ producto.nombre }} - {{ producto.descripcion }}</td>
-                    <td>{{ producto.precioVenta }}</td>
+                    <td>{{ producto.precioVenta }}</td>ñ
                     <td>{{ producto.cantidadEnStock }}</td>
                     <td>
                         <button class="btn btn-success" onclick="agregarProducto({{ producto.idProducto }}, '{{ producto.nombre }}', {{ producto.precioVenta }}, {{ producto.cantidadEnStock }})">Añadir</button>

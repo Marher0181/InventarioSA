@@ -1,7 +1,7 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models import db, Categorias, Roles, Usuarios, Proveedores, Productos, MovimientosInventario, Ventas, Productos, DetalleVentas
-
+from sqlalchemy import text
 proveedores_bp = Blueprint('proveedores', __name__)
 
 @proveedores_bp.route('/proveedores', methods=['POST', 'GET'])

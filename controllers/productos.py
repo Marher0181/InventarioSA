@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models import db, Productos
-import datetime
+from datetime import datetime
 from sqlalchemy import text, func
 
 productos_bp = Blueprint('productos', __name__)
@@ -41,7 +41,6 @@ def gestionar_productos():
 
         if idProducto_form: 
             producto = Productos.query.get(idProducto_form)
-            # Lógica para modificar producto
             flash('Producto actualizado correctamente')
         else: 
             nuevo_producto = Productos(

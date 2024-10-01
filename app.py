@@ -14,14 +14,9 @@ from controllers.ventas import ventas_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# Inicializa la base de datos
 db.init_app(app)
 
-# Inicializa Flask-Mail
-mail = Mail(app)  # Asocia mail a la instancia de app
-
-# Registra los blueprints
+mail = Mail(app) 
 app.register_blueprint(auth_bp)
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(proveedores_bp)

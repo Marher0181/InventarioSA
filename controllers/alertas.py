@@ -1,5 +1,5 @@
 from models import db
-from flask import Blueprint, render_template, request, flash, current_app
+from flask import Blueprint, render_template, request, flash, current_app, redirect, url_for, session
 from sqlalchemy import text
 from flask_mail import Message
 from twilio.rest import Client  
@@ -54,15 +54,3 @@ def gestionar_alertas():
                 flash(f"Error al eliminar Email: {e}")
                 
         return render_template('gestionar_alertas.html', alertas=alertas)
-    
-    if request.method == 'POST' and request.form.get('action') == 'enviarwhatsapp':
-        for destinatario in destinatarios:
-            telefono = destinatario[1]
-            mensaje = Client.messages.create(
-                body="Estimado proveedor, uno de sus productos ha alcanzado niveles mínimos. Agradecemos el reabastecimiento pronto.",
-                #from_=app.config['TWILIO_WHATSAPP_FROM'],
-                to=f'whatsapp:{telefono}'
-            )
-            print(f"Mensaje enviado a {telefono}")
-
-    return render_template('gestionar_alertas.html', alertas=alertas)
