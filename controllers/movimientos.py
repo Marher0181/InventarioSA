@@ -13,8 +13,34 @@ def gestionar_movimientos():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('auth.login'))
-    movimientos = db.session.execute(text("SELECT * FROM MovimientosInventario")).fetchall()
-    return render_template('gestionar_movimientos.html', movimientos=movimientos)
+
+    # Obtener el número de página de la consulta (por defecto es 1)
+    page = request.args.get('page', 1, type=int)
+    per_page = 10  # Número de movimientos por página
+
+    # Consulta paginada
+    movimientos = db.session.execute(
+        text("SELECT * FROM MovimientosInventario ORDER BY fechaMovimiento DESC")
+    ).fetchall()
+
+    # Total de movimientos
+    total_movimientos = len(movimientos)
+    
+    # Calcular los índices de inicio y fin
+    start = (page - 1) * per_page
+    end = start + per_page
+    movimientos_pagina = movimientos[start:end]
+
+    # Calcular el número total de páginas
+    total_pages = (total_movimientos + per_page - 1) // per_page
+
+    return render_template(
+        'gestionar_movimientos.html', 
+        movimientos=movimientos_pagina,
+        page=page,
+        total_pages=total_pages
+    )
+
 
 @movimientos_bp.route('/reporte-productos-mas-vendidos', methods=['GET', 'POST'])
 def reporte_productos_mas_vendidos():

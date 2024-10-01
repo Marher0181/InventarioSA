@@ -9,9 +9,19 @@
 <body>
     <div class="container mt-4">
         <h1>Gestión de Productos</h1>
-
+    
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    
         <button class="btn btn-primary" data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
-
+    
         <h2 class="mt-4">Lista de Productos</h2>
         <table class="table table-striped">
             <thead>
@@ -54,7 +64,7 @@
                 {% endfor %}
             </tbody>
         </table>
-
+    
         <div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-labelledby="productoModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -76,7 +86,6 @@
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                             <div class="form-group">
-                                <div class="form-group">
                                 <label for="sku">SKU</label>
                                 <input type="text" class="form-control" id="sku" name="sku" required>
                             </div>
@@ -89,7 +98,7 @@
                                 <input type="text" class="form-control" id="precioVenta" name="precioVenta" required>
                             </div>
                             <div class="form-group">
-                                <label for="stockMinimo">Stock Minímo</label>
+                                <label for="stockMinimo">Stock Mínimo</label>
                                 <input type="text" class="form-control" id="stockMinimo" name="stockMinimo" required>
                             </div>
                             <div class="form-group">
@@ -97,14 +106,21 @@
                                 <input type="text" class="form-control" id="cantidadEnStock" name="cantidadEnStock" required>
                             </div>
                             <div class="form-group">
-                                <label for="idProveedor">Proveedor</label>
-                                <input type="text" class="form-control" id="idProveedor" name="idProveedor" required>
+                                <select class="form-control" id="idProveedor" name="idProveedor" required>
+                                    <option value="">Selecciona un Proveedor</option>
+                                    {% for proveedor in proveedores %}
+                                        <option value="{{ proveedor.idProveedor }}">{{ proveedor.nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="idCategoria">Categoria</label>
-                                <input type="text" class="form-control" id="idCategoria" name="idCategoria" required>
+                                <select class="form-control" id="idCategoria" name="idCategoria" required>
+                                    <option value="">Selecciona una Categoría</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.idCategoria }}">{{ categoria.nombreCategoria }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-                    
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -114,32 +130,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="reabastecerModal" tabindex="-1" role="dialog" aria-labelledby="reabastecerModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reabastecerModalLabel">Reabastecer Producto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="reabastecerForm" method="POST">
-                        <div class="modal-body">
-                            <input type="hidden" name="idProductoReabastecer" id="idProductoReabastecer">
-                            <div class="form-group">
-                                <label for="cantidadReabastecer">Cantidad a Reabastecer</label>
-                                <input type="number" class="form-control" id="cantidadReabastecer" name="cantidadReabastecer" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" name="reabastecer">Reabastecer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    
 
         <nav aria-label="Page navigation">
             <ul class="pagination">
