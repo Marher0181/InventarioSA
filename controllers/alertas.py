@@ -9,6 +9,9 @@ alertas_bp = Blueprint('alertas', __name__)
 
 @alertas_bp.route('/gestionar_alertas', methods=['GET', 'POST'])
 def gestionar_alertas():
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('auth.login'))
     alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
         
     destinatarios = db.session.execute(text("""

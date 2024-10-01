@@ -8,7 +8,7 @@ proveedores_bp = Blueprint('proveedores', __name__)
 def gestionar_proveedores():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)

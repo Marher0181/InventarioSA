@@ -9,7 +9,7 @@ usuarios_bp = Blueprint('usuarios', __name__)
 def gestionar_usuarios():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']

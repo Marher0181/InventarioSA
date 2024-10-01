@@ -10,6 +10,9 @@ movimientos_bp = Blueprint('movimientos', __name__)
 
 @movimientos_bp.route('/movimientos', methods=['GET'])
 def gestionar_movimientos():
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('auth.login'))
     movimientos = db.session.execute(text("SELECT * FROM MovimientosInventario")).fetchall()
     return render_template('gestionar_movimientos.html', movimientos=movimientos)
 
