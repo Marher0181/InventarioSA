@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [GestorInventario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Database [GestorInventario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 CREATE DATABASE [GestorInventario]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,12 +84,12 @@ ALTER DATABASE [GestorInventario] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, 
 GO
 USE [GestorInventario]
 GO
-/****** Object:  User [ADMINMH]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  User [ADMINMH]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 CREATE USER [ADMINMH] FOR LOGIN [ADMINMH] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [ADMINMH]
 GO
-/****** Object:  Table [dbo].[Alertas]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Alertas]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -105,7 +105,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Proveedores]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Proveedores]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +123,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Productos]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Productos]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +150,7 @@ UNIQUE NONCLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_DestinatariosAlerta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  View [dbo].[vw_DestinatariosAlerta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -161,7 +161,7 @@ SELECT p.email FROM Alertas
 INNER JOIN Productos ON Productos.idProducto = Alertas.idProducto
 INNER JOIN Proveedores p ON p.idProveedor = Productos.idProducto
 GO
-/****** Object:  Table [dbo].[MovimientosInventario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[MovimientosInventario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +180,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_ProductosMenosVendidos]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  View [dbo].[vw_ProductosMenosVendidos]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +194,7 @@ SELECT TOP(10) p.nombre, SUM(mi.cantidad) as cantidad_vendida
         GROUP BY p.nombre
         ORDER BY cantidad_vendida ASC
 GO
-/****** Object:  View [dbo].[vw_ProductosMasVendidos]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  View [dbo].[vw_ProductosMasVendidos]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -208,7 +208,7 @@ SELECT TOP(10) p.nombre, SUM(mi.cantidad) as cantidad_vendida
         GROUP BY p.nombre
         ORDER BY cantidad_vendida DESC
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -231,7 +231,7 @@ UNIQUE NONCLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_Top10Operadores]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  View [dbo].[vw_Top10Operadores]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -243,7 +243,7 @@ INNER JOIN Usuarios u ON MovimientosInventario.idUsuario = u.idUsuario
 WHERE tipoMovimiento = 'Salida'
 GROUP BY u.nombre
 GO
-/****** Object:  View [dbo].[vw_ProveedoresReqAbas]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  View [dbo].[vw_ProveedoresReqAbas]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +256,7 @@ AS
     INNER JOIN Productos ON Alertas.idProducto = Productos.idProducto
     INNER JOIN Proveedores ON Productos.idProveedor = Proveedores.idProveedor;
 GO
-/****** Object:  Table [dbo].[Categorias]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Categorias]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +270,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DetalleVentas]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[DetalleVentas]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -288,7 +288,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -302,7 +302,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Ventas]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  Table [dbo].[Ventas]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -377,7 +377,95 @@ ALTER TABLE [dbo].[Roles]  WITH CHECK ADD CHECK  (([nombreRol]='Operativo' OR [n
 GO
 ALTER TABLE [dbo].[Ventas]  WITH CHECK ADD CHECK  (([estadoVenta]='Cancelada' OR [estadoVenta]='Completada'))
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarDetalleVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerMejorVendedorPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[ObtenerMejorVendedorPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP 5 u.nombre, 
+           YEAR(v.fechaVenta) AS Anio, 
+           DATENAME(month, v.fechaVenta) AS Mes, 
+           COUNT(*) AS Ventas_Realizadas 
+    FROM MovimientosInventario
+    INNER JOIN Usuarios u ON MovimientosInventario.idUsuario = u.idUsuario
+    INNER JOIN Ventas v ON MovimientosInventario.idUsuario = v.idUsuario
+    WHERE tipoMovimiento = 'Salida'
+    AND MONTH(v.fechaVenta) = @Mes
+    AND YEAR(v.fechaVenta) = @Anio
+    GROUP BY u.nombre, YEAR(v.fechaVenta), DATENAME(month, v.fechaVenta), MONTH(v.fechaVenta)
+    ORDER BY Ventas_Realizadas DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[ObtenerMesesConMasMovimientos]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[ObtenerMesesConMasMovimientos]
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(3) 
+           YEAR(mi.fechaMovimiento) AS Año,
+           MONTH(mi.fechaMovimiento) AS Mes,
+           DATENAME(month, mi.fechaMovimiento) AS NombreMes,
+           COUNT(*) AS TotalMovimientos
+    FROM MovimientosInventario mi
+	WHERE YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY YEAR(mi.fechaMovimiento), MONTH(mi.fechaMovimiento), DATENAME(month, mi.fechaMovimiento)
+    ORDER BY TotalMovimientos DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[ObtenerProductosMasVendidosPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ObtenerProductosMasVendidosPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(10) p.nombre, 
+           SUM(mi.cantidad) AS cantidad_vendida
+    FROM MovimientosInventario mi
+    JOIN Productos p ON mi.idProducto = p.idProducto
+    WHERE mi.tipoMovimiento = 'Salida'
+    AND MONTH(mi.fechaMovimiento) = @Mes
+    AND YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY p.nombre
+    ORDER BY cantidad_vendida DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[ObtenerProductosMenosVendidosPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ObtenerProductosMenosVendidosPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(10) p.nombre, 
+           SUM(mi.cantidad) AS cantidad_vendida
+    FROM MovimientosInventario mi
+    JOIN Productos p ON mi.idProducto = p.idProducto
+    WHERE mi.tipoMovimiento = 'Salida'
+    AND MONTH(mi.fechaMovimiento) = @Mes
+    AND YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY p.nombre
+    ORDER BY cantidad_vendida asc;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_AgregarDetalleVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -395,7 +483,7 @@ BEGIN
     VALUES (@idVenta, @idProducto, @cantidad, @precioUnitario, @subtotal);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarMovimientoInventario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_AgregarMovimientoInventario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -413,7 +501,7 @@ BEGIN
     VALUES (@idProducto, @tipoMovimiento, @cantidad, @idUsuario, @motivo);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarProducto]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_AgregarProducto]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -434,7 +522,7 @@ BEGIN
     VALUES (@nombre, @descripcion, @sku, @precioCosto, @precioVenta, @stockMinimo, @cantidadEnStock, @idProveedor, @idCategoria);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarProveedor]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_AgregarProveedor]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -450,7 +538,7 @@ BEGIN
     VALUES (@nombre, @direccion, @telefono, @email);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarUsuario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_AgregarUsuario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -467,7 +555,7 @@ BEGIN
     VALUES (@nombre, @email, @password, @idRol, @activo);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_AgregarVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_AgregarVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -486,7 +574,7 @@ BEGIN
     VALUES (@totalVenta, @idUsuario, @metodoPago, @cliente, @estadoVenta, @observaciones);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarAlerta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarAlerta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -500,7 +588,7 @@ DELETE FROM Alertas
 WHERE idAlerta = @idAlerta
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarDetalleVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarDetalleVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -513,7 +601,7 @@ BEGIN
     DELETE FROM DetalleVentas WHERE idDetalleVenta = @idDetalleVenta;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarMovimientoInventario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarMovimientoInventario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -526,7 +614,7 @@ BEGIN
     DELETE FROM MovimientosInventario WHERE idMovimiento = @idMovimiento;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarProducto]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarProducto]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -540,7 +628,7 @@ BEGIN
     DELETE FROM Productos WHERE idProducto = @idProducto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarUsuario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarUsuario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -554,7 +642,7 @@ BEGIN
     WHERE idUsuario = @idUsuario;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_EliminarVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_EliminarVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -567,7 +655,7 @@ BEGIN
     DELETE FROM Ventas WHERE idVenta = @idVenta;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_Login]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_Login]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -581,7 +669,7 @@ BEGIN
     WHERE email = @Email AND activo = 1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarDetalleVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarDetalleVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -601,7 +689,7 @@ BEGIN
     WHERE idDetalleVenta = @idDetalleVenta;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarMovimientoInventario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarMovimientoInventario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -621,7 +709,7 @@ BEGIN
     WHERE idMovimiento = @idMovimiento;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarProducto]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarProducto]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -645,7 +733,7 @@ BEGIN
     WHERE idProducto = @idProducto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarProveedor]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarProveedor]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -663,7 +751,7 @@ BEGIN
     WHERE idProveedor = @idProveedor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarUsuario]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarUsuario]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -682,7 +770,7 @@ BEGIN
     WHERE idUsuario = @idUsuario;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ModificarVenta]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ModificarVenta]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -703,7 +791,96 @@ BEGIN
     WHERE idVenta = @idVenta;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ReabastecerProducto]    Script Date: 30/09/2024 09:57:00 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerMejorVendedorPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE   PROCEDURE [dbo].[sp_ObtenerMejorVendedorPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP 5 u.nombre, 
+           YEAR(v.fechaVenta) AS Anio, 
+           DATENAME(month, v.fechaVenta) AS Mes, 
+           COUNT(*) AS Ventas_Realizadas 
+    FROM MovimientosInventario
+    INNER JOIN Usuarios u ON MovimientosInventario.idUsuario = u.idUsuario
+    INNER JOIN Ventas v ON MovimientosInventario.idUsuario = v.idUsuario
+    WHERE tipoMovimiento = 'Salida'
+    AND MONTH(v.fechaVenta) = @Mes
+    AND YEAR(v.fechaVenta) = @Anio
+    GROUP BY u.nombre, YEAR(v.fechaVenta), DATENAME(month, v.fechaVenta), MONTH(v.fechaVenta)
+    ORDER BY Ventas_Realizadas DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerMesesConMasMovimientos]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE   PROCEDURE [dbo].[sp_ObtenerMesesConMasMovimientos]
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(3) 
+           YEAR(mi.fechaMovimiento) AS Año,
+           MONTH(mi.fechaMovimiento) AS Mes,
+           DATENAME(month, mi.fechaMovimiento) AS NombreMes,
+           COUNT(*) AS TotalMovimientos
+    FROM MovimientosInventario mi
+	WHERE YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY YEAR(mi.fechaMovimiento), MONTH(mi.fechaMovimiento), DATENAME(month, mi.fechaMovimiento)
+    ORDER BY TotalMovimientos DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerProductosMasVendidosPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_ObtenerProductosMasVendidosPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(10) p.nombre, 
+           SUM(mi.cantidad) AS cantidad_vendida
+    FROM MovimientosInventario mi
+    JOIN Productos p ON mi.idProducto = p.idProducto
+    WHERE mi.tipoMovimiento = 'Salida'
+    AND MONTH(mi.fechaMovimiento) = @Mes
+    AND YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY p.nombre
+    ORDER BY cantidad_vendida desc;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ObtenerProductosMenosVendidosPorMesYAño]    Script Date: 30/09/2024 11:03:19 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_ObtenerProductosMenosVendidosPorMesYAño]
+    @Mes INT,
+    @Anio INT
+AS
+BEGIN
+    SELECT TOP(10) p.nombre, 
+           SUM(mi.cantidad) AS cantidad_vendida
+    FROM MovimientosInventario mi
+    JOIN Productos p ON mi.idProducto = p.idProducto
+    WHERE mi.tipoMovimiento = 'Salida'
+    AND MONTH(mi.fechaMovimiento) = @Mes
+    AND YEAR(mi.fechaMovimiento) = @Anio
+    GROUP BY p.nombre
+    ORDER BY cantidad_vendida asc;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ReabastecerProducto]    Script Date: 30/09/2024 11:03:19 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -738,24 +915,4 @@ GO
 USE [master]
 GO
 ALTER DATABASE [GestorInventario] SET  READ_WRITE 
-GO
-
-CREATE OR ALTER PROCEDURE ObtenerMejorVendedorPorMesYAño
-    @Mes INT,
-    @Anio INT
-AS
-BEGIN
-    SELECT TOP 5 u.nombre, 
-           YEAR(v.fechaVenta) AS Anio, 
-           DATENAME(month, v.fechaVenta) AS Mes, 
-           COUNT(*) AS Ventas_Realizadas 
-    FROM MovimientosInventario
-    INNER JOIN Usuarios u ON MovimientosInventario.idUsuario = u.idUsuario
-    INNER JOIN Ventas v ON MovimientosInventario.idUsuario = v.idUsuario
-    WHERE tipoMovimiento = 'Salida'
-    AND MONTH(v.fechaVenta) = @Mes
-    AND YEAR(v.fechaVenta) = @Anio
-    GROUP BY u.nombre, YEAR(v.fechaVenta), DATENAME(month, v.fechaVenta), MONTH(v.fechaVenta)
-    ORDER BY Ventas_Realizadas DESC;
-END;
 GO
