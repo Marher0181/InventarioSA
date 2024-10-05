@@ -1,16 +1,55 @@
-body {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727313461/etuyxxuwfftxxu9e4zzc.jpg');
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e2e2e8;
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+}
+
+.masthead {
+    position: relative;
+    width: 100%;
+    height: 300px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: #000000;
-    margin: 0;
-    height: 100vh;
+}
+
+.masthead .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.site-heading h1 {
+    color: white;
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 60px;
+}
+
+.masthead .container {
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
+
+.masthead .site-heading h1 {
+    color: white;
+    font-size: 4rem;
+}
+
 
 .dashboard-box {
     width: 250px;
@@ -20,7 +59,7 @@ body {
     border-radius: 0.9rem;¿
     backdrop-filter: blur(10px);
     text-align: center;
-    color: white;
+    color: #1a1446;
     transition: transform 0.3s, background-color 0.3s;
     display: flex;
     flex-direction: column;
@@ -32,25 +71,32 @@ body {
 
 .dashboard-box:hover {
     transform: scale(1.05);
-    color: #baefff;
+    color: #534f74;
 }
 
 .dashboard-alertas {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310881/r1tvznosa6fytdweon4n.png');
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728158104/ijsoagbfwngvjhkv0crl.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 64px;
+    height: 64px;
+    z-index: 1000;
 }
+
 
 .dashboard-alertas h4 {
     margin-bottom: 10px;
 }
 
 .dashboard-ventas {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727309715/b8mnqgcwdyrlpzjdfqaj.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152806/zxgeeopjzkwwgpzfsi58.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -64,7 +110,7 @@ body {
 }
 
 .dashboard-proveedores {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727309987/dbwlmzbce0pfym7yingz.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152963/ndqtswgxecurkezghx5u.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -78,7 +124,7 @@ body {
 }
 
 .dashboard-movimientos {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310284/gfqmugincj6y69kgtjcj.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152971/qbncy23nxxrrxcdexlvy.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -92,7 +138,7 @@ body {
 }
 
 .dashboard-usuarios {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727310731/nk3chkje9woatluqwoav.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152948/tso9njawp6tpua2aicy6.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -106,7 +152,7 @@ body {
 }
 
 .dashboard-productos {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727311131/ypyr7lwtmagm3nkulko6.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152957/rziwjfamhlmjdtudmozi.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -120,7 +166,7 @@ body {
 }
 
 .dashboard-categorias {
-    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1727641539/qectpefbeswp4hfoht5v.png');
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728152976/at8iuu36jt4boxnodefa.png');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -190,5 +236,24 @@ a {
 a:hover {
     text-decoration: none;
     color: inherit;
+}
+
+.dashboard-box-campana {
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0.9rem;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s, background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    right: 30px;
+    z-index: 1000;
 }
 

@@ -8,17 +8,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_DashboardAdmin.css') }}">
 </head>
 <body>
+
+    <a class="dashboard-alertas dashboard-box-campana" href="{{ url_for('gestionar_alertas') }}">
+        <div class="icon-container">
+        <p class="notification">{{ alertas[0][0] }}</p>
+        </div>
+    </a>
+
+
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728163608/k0zlozb43i0zln4x0czs.jpg');">
+    <div class="overlay"></div>
     <div class="container">
-        <h1 class="my-4">Dashboard Administrador</h1>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_alertas') }}" class="dashboard-box">
-                    <h4>Alertas</h4>
-                    <div class="icon-container dashboard-alertas">
-                    <p class="notification">{{ alertas[0][0] }}</p>
-                    </div>
-                </a>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>DASHBOARD ADMINISTRADOR</h1>
+                </div>
             </div>
+        </div>
+    </div>
+</header>
+        <div class="row">
+
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
@@ -59,7 +71,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-16 align-center">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('gestionar_categorias') }}" class="dashboard-box">
                     <h4>Categorias</h4>
                     <div class="icon-container dashboard-categorias">
@@ -83,6 +95,8 @@
                 }
             });
         });
+
+
 
     </script>
 </body>
