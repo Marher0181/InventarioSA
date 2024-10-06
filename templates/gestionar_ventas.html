@@ -43,10 +43,21 @@
 </nav>
 
 
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177006/o6bmxomqmfidsed7928f.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTION DE VENTAS</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
 
     <div class="container mt-5">
-        <h1 style="color: white" class="mt-10 h1">Realizar una Venta</h1>
 
         <form method="GET" action="{{ url_for('gestionar_ventas') }}">
             <div class="input-group mb-4 mt-4">
@@ -55,7 +66,7 @@
             <button type="submit" class="float-right mb-4">Buscar</button>
         </form>
 
-        <h3 style="color: white">Resultados de búsqueda</h3>
+        <h3 style="color: #1a1446">Resultados de búsqueda</h3>
         <table class="table table-bordered">
             <thead style="color: white">
                 <tr>
@@ -117,7 +128,7 @@
 
 
 
-        <h3 class="mt-5" style="color: white">Productos Seleccionados</h3>
+        <h3 class="mt-5" style="color: #1a1446">Productos Seleccionados</h3>
         <form action="{{ url_for('gestionar_ventas') }}" method="POST">
             <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white">
                 <thead>
@@ -141,11 +152,11 @@
 
             <div class="input-group mt-4">
                 <label for="metodoPago" style="color: white">Seleccione un Método de Pago</label>
-                <select class="select2-" name="metodoPago" id="metodoPago" required>
+                <select class="select2" name="metodoPago" id="metodoPago" required>
                     <option value="Efectivo">Efectivo</option>
                     <option value="Transferencia" selected>Transferencia</option>
                     <option value="Tarjeta">Tarjeta Crédito/Débito</option>
-                  </select>
+                </select>
             </div>
 
             <div class="input-group mt-4">
