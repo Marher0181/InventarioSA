@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -59,9 +60,9 @@
 
     <div class="container mt-5">
 
-        <form method="GET" action="{{ url_for('gestionar_ventas') }}">
-            <div class="input-group mb-4 mt-4">
-                <input type="text" name="q" class="input" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}" required>
+        <form method="GET" action="{{ url_for('ventas.gestionar_ventas') }}">
+            <div class="form-group">
+                <input type="text" class="form-control" name="q" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}">
             </div>
             <button type="submit" class="float-right mb-4">Buscar</button>
         </form>
@@ -94,7 +95,7 @@
             <ul class="pagination">
                 {% if productos.has_prev %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('gestionar_ventas', page=productos.prev_num, q=request.args.get('q')) }}">Anterior</a>
+                        <a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=productos.prev_num, q=request.args.get('q')) }}">Anterior</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -107,7 +108,7 @@
                         {% if page_num == productos.page %}
                             <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                         {% else %}
-                            <li class="page-item"><a class="page-link" href="{{ url_for('gestionar_ventas', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a></li>
                         {% endif %}
                     {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
@@ -116,7 +117,7 @@
 
                 {% if productos.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ url_for('gestionar_ventas', page=productos.next_num, q=request.args.get('q')) }}">Siguiente</a>
+                        <a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=productos.next_num, q=request.args.get('q')) }}">Siguiente</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -129,7 +130,7 @@
 
 
         <h3 class="mt-5" style="color: #1a1446">Productos Seleccionados</h3>
-        <form action="{{ url_for('gestionar_ventas') }}" method="POST">
+        <form action="{{ url_for('ventas.gestionar_ventas') }}" method="POST">
             <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white">
                 <thead>
                     <tr>
@@ -174,7 +175,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-    $(document).ready(function () {
+        function agregarProducto(id, nombre, precio, stock) {
+            let tabla = document.getElementById('productosSeleccionados');
+            let row = tabla.insertRow();
+
+            row.innerHTML = `
+                <td>
+                    <input type="hidden" name="productos[]" value="${id}">${nombre}
+                </td>
+                <td>${precio}</td>
+                <td>
+                    <input type="number" name="cantidades[]" min="1" max="${stock}" value="1" onchange="actualizarSubtotal(this, ${precio}, ${stock})">
+                    <small class="text-danger" id="errorCantidad${id}" style="display: none;">La cantidad no puede exceder el stock.</small>
+                </td>
+                <td class="subtotal">${precio}</td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="eliminarFila(this)">Eliminar</button>
+                </td>
+            `;
+        }
+
+        function actualizarSubtotal(input, precio, stock) {
+            let row = input.closest('tr');
+            let cantidad = parseInt(input.value);
+            let errorLabel = document.getElementById('errorCantidad' + input.closest('tr').cells[0].getElementsByTagName('input')[0].value);
+
+            if (cantidad > stock) {
+                errorLabel.style.display = 'block';
+                input.value = stock;
+                cantidad = stock;
+            } else {
+                errorLabel.style.display = 'none';
+            }
+
+            let subtotal = precio * cantidad;
+            row.cells[3].textContent = subtotal.toFixed(2);
+        }
+
+        function eliminarFila(button) {
+            let row = button.closest('tr');
+            row.remove();
+        }
+
+        $(document).ready(function () {
         // Inicializa Select2
         $('#idRol').select2({
             theme: 'default'

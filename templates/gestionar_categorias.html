@@ -100,16 +100,13 @@
             </tbody>
         </table>
 
-        <!-- Paginación -->
-        <div class="mt-4 d-flex justify-content-between">
-            <div>
-                {% if categorias.has_prev %}
-                    <a href="{{ url_for('gestionar_categorias', page=categorias.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
-                {% endif %}
-                {% if categorias.has_next %}
-                    <a href="{{ url_for('gestionar_categorias', page=categorias.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
-                {% endif %}
-            </div>
+        <div class="mt-4">
+            {% if categorias.has_prev %}
+                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
+            {% endif %}
+            {% if categorias.has_next %}
+                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
+            {% endif %}
         </div>
     </div>
 

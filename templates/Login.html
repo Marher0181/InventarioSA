@@ -14,18 +14,18 @@
             </div>
             <button type="submit" class="float-right ml-3 mb-4">Login</button>
             <button type="reset" class="float-right mr-3 mb-4">Reset</button>
-            <div class="text-center float-left color: #ffffff">
-                <a href="{{ url_for('registrar_usuario') }}">Crear un usuario</a>
-            </div>
         </form>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="flash-message" style="display: none;">
-                        {% for category, message in messages %}
-                            {{ message }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+        <div class="text-center float-left color: #ffffff">
+            <a href="{{ url_for('usuarios.registrar_usuario') }}" class="btn btn-light">Crear un usuario</a>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-message" style="display: none;">
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </div>
 {% endblock %}
