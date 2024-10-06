@@ -1,4 +1,4 @@
-from flask  import Flask, render_template, request, redirect, url_for, session, flash, send_file, Blueprint
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, Blueprint
 from models import db, Categorias, Roles, Usuarios, Proveedores, Productos, MovimientosInventario, Ventas, Productos, DetalleVentas
 from sqlalchemy import text, func
 dashboards_bp = Blueprint('dashboards', __name__)

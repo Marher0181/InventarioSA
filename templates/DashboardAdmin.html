@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <a class="dashboard-alertas dashboard-box-campana" href="{{ url_for('gestionar_alertas') }}">
+    <a class="dashboard-alertas dashboard-box-campana" href="{{ url_for('alertas.gestionar_alertas') }}">
         <div class="icon-container">
         <p class="alert-notification">{{ alertas[0][0] }}</p>
         </div>
@@ -32,7 +32,7 @@
         <div class="row">
 
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_ventas') }}" class="dashboard-box">
+                <a href="{{ url_for('ventas.gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
                     <div class="icon-container dashboard-ventas">
                     <p class="notification">{{ ventas[0][0] }}</p>
@@ -40,7 +40,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_proveedores') }}" class="dashboard-box">
+                <a href="{{ url_for('proveedores.gestionar_proveedores') }}" class="dashboard-box">
                     <h4>Proveedores</h4>
                     <div class="icon-container dashboard-proveedores">
                     <p class="notification">{{ proveedores[0][0] }}</p>
@@ -48,7 +48,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_movimientos') }}" class="dashboard-box">
+                <a href="{{ url_for('movimientos.gestionar_movimientos') }}" class="dashboard-box">
                     <h4>Movimientos</h4>
                     <div class="icon-container dashboard-movimientos">
                     <p class="notification">{{ movimientos[0][0] }}</p>
@@ -56,7 +56,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_usuarios') }}" class="dashboard-box">
+                <a href="{{ url_for('usuarios.gestionar_usuarios') }}" class="dashboard-box">
                     <h4>Usuarios</h4>
                     <div class="icon-container dashboard-usuarios">
                     <p class="notification">{{ usuarios[0][0] }}</p>
@@ -64,7 +64,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_productos') }}" class="dashboard-box">
+                <a href="{{ url_for('productos.gestionar_productos') }}" class="dashboard-box">
                     <h4>Productos</h4>
                     <div class="icon-container dashboard-productos">
                     <p class="notification">{{ productos[0][0] }}</p>
@@ -72,7 +72,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
-                <a href="{{ url_for('gestionar_categorias') }}" class="dashboard-box">
+                <a href="{{ url_for('categorias.gestionar_categorias') }}" class="dashboard-box">
                     <h4>Categorias</h4>
                     <div class="icon-container dashboard-categorias">
                     <p>{{ categorias[0][0] }}</p>

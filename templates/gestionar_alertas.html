@@ -59,7 +59,7 @@
 
         <!-- Botones adicionales -->
         <div class="d-flex justify-content-between mb-3">
-            <button class="btn btn-primary" onclick="location.href='{{ url_for('dashboardAdmin') }}'">Volver al menú principal</button>
+            <button class="btn btn-primary" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
             <form method="POST">
                 <button type="submit" name="action" value="enviarcorreo" class="btn btn-success">Enviar alertas a proveedores</button>
             </form>
