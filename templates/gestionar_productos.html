@@ -103,20 +103,6 @@
         </table>
 
 
-        <!-- Paginación -->
-        <div class="mt-4 d-flex justify-content-between">
-            <div>
-                {% if productos.has_prev %}
-                    <a href="{{ url_for('gestionar_productos', page=productos.prev_num) }}" class="btn btn-secondary">Anterior</a>
-                {% endif %}
-                {% if productos.has_next %}
-                    <a href="{{ url_for('gestionar_productos', page=productos.next_num) }}" class="btn btn-secondary">Siguiente</a>
-                {% endif %}
-            </div>
-            <div>
-                <small>Página {{ productos.page }} de {{ productos.pages }}</small>
-            </div>
-        </div>
 
         <!-- Modal para agregar o editar producto -->
         <div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-labelledby="productoModalLabel" aria-hidden="true">

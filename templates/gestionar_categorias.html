@@ -5,7 +5,7 @@
     <title>Gestión de Categorías</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_ventas.css') }}">
 </head>
 <body>
 
@@ -43,27 +43,30 @@
 </nav>
 
 
-    <div class="container mt-4">
-        <h1 class="text-center">Gestión de Categorías</h1>
-
-        <!-- Mensajes Flash -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info mt-3">
-                    {% for message in messages %}
-                        {{ message }}<br>
-                    {% endfor %}
+<!-- Encabezado principal -->
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177006/o6bmxomqmfidsed7928f.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTION DE CATEGORÍAS</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div class="container mt-4">
+
 
         <!-- Formulario para agregar categoría -->
         <form method="POST" class="mt-4">
             <div class="input-group mb-3">
-                <label for="Categorias" class="user-label">Nueva Categoría</label>
+                <label for="Categorias" style="color: white">Nueva Categoría</label>
                 <input type="text" class="input" name="Categorias" required>
             </div>
-            <button type="submit" name="agregar" class="btn btn-primary">Agregar</button>
+            <button type="submit" name="agregar" class="float-right">Agregar</button>
         </form>
 
         <!-- Lista de categorías -->
@@ -78,7 +81,7 @@
             </thead>
             <tbody>
                 {% for categoria in categorias.items %}
-                <tr>
+                <tr style="color: white">
                     <td>{{ categoria.idCategoria }}</td>
                     <td>{{ categoria.nombreCategoria }}</td>
                     <td>
@@ -86,13 +89,13 @@
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
                             <input type="text" name="nombreCategoria" placeholder="Nuevo nombre" required class="input">
-                            <button type="submit" name="modificar" class="btn btn-warning">Modificar</button>
+                            <button type="submit" name="modificar" class="mt-2 ml-2 float-right">Modificar</button>
                         </form>
 
                         <!-- Formulario para eliminar categoría -->
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
-                            <button type="submit" name="eliminar" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" name="eliminar" class="mt-2 float-right">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -102,10 +105,10 @@
 
         <div class="mt-4">
             {% if categorias.has_prev %}
-                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
+                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.prev_num, q=request.args.get('q')) }}">Anterior</a>
             {% endif %}
             {% if categorias.has_next %}
-                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
+                <a href="{{ url_for('categorias.gestionar_categorias', page=categorias.next_num, q=request.args.get('q')) }}">Siguiente</a>
             {% endif %}
         </div>
     </div>

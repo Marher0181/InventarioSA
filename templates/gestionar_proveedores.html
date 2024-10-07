@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Proveedores</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_ventas.css') }}">
 </head>
 <body>
 
@@ -42,18 +42,20 @@
     </ul>
 </nav>
 
-
-    <div class="container mt-4">
-        <h1 class="text-center">Gestionar Proveedores</h1>
-
-        <!-- Mensajes Flash -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-warning">
-                    {{ messages[0] }}
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177006/o6bmxomqmfidsed7928f.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTION DE PROVEEDORES</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
+    <div class="container mt-4">
+
 
         <form method="GET" class="mb-4">
             <div class="input-group">
