@@ -285,3 +285,192 @@ textarea {
 .textarea::placeholder {
     color: rgba(255, 255, 255, 0.2);
 }
+
+/* Boton de descarga */
+.boton-descarga {
+    position: relative;
+    width: 440px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 20px;
+    border: 1px solid transparent;
+    background-color: rgba(26, 20, 70, 0.4);
+    overflow: hidden;
+    border-radius: 0.7rem;
+    text-decoration: none !important;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+}
+
+.boton-descarga:hover {
+    background-color: rgba(26, 20, 70, 0.4);
+    text-decoration: none !important;
+}
+
+.boton-descarga:visited {
+    text-decoration: none !important;
+}
+
+.boton-descarga .button__text {
+    transform: translateX(0);
+    color: #fff;
+    font-weight: 600;
+    transition: color 0.5s ease;
+}
+
+.boton-descarga .button__icon {
+    position: absolute;
+    right: 0;
+    transform: translateX(0);
+    height: 100%;
+    width: 39px;
+    background-color: rgba(26, 20, 70, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.7s ease, transform 0.7s ease;
+}
+
+.boton-descarga .svg {
+    width: 20px;
+    fill: #fff;
+}
+
+.boton-descarga:hover .button__text {
+    color: transparent;
+}
+
+.boton-descarga:hover .button__icon {
+    width: 440px;
+}
+
+.boton-descarga:active .button__icon {
+    background-color: rgba(26, 20, 70, 0.4);
+}
+
+.boton-descarga:active {
+    background-color: rgba(26, 20, 70, 0.4);
+}
+
+/* Modales */
+.modal-background {
+    background-color: rgba(26, 20, 70, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.modal.fade .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 900px;
+    max-width: 1300px; /* Ajusta el ancho máximo */
+    margin: 0; /* Sin márgenes adicionales */
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.modal-content {
+    background-color: rgba(26, 20, 70, 0.2); /* Color de fondo */
+    backdrop-filter: blur(25px);
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra */
+    max-width: 1300px; /* Ajusta el ancho del modal */
+    width: 100%; /* Asegura que no se expanda más allá del ancho de pantalla */
+}
+
+body.modal-open {
+    overflow: hidden; /* Evita que la página se desplace cuando el modal está abierto */
+}
+
+
+.modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-close-button {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close-button:hover {
+    background-color: #14103a;
+}
+
+.modal-close-button:focus {
+    outline: none;
+}
+
+/* Botones con clase privada */
+.acciones-productos button {
+    border: none;
+    color: #fff;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background-color: rgba(26, 20, 70, 0.4);
+    border-radius: 0.7rem;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.6em 1.5em;
+    cursor: pointer;
+}
+
+.acciones-productos button:hover {
+    background-color: rgba(26, 20, 70, 0.7);
+}
+
+/* Alineación de botones dentro de la celda con clase privada */
+.acciones-productos .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.acciones-productos form {
+    margin: 0; /* Elimina margen del form */
+}

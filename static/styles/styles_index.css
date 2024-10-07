@@ -100,18 +100,6 @@ button:hover {
     animation: pulse512 1.5s infinite;
 }
 
-@keyframes pulse512 {
-    0% {
-        box-shadow: 0 0 0 0 #007bff;
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(169, 16, 16, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(169, 16, 16, 0);
-    }
-}
-
 .modal {
     display: none;
     position: fixed;

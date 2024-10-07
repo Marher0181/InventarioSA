@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
+
+<body>
 
 <label class="burger-menu" for="menu-toggle">
     <span></span>
@@ -41,22 +43,24 @@
     </ul>
 </nav>
 
-
-<body>
-    <div class="container mt-4">
-        <h1>Gestión de Productos</h1>
-
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728315200/jomp6hmaau3rs9a5wrzd.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE PRODUCTOS</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
 
-        <button class="btn btn-primary" data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
+    <div class="container mt-4">
+
+
+
+        <button data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
 
         <h2 class="mt-4">Lista de Productos</h2>
         <table class="table table-striped">
@@ -69,33 +73,39 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% for producto in productos.items %}
                     <tr>
                         <td>{{ producto.idProducto }}</td>
                         <td>{{ producto.nombre }}</td>
                         <td>{{ producto.descripcion }}</td>
                         <td>{{ producto.cantidadEnStock }}</td>
-                        <td>
-                            <!-- Botón para abrir el modal de modificar -->
-                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#productoModal"
-                                    data-id="{{ producto.idProducto }}"
-                                    data-nombre="{{ producto.nombre }}"
-                                    data-descripcion="{{ producto.descripcion }}"
-                                    data-sku="{{ producto.sku }}"
-                                    data-preciocosto="{{ producto.precioCosto }}"
-                                    data-precioventa="{{ producto.precioVenta }}"
-                                    data-stockminimo="{{ producto.stockMinimo }}"
-                                    data-cantidadenstock="{{ producto.cantidadEnStock }}"
-                                    data-idproveedor="{{ producto.idProveedor }}"
-                                    data-idcategoria="{{ producto.idCategoria }}">
-                                Editar
-                            </button>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#reabastecerModal"
-                                    data-id="{{ producto.idProducto }}" data-nombre="{{ producto.nombre }}">
-                                Reabastecer
-                            </button>
-                            <a href="{{ url_for('productos.gestionar_productos', delete=producto.idProducto) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <td class="acciones-productos">
+                            <div class="button-container">
+                                <!-- Botón para abrir el modal de modificar -->
+                                <button data-toggle="modal" data-target="#productoModal"
+                                        data-id="{{ producto.idProducto }}"
+                                        data-nombre="{{ producto.nombre }}"
+                                        data-descripcion="{{ producto.descripcion }}"
+                                        data-sku="{{ producto.sku }}"
+                                        data-preciocosto="{{ producto.precioCosto }}"
+                                        data-precioventa="{{ producto.precioVenta }}"
+                                        data-stockminimo="{{ producto.stockMinimo }}"
+                                        data-cantidadenstock="{{ producto.cantidadEnStock }}"
+                                        data-idproveedor="{{ producto.idProveedor }}"
+                                        data-idcategoria="{{ producto.idCategoria }}">
+                                    Editar
+                                </button>
+
+                                <button data-toggle="modal" data-target="#reabastecerModal"
+                                        data-id="{{ producto.idProducto }}" data-nombre="{{ producto.nombre }}">
+                                    Reabastecer
+                                </button>
+
+                                <form action="{{ url_for('productos.gestionar_productos', delete=producto.idProducto) }}" method="post">
+                                    <button type="submit" class="button">Eliminar</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
@@ -163,8 +173,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" name="guardarProducto">Guardar Producto</button>
+                            <button type="button" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="guardarProducto">Guardar Producto</button>
                         </div>
                     </form>
                 </div>
