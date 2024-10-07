@@ -60,6 +60,7 @@
 
 <!-- Cuerpo principal -->
 <div class="container mt-5">
+    <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
     <form method="GET" action="{{ url_for('ventas.gestionar_ventas') }}">
         <div class="input-group justify-content-end">
             <input type="text" class="form-control input" name="q" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}">
@@ -152,10 +153,10 @@
 
         <div class="input-group mt-4">
             <label for="metodoPago" style="color: white">Seleccione un Método de Pago</label>
-            <select class="select2" name="metodoPago" id="metodoPago" required>
-                <option value="Efectivo">Efectivo</option>
-                <option value="Transferencia" selected>Transferencia</option>
-                <option value="Tarjeta">Tarjeta Crédito/Débito</option>
+            <select class="input form-control" name="metodoPago" id="metodoPago" required>
+                <option value="Efectivo" style="color:white">Efectivo</option>
+                <option value="Transferencia" style="color:white">Transferencia</option>
+                <option value="Tarjeta" style="color:white">Tarjeta Crédito/Débito</option>
             </select>
         </div>
 
@@ -216,38 +217,7 @@
         row.remove();
     }
 
-    $(document).ready(function() {
-        $('#metodoPago').select2({
-            theme: 'default'
-        });
-        forceApplyStyles(); // Aplica los estilos de inmediato
-    });
 
-    function forceApplyStyles() {
-        $('.select2-container--default .select2-selection--single').css({
-            'background-color': 'rgba(26, 20, 70, 0.2)',
-            'border': '2px solid rgba(255, 255, 255, 0.3)',
-            'border-radius': '0.7rem',
-            'padding': '1rem',
-            'color': '#f5f5f5',
-            'backdrop-filter': 'blur(25px)',
-            '-webkit-backdrop-filter': 'blur(25px)',
-            'display': 'flex',
-            'align-items': 'center'
-        });
-        $('.select2-container--default .select2-selection--single .select2-selection__rendered').css({
-            'color': '#f5f5f5',
-            'font-family': 'inherit',
-            'font-size': '1rem',
-            'padding': '0'
-        });
-        $('.select2-container--default .select2-selection--single .select2-selection__arrow').css({
-            'height': '100%',
-            'position': 'absolute',
-            'right': '10px',
-            'color': '#ffffff'
-        });
-    }
 </script>
 </body>
 </html>

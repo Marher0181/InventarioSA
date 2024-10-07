@@ -44,7 +44,7 @@
 
 
 <!-- Encabezado principal -->
-<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177006/o6bmxomqmfidsed7928f.jpg');">
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330970/ugmzqhfojoacefhr9gzl.jpg');">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -58,7 +58,7 @@
 </header>
 
     <div class="container mt-4">
-
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
         <!-- Formulario para agregar categoría -->
         <form method="POST" class="mt-4">
@@ -70,7 +70,7 @@
         </form>
 
         <!-- Lista de categorías -->
-        <h2 class="mt-5 text-center">Categorías Existentes</h2>
+        <h2 class="mt-5 text-center">Categorías</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -87,14 +87,11 @@
                     <td>
                         <!-- Formulario para modificar categoría -->
                         <form method="POST" style="display:inline;">
-                            <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
-                            <input type="text" name="nombreCategoria" placeholder="Nuevo nombre" required class="input">
                             <button type="submit" name="modificar" class="mt-2 ml-2 float-right">Modificar</button>
                         </form>
 
                         <!-- Formulario para eliminar categoría -->
                         <form method="POST" style="display:inline;">
-                            <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
                             <button type="submit" name="eliminar" class="mt-2 float-right">Eliminar</button>
                         </form>
                     </td>

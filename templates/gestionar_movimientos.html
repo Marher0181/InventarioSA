@@ -43,7 +43,7 @@
     </ul>
 </nav>
 
-<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728315200/jomp6hmaau3rs9a5wrzd.jpg');">
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728329808/pwhxnerr78a4udyzb3bu.jpg');">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -58,7 +58,7 @@
 
 
     <div class="container mt-4">
-
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
         <a href="{{ url_for('movimientos.reporte_productos_mas_vendidos') }}" class="boton-descarga float-right mb-4">
             <span class="button__text">Descargar Reporte de Productos Más Vendidos</span>
@@ -106,28 +106,29 @@
             </tbody>
         </table>
 
-        <!-- Paginación -->
+        <!-- Paginación para productos -->
         <div class="text-center">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     {% if page > 1 %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=page - 1) }}">Anterior</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=page - 1) }}">Anterior</a>
                         </li>
                     {% endif %}
                     {% for p in range(1, total_pages + 1) %}
                         <li class="page-item {% if p == page %}active{% endif %}">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=p) }}">{{ p }}</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=p) }}">{{ p }}</a>
                         </li>
                     {% endfor %}
                     {% if page < total_pages %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=page + 1) }}">Siguiente</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=page + 1) }}">Siguiente</a>
                         </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
+
 
         <div class="text-center mb-3">
             <button class="mr-2 ml-3 mb-2 mt-2" data-toggle="modal" data-target="#reporteProductosMasVendidos">Generar Reporte de Productos Más Vendidos</button>

@@ -182,6 +182,11 @@ input, select, textarea {
     border-bottom-right-radius: 0.7rem;
 }
 
+.input-group>.form-control:not(:first-child) {
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
+}
+
 input:focus, select:focus, textarea:focus {
     border-color: white;
     outline: none;
@@ -474,3 +479,11 @@ body.modal-open {
 .acciones-productos form {
     margin: 0; /* Elimina margen del form */
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+}
+

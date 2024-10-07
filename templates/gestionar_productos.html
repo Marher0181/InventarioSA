@@ -43,7 +43,7 @@
     </ul>
 </nav>
 
-<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728315200/jomp6hmaau3rs9a5wrzd.jpg');">
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330252/crcvwp1nggijbdhxryqo.jpg');">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -57,12 +57,12 @@
 </header>
 
     <div class="container mt-4">
-
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
 
         <button data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
 
-        <h2 class="mt-4">Lista de Productos</h2>
+        <h2 class="mt-4" style="color: #1a1446">Lista de Productos</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -181,7 +181,7 @@
             </div>
         </div>
 
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" class="float-center">
             <ul class="pagination">
                 {% if productos.has_prev %}
                     <li class="page-item">
