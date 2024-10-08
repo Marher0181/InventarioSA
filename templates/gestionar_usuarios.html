@@ -6,7 +6,7 @@
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
     <style>
     .select2-container--default .select2-selection--single {
         background-color: rgba(26, 20, 70, 0.2) !important;
@@ -23,16 +23,56 @@
 </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Gestionar Usuarios</h1>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-warning">
-                    {{ messages[0] }}
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330004/lenjo9wdp44phaxpxcjg.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE USUARIOS</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <div class="container mt-4">
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
         <form method="POST" class="mb-4">
             <div class="input-group mb-3">
@@ -58,7 +98,7 @@
             <button type="submit" name="action" value="Agregar" style="color: white" class="float-right mb-4">Agregar</button>
         </form>
 
-        <h1 class="mt-5">Lista de Usuarios</h1>
+        <h1 class="mt-5" style="color: #1a1446">Lista de Usuarios</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -69,7 +109,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% for usuario in usuarios %}
                 <tr>
                     <td>{{ usuario.idUsuario }}</td>

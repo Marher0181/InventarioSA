@@ -1,20 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
+
 <body>
+
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330252/crcvwp1nggijbdhxryqo.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE PRODUCTOS</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
     <div class="container mt-4">
-        <h1 class="text-center">Gestión de Productos</h1>
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
-        <!-- Botón para agregar producto -->
-        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
 
-        <!-- Lista de Productos -->
+        <button data-toggle="modal" data-target="#productoModal">Agregar Producto</button>
+
+        <h2 class="mt-4" style="color: #1a1446">Lista de Productos</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,46 +73,46 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% for producto in productos.items %}
                     <tr>
                         <td>{{ producto.idProducto }}</td>
                         <td>{{ producto.nombre }}</td>
                         <td>{{ producto.descripcion }}</td>
                         <td>{{ producto.cantidadEnStock }}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#productoModal"
-                                    data-id="{{ producto.idProducto }}"
-                                    data-nombre="{{ producto.nombre }}"
-                                    data-descripcion="{{ producto.descripcion }}"
-                                    data-stock="{{ producto.cantidadEnStock }}"
-                                    data-proveedor="{{ producto.idProveedor }}"
-                                    data-categoria="{{ producto.idCategoria }}">Editar</button>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#reabastecerModal"
-                                    data-id="{{ producto.idProducto }}"
-                                    data-nombre="{{ producto.nombre }}"
-                                    data-stock="{{ producto.cantidadEnStock }}">Reabastecer</button>
-                            <a href="{{ url_for('gestionar_productos', delete=producto.idProducto) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <td class="acciones-productos">
+                            <div class="button-container">
+                                <!-- Botón para abrir el modal de modificar -->
+                                <button data-toggle="modal" data-target="#productoModal"
+                                        data-id="{{ producto.idProducto }}"
+                                        data-nombre="{{ producto.nombre }}"
+                                        data-descripcion="{{ producto.descripcion }}"
+                                        data-sku="{{ producto.sku }}"
+                                        data-preciocosto="{{ producto.precioCosto }}"
+                                        data-precioventa="{{ producto.precioVenta }}"
+                                        data-stockminimo="{{ producto.stockMinimo }}"
+                                        data-cantidadenstock="{{ producto.cantidadEnStock }}"
+                                        data-idproveedor="{{ producto.idProveedor }}"
+                                        data-idcategoria="{{ producto.idCategoria }}">
+                                    Editar
+                                </button>
+
+                                <button data-toggle="modal" data-target="#reabastecerModal"
+                                        data-id="{{ producto.idProducto }}" data-nombre="{{ producto.nombre }}">
+                                    Reabastecer
+                                </button>
+
+                                <form action="{{ url_for('productos.gestionar_productos', delete=producto.idProducto) }}" method="post">
+                                    <button type="submit" class="button">Eliminar</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <!-- Paginación -->
-        <div class="mt-4 d-flex justify-content-between">
-            <div>
-                {% if productos.has_prev %}
-                    <a href="{{ url_for('gestionar_productos', page=productos.prev_num) }}" class="btn btn-secondary">Anterior</a>
-                {% endif %}
-                {% if productos.has_next %}
-                    <a href="{{ url_for('gestionar_productos', page=productos.next_num) }}" class="btn btn-secondary">Siguiente</a>
-                {% endif %}
-            </div>
-            <div>
-                <small>Página {{ productos.page }} de {{ productos.pages }}</small>
-            </div>
-        </div>
+
 
         <!-- Modal para agregar o editar producto -->
         <div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-labelledby="productoModalLabel" aria-hidden="true">
@@ -92,32 +140,32 @@
                                 <input type="text" class="form-control" id="sku" name="sku" required>
                             </div>
                             <div class="form-group">
-                                <label for="precioCosto">Precio de Costo</label>
-                                <input type="number" class="form-control" id="precioCosto" name="precioCosto" required step="0.01">
+                                <label for="precioCosto">Precio Costo</label>
+                                <input type="text" class="form-control" id="precioCosto" name="precioCosto" required>
                             </div>
                             <div class="form-group">
-                                <label for="precioVenta">Precio de Venta</label>
-                                <input type="number" class="form-control" id="precioVenta" name="precioVenta" required step="0.01">
+                                <label for="precioVenta">Precio Venta</label>
+                                <input type="text" class="form-control" id="precioVenta" name="precioVenta" required>
                             </div>
                             <div class="form-group">
                                 <label for="stockMinimo">Stock Mínimo</label>
-                                <input type="number" class="form-control" id="stockMinimo" name="stockMinimo" required>
+                                <input type="text" class="form-control" id="stockMinimo" name="stockMinimo" required>
                             </div>
                             <div class="form-group">
-                                <label for="cantidadEnStock">Cantidad en Stock</label>
-                                <input type="number" class="form-control" id="cantidadEnStock" name="cantidadEnStock" required>
+                                <label for="cantidadEnStock">Stock</label>
+                                <input type="text" class="form-control" id="cantidadEnStock" name="cantidadEnStock" required>
                             </div>
                             <div class="form-group">
-                                <label for="idProveedor">Proveedor</label>
                                 <select class="form-control" id="idProveedor" name="idProveedor" required>
+                                    <option value="">Selecciona un Proveedor</option>
                                     {% for proveedor in proveedores %}
                                         <option value="{{ proveedor.idProveedor }}">{{ proveedor.nombre }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="idCategoria">Categoría</label>
                                 <select class="form-control" id="idCategoria" name="idCategoria" required>
+                                    <option value="">Selecciona una Categoría</option>
                                     {% for categoria in categorias %}
                                         <option value="{{ categoria.idCategoria }}">{{ categoria.nombreCategoria }}</option>
                                     {% endfor %}
@@ -125,41 +173,33 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" name="guardarProducto">Guardar Producto</button>
+                            <button type="button" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="guardarProducto">Guardar Producto</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Modal para Reabastecer Producto -->
-        <div class="modal fade" id="reabastecerModal" tabindex="-1" role="dialog" aria-labelledby="reabastecerModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reabastecerModalLabel">Reabastecer Producto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="reabastecerForm" method="POST">
-                        <div class="modal-body">
-                            <input type="hidden" name="idProducto" id="reabastecerIdProducto">
-                            <div class="form-group">
-                                <label for="cantidadReabastecer">Cantidad a Reabastecer</label>
-                                <input type="number" class="form-control" id="cantidadReabastecer" name="cantidadReabastecer" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success" name="reabastecerProducto">Reabastecer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
+        <nav aria-label="Page navigation" class="float-center">
+            <ul class="pagination">
+                {% if productos.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=productos.prev_num) }}">Anterior</a>
+                    </li>
+                {% endif %}
+                {% for page_num in productos.iter_pages() %}
+                    <li class="page-item {% if page_num == productos.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                {% endfor %}
+                {% if productos.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=productos.next_num) }}">Siguiente</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

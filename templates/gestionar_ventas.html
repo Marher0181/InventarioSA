@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,10 +6,11 @@
     <title>Gestión de Ventas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_ventas.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
 <body>
 
+<!-- Menú de navegación lateral -->
 <label class="burger-menu" for="menu-toggle">
     <span></span>
     <span></span>
@@ -17,191 +19,205 @@
 <input type="checkbox" id="menu-toggle" style="display: none;">
 
 <nav class="navbar navbar-vertical">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" style="margin-top: 250px;">
         <li class="nav-item active">
-            <a class="nav-link" href="#" style="color: white;">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" style="color: white;">Features</a>
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" style="color: white;">Pricing</a>
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-                Next Steps
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#" style="color: white;">Contact us</a>
-                <a class="dropdown-item" href="#" style="color: white;">Subscribe to the blog</a>
-                <a class="dropdown-item" href="#" style="color: white;">Sign up for our newsletter</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorías </a>
         </li>
     </ul>
 </nav>
 
-
-
-    <div class="container mt-5">
-        <h1 style="color: white" class="mt-10 h1">Realizar una Venta</h1>
-
-        <form method="GET" action="{{ url_for('gestionar_ventas') }}">
-            <div class="input-group mb-4 mt-4">
-                <input type="text" name="q" class="input" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}" required>
+<!-- Encabezado principal -->
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177006/o6bmxomqmfidsed7928f.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTION DE VENTAS</h1>
+                </div>
             </div>
-            <button type="submit" class="float-right mb-4">Buscar</button>
-        </form>
+        </div>
+    </div>
+</header>
 
-        <h3 style="color: white">Resultados de búsqueda</h3>
-        <table class="table table-bordered">
-            <thead style="color: white">
+<!-- Cuerpo principal -->
+<div class="container mt-5">
+    <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
+    <form method="GET" action="{{ url_for('ventas.gestionar_ventas') }}">
+        <div class="input-group justify-content-end">
+            <input type="text" class="form-control input" name="q" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}">
+            <div>
+                <button type="submit" class="float-right">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <h3 style="color: #1a1446" class="mt-4 mb-3">Resultados de búsqueda</h3>
+    <table class="table table-bordered">
+        <thead style="color: white">
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock Disponible</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="resultadoBusqueda">
+            {% for producto in productos.items %}
+            <tr style="color: white">
+                <td>{{ producto.nombre }} - {{ producto.descripcion }}</td>
+                <td>{{ producto.precioVenta }}</td>
+                <td>{{ producto.cantidadEnStock }}</td>
+                <td>
+                    <button class="float-right" onclick="agregarProducto({{ producto.idProducto }}, '{{ producto.nombre }}', {{ producto.precioVenta }}, {{ producto.cantidadEnStock }})">Añadir</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if productos.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=productos.prev_num, q=request.args.get('q')) }}">Anterior</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Anterior</a>
+                </li>
+            {% endif %}
+
+            {% for page_num in productos.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num == productos.page %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if productos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ventas.gestionar_ventas', page=productos.next_num, q=request.args.get('q')) }}">Siguiente</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Siguiente</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h3 class="mt-5" style="color: #1a1446">Productos Seleccionados</h3>
+    <form action="{{ url_for('ventas.gestionar_ventas') }}" method="POST">
+        <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white">
+            <thead>
                 <tr>
                     <th>Producto</th>
                     <th>Precio</th>
-                    <th>Stock Disponible</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
                     <th>Acción</th>
                 </tr>
             </thead>
-            <tbody id="resultadoBusqueda">
-                {% for producto in productos.items %}
-                <tr style="color: white">
-                    <td>{{ producto.nombre }} - {{ producto.descripcion }}</td>
-                    <td>{{ producto.precioVenta }}</td>
-                    <td>{{ producto.cantidadEnStock }}</td>
-                    <td>
-                        <button class="float-right" onclick="agregarProducto({{ producto.idProducto }}, '{{ producto.nombre }}', {{ producto.precioVenta }}, {{ producto.cantidadEnStock }})">Añadir</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
+            <tbody id="productosSeleccionados"></tbody>
         </table>
 
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                {% if productos.has_prev %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('gestionar_ventas', page=productos.prev_num, q=request.args.get('q')) }}">Anterior</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Anterior</a>
-                    </li>
-                {% endif %}
+        <div class="input-group">
+            <label for="cliente" style="color: white">Cliente</label>
+            <input type="text" class="input" id="cliente" name="cliente" required>
+        </div>
 
-                {% for page_num in productos.iter_pages() %}
-                    {% if page_num %}
-                        {% if page_num == productos.page %}
-                            <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="{{ url_for('gestionar_ventas', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a></li>
-                        {% endif %}
-                    {% else %}
-                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                    {% endif %}
-                {% endfor %}
+        <div class="input-group mt-4">
+            <label for="metodoPago" style="color: white">Seleccione un Método de Pago</label>
+            <select class="input form-control" name="metodoPago" id="metodoPago" required>
+                <option value="Efectivo" style="color:white">Efectivo</option>
+                <option value="Transferencia" style="color:white">Transferencia</option>
+                <option value="Tarjeta" style="color:white">Tarjeta Crédito/Débito</option>
+            </select>
+        </div>
 
-                {% if productos.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="{{ url_for('gestionar_ventas', page=productos.next_num, q=request.args.get('q')) }}">Siguiente</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Siguiente</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
+        <div class="input-group mt-4">
+            <label for="observaciones" style="color: white">Observaciones</label>
+            <textarea class="textarea" id="observaciones" name="observaciones"></textarea>
+        </div>
 
+        <button type="submit" class="mt-4 mb-4 float-right">Realizar Venta</button>
+    </form>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    function agregarProducto(id, nombre, precio, stock) {
+        let tabla = document.getElementById('productosSeleccionados');
+        let row = tabla.insertRow();
 
-        <h3 class="mt-5" style="color: white">Productos Seleccionados</h3>
-        <form action="{{ url_for('gestionar_ventas') }}" method="POST">
-            <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="productosSeleccionados">
+        row.innerHTML = `
+            <td>
+                <input type="hidden" name="productos[]" value="${id}">${nombre}
+            </td>
+            <td>${precio}</td>
+            <td>
+                <input type="number" name="cantidades[]" min="1" max="${stock}" value="1" onchange="actualizarSubtotal(this, ${precio}, ${stock})">
+                <small class="text-danger" id="errorCantidad${id}" style="display: none;">La cantidad no puede exceder el stock.</small>
+            </td>
+            <td class="subtotal">${precio}</td>
+            <td>
+                <button type="button" class="float-center" onclick="eliminarFila(this)">Eliminar</button>
+            </td>
+        `;
+    }
 
-                </tbody>
-            </table>
+    function actualizarSubtotal(input, precio, stock) {
+        let row = input.closest('tr');
+        let cantidad = parseInt(input.value);
+        let errorLabel = document.getElementById('errorCantidad' + input.closest('tr').cells[0].getElementsByTagName('input')[0].value);
 
-            <div class="input-group">
-                <label for="cliente" style="color: white">Cliente</label>
-                <input type="text" class="input" id="cliente" name="cliente" required>
-            </div>
-
-            <div class="input-group mt-4">
-                <label for="metodoPago" style="color: white">Seleccione un Método de Pago</label>
-                <select class="select2-" name="metodoPago" id="metodoPago" required>
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="Transferencia" selected>Transferencia</option>
-                    <option value="Tarjeta">Tarjeta Crédito/Débito</option>
-                  </select>
-            </div>
-
-            <div class="input-group mt-4">
-                <label for="observaciones" style="color: white">Observaciones</label>
-                <textarea class="textarea" id="observaciones" name="observaciones"></textarea>
-            </div>
-
-            <button type="submit" class="mt-4 mb-4 float-right">Realizar Venta</button>
-        </form>
-    </div>
-</body>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
-    $(document).ready(function () {
-        // Inicializa Select2
-        $('#idRol').select2({
-            theme: 'default'
-        });
-
-        // Forzar aplicación de estilos con JavaScript
-        function forceApplyStyles() {
-            $('.select2-container--default .select2-selection--single').css({
-                'background-color': 'rgba(26, 20, 70, 0.2) !important',
-                'border': '2px solid rgba(255, 255, 255, 0.3) !important',
-                'border-radius': '0.7rem !important',
-                'padding': '1rem !important',
-                'color': '#f5f5f5 !important',
-                'backdrop-filter': 'blur(25px) !important',
-                '-webkit-backdrop-filter': 'blur(25px) !important',
-                'display': 'flex !important',
-                'align-items': 'center !important'
-            });
-            $('.select2-container--default .select2-selection--single .select2-selection__rendered').css({
-                'color': '#f5f5f5 !important',
-                'font-family': 'inherit !important',
-                'font-size': '1rem !important',
-                'padding': '0 !important'
-            });
-            $('.select2-container--default .select2-selection--single .select2-selection__arrow').css({
-                'height': '100% !important',
-                'position': 'absolute !important',
-                'right': '10px !important',
-                'color': '#ffffff !important'
-            });
+        if (cantidad > stock) {
+            errorLabel.style.display = 'block';
+            input.value = stock;
+            cantidad = stock;
+        } else {
+            errorLabel.style.display = 'none';
         }
 
-        // Aplica los estilos inmediatamente después de la inicialización
-        forceApplyStyles();
+        let subtotal = precio * cantidad;
+        row.cells[3].textContent = subtotal.toFixed(2);
+    }
 
-        // Observa cambios en el estilo y reaplica los estilos si Select2 los modifica
-        const observer = new MutationObserver(() => forceApplyStyles());
-        const targetNode = document.querySelector('.select2-container--default .select2-selection--single');
-        if (targetNode) {
-            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
-        }
-    });
+    function eliminarFila(button) {
+        let row = button.closest('tr');
+        row.remove();
+    }
+
+
 </script>
+</body>
 </html>

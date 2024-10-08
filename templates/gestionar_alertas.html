@@ -5,28 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Alertas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
 <body>
-    <div class="container mt-4">
-        <h1 class="text-center">Gestión de Alertas</h1>
 
-        <!-- Mensajes Flash -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info mt-3">
-                    {% for message in messages %}
-                        {{ message }}<br>
-                    {% endfor %}
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728332973/lk7mufaxqwysfgznivdq.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>ALERTAS</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <div class="container mt-4">
 
         <!-- Botones adicionales -->
         <div class="d-flex justify-content-between mb-3">
-            <button class="btn btn-primary" onclick="location.href='{{ url_for('dashboardAdmin') }}'">Volver al menú principal</button>
+            <button  class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
             <form method="POST">
-                <button type="submit" name="action" value="enviarcorreo" class="btn btn-success">Enviar alertas a proveedores</button>
+                <button type="submit" name="action" value="enviarcorreo">Enviar alertas a proveedores</button>
             </form>
         </div>
 
@@ -52,7 +88,7 @@
                             <td>
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="idAlerta" value="{{ alerta.idAlerta }}">
-                                    <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta alerta?');">Eliminar</button>
+                                    <button  class="float-right" type="submit" name="eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta alerta?');">Eliminar</button>
                                 </form>
                             </td>
                         </tr>
@@ -69,10 +105,10 @@
         <div class="mt-4 d-flex justify-content-between">
             <div>
                 {% if alertas.has_prev %}
-                    <a href="{{ url_for('gestionar_alertas', page=alertas.prev_num) }}" class="btn btn-secondary">Anterior</a>
+                    <a href="{{ url_for('gestionar_alertas', page=alertas.prev_num) }}">Anterior</a>
                 {% endif %}
                 {% if alertas.has_next %}
-                    <a href="{{ url_for('gestionar_alertas', page=alertas.next_num) }}" class="btn btn-secondary">Siguiente</a>
+                    <a href="{{ url_for('gestionar_alertas', page=alertas.next_num) }}">Siguiente</a>
                 {% endif %}
             </div>
         </div>

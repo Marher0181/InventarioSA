@@ -5,42 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Proveedores</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
 <body>
-    <div class="container mt-4">
-        <h1 class="text-center">Gestionar Proveedores</h1>
 
-        <!-- Mensajes Flash -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-warning">
-                    {{ messages[0] }}
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728315200/jomp6hmaau3rs9a5wrzd.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE PROVEEDORES</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
+    <div class="container mt-4">
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
 
-        <!-- Formulario para agregar o modificar proveedor -->
+        <form method="GET" class="mb-4">
+            <div class="input-group justify-content-end">
+                <input type="text" name="q" class="form-control input" placeholder="Buscar proveedores..." value="{{ request.args.get('q', '') }}">
+                <div>
+                    <button class="float-right" type="submit">Buscar</button>
+                </div>
+            </div>
+        </form>
+
         <form method="POST" class="mb-4">
             <div class="input-group mb-3">
-                <label for="nombre" class="user-label">Nombre del proveedor</label>
-                <input type="text" name="nombre" class="input" placeholder="Nombre" value="{{ proveedor_seleccionado.nombre if proveedor_seleccionado else '' }}" required>
+                <label for="nombre" class="user-label" style="color: white">Nombre del proveedor</label>
+                <input type="text" name="nombre" class="input" value="{{ proveedor_seleccionado.nombre if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="input-group mb-3">
-                <label for="direccion" class="user-label">Dirección del proveedor</label>
-                <input type="text" name="direccion" class="input" placeholder="Dirección" value="{{ proveedor_seleccionado.direccion if proveedor_seleccionado else '' }}" required>
+                <label for="direccion" class="user-label" style="color: white">Dirección del proveedor</label>
+                <input type="text" name="direccion" class="input" value="{{ proveedor_seleccionado.direccion if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="input-group mb-3">
-                <label for="telefono" class="user-label">Teléfono</label>
-                <input type="text" name="telefono" class="input" placeholder="Teléfono" value="{{ proveedor_seleccionado.telefono if proveedor_seleccionado else '' }}" required>
+                <label for="telefono" class="user-label" style="color: white">Teléfono</label>
+                <input type="text" name="telefono" class="input" value="{{ proveedor_seleccionado.telefono if proveedor_seleccionado else '' }}" required>
             </div>
             <div class="input-group mb-3">
-                <label for="email" class="user-label">Correo Electrónico</label>
-                <input type="email" name="email" class="input" placeholder="Correo Electrónico" value="{{ proveedor_seleccionado.email if proveedor_seleccionado else '' }}" required>
+                <label for="email" class="user-label" style="color: white">Correo Electrónico</label>
+                <input type="email" name="email" class="input" value="{{ proveedor_seleccionado.email if proveedor_seleccionado else '' }}" required>
             </div>
             <input type="hidden" name="proveedor_id" value="{{ proveedor_seleccionado.idProveedor if proveedor_seleccionado else '' }}">
-            <button type="submit" name="agregar" class="btn btn-success" {% if proveedor_seleccionado %}disabled{% endif %}>Agregar Proveedor</button>
-            <button type="submit" name="modificar" class="btn btn-warning" {% if not proveedor_seleccionado %}disabled{% endif %}>Modificar Proveedor</button>
+            <button type="submit" name="agregar" class="float-right mb-4" {% if proveedor_seleccionado %}disabled{% endif %}>Agregar Proveedor</button>
+            <button type="submit" name="modificar" class="float-right mr-3 mb-4" {% if not proveedor_seleccionado %}disabled{% endif %}>Modificar Proveedor</button>
         </form>
 
         <!-- Tabla de proveedores -->
@@ -55,7 +100,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% for proveedor in proveedores.items %}
                 <tr>
                     <td>{{ proveedor.idProveedor }}</td>
@@ -66,11 +111,11 @@
                     <td>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
-                            <button type="submit" name="seleccionar" class="btn btn-warning btn-sm">Modificar</button>
+                            <button type="submit" name="seleccionar" class="btn-sm">Modificar</button>
                         </form>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="proveedor_id" value="{{ proveedor.idProveedor }}">
-                            <button type="submit" name="eliminar" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
+                            <button type="submit" name="eliminar" class="btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?');">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -82,20 +127,52 @@
             </tbody>
         </table>
 
+
         <!-- Paginación -->
-        <div class="d-flex justify-content-between">
-            <div>
-                {% if proveedores.has_prev %}
-                    <a href="{{ url_for('gestionar_proveedores', page=proveedores.prev_num, q=request.args.get('q')) }}" class="btn btn-secondary">Anterior</a>
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <!-- Botón 'Anterior' -->
+        {% if proveedores.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('proveedores.gestionar_proveedores', page=proveedores.prev_num, q=request.args.get('q')) }}">Anterior</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Anterior</a>
+            </li>
+        {% endif %}
+
+        <!-- Páginas -->
+        {% for page_num in proveedores.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == proveedores.page %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('proveedores.gestionar_proveedores', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a>
+                    </li>
                 {% endif %}
-                {% if proveedores.has_next %}
-                    <a href="{{ url_for('gestionar_proveedores', page=proveedores.next_num, q=request.args.get('q')) }}" class="btn btn-secondary">Siguiente</a>
-                {% endif %}
-            </div>
-            <div>
-                <small>Página {{ proveedores.page }} de {{ proveedores.pages }}</small>
-            </div>
-        </div>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Botón 'Siguiente' -->
+        {% if proveedores.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('proveedores.gestionar_proveedores', page=proveedores.next_num, q=request.args.get('q')) }}">Siguiente</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Siguiente</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

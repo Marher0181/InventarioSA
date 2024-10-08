@@ -1,0 +1,489 @@
+/* Estilos Generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728177677/ygkfmdwkrambnnnjno8l.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
+}
+
+/* Estilos del Header (Masthead) */
+.masthead {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.masthead .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.site-heading h1 {
+    color: white;
+    font-size: 4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 60px;
+}
+
+.masthead .container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Barra de Navegación Vertical */
+.navbar-vertical {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: rgba(26, 20, 70, 0.7);
+    backdrop-filter: blur(25px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+#menu-toggle:checked + .navbar-vertical {
+    transform: translateX(0);
+}
+
+.burger-menu {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    cursor: pointer;
+}
+
+.burger-menu span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    margin: 5px 0;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #1a73e8;
+}
+
+/* Botones */
+button {
+    border: none;
+    color: #fff;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background-color: rgba(26, 20, 70, 0.4);
+    border-radius: 0.7rem;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.6em 1.5em;
+}
+
+button:hover {
+    background-color: rgba(26, 20, 70, 0.7);
+}
+
+/* Estilos para la Barra de Búsqueda */
+.input-group {
+    position: relative;
+    width: 100%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background-color: rgba(26, 20, 70, 0.4);
+    border-radius: 0.7rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-control.input {
+    background-color: rgba(26, 20, 70, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.7rem;
+    color: #f5f5f5;
+    padding: 1rem;
+    width: 100%;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control.input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-control.input:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+/* Campos de Entrada (input), Textarea y Select */
+input, select, textarea {
+    background-color: rgba(26, 20, 70, 0.2);
+    border: 2px solid rgba(255, 255, 255, 1);
+    border-radius: 0.7rem;
+    color: #f5f5f5;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-group>.form-control:not(:last-child) {
+    border-top-right-radius: 0.7rem;
+    border-bottom-right-radius: 0.7rem;
+}
+
+.input-group>.form-control:not(:first-child) {
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: white;
+    outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+textarea {
+    resize: none;
+}
+
+/* Tablas */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 0.7rem;
+    overflow: hidden;
+}
+
+.table thead th {
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-radius: 0.7rem;
+    background-color: rgba(26, 20, 70, 0.7);
+    color: white;
+    padding: 18px;
+}
+
+.table tbody tr {
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 1);
+    background-color: rgba(26, 20, 70, 0.4);
+    vertical-align: middle;
+}
+
+/* Paginación */
+.pagination .page-item .page-link {
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background-color: rgba(26, 20, 70, 0.4);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 1);
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: rgba(255, 255, 255, 1);
+    border: 2px solid rgba(255, 255, 255, 1);
+    cursor: not-allowed;
+}
+
+/* Estilos para el Select (Select2) */
+.select2-container--default .select2-selection--single {
+    background-color: rgba(26, 20, 70, 0.4) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 0.7rem !important;
+    padding: 0.75rem 1rem !important;
+    color: #f5f5f5 !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #f5f5f5 !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    color: #ffffff !important;
+}
+
+/* Textareas */
+.textarea {
+    width: 100%;
+    max-width: 1600px;
+    border: solid 2px rgba(255, 255, 255, 1);
+    border-radius: 0.7rem;
+    background: none;
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: #f5f5f5;
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    resize: none;
+    outline: none;
+}
+
+.textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Boton de descarga */
+.boton-descarga {
+    position: relative;
+    width: 440px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 20px;
+    border: 1px solid transparent;
+    background-color: rgba(26, 20, 70, 0.4);
+    overflow: hidden;
+    border-radius: 0.7rem;
+    text-decoration: none !important;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+}
+
+.boton-descarga:hover {
+    background-color: rgba(26, 20, 70, 0.4);
+    text-decoration: none !important;
+}
+
+.boton-descarga:visited {
+    text-decoration: none !important;
+}
+
+.boton-descarga .button__text {
+    transform: translateX(0);
+    color: #fff;
+    font-weight: 600;
+    transition: color 0.5s ease;
+}
+
+.boton-descarga .button__icon {
+    position: absolute;
+    right: 0;
+    transform: translateX(0);
+    height: 100%;
+    width: 39px;
+    background-color: rgba(26, 20, 70, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.7s ease, transform 0.7s ease;
+}
+
+.boton-descarga .svg {
+    width: 20px;
+    fill: #fff;
+}
+
+.boton-descarga:hover .button__text {
+    color: transparent;
+}
+
+.boton-descarga:hover .button__icon {
+    width: 440px;
+}
+
+.boton-descarga:active .button__icon {
+    background-color: rgba(26, 20, 70, 0.4);
+}
+
+.boton-descarga:active {
+    background-color: rgba(26, 20, 70, 0.4);
+}
+
+/* Modales */
+.modal-background {
+    background-color: rgba(26, 20, 70, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.modal.fade .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 900px;
+    max-width: 1300px; /* Ajusta el ancho máximo */
+    margin: 0; /* Sin márgenes adicionales */
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.modal-content {
+    background-color: rgba(26, 20, 70, 0.2); /* Color de fondo */
+    backdrop-filter: blur(25px);
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra */
+    max-width: 1300px; /* Ajusta el ancho del modal */
+    width: 100%; /* Asegura que no se expanda más allá del ancho de pantalla */
+}
+
+body.modal-open {
+    overflow: hidden; /* Evita que la página se desplace cuando el modal está abierto */
+}
+
+
+.modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-close-button {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close-button:hover {
+    background-color: #14103a;
+}
+
+.modal-close-button:focus {
+    outline: none;
+}
+
+/* Botones con clase privada */
+.acciones-productos button {
+    border: none;
+    color: #fff;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background-color: rgba(26, 20, 70, 0.4);
+    border-radius: 0.7rem;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.6em 1.5em;
+    cursor: pointer;
+}
+
+.acciones-productos button:hover {
+    background-color: rgba(26, 20, 70, 0.7);
+}
+
+/* Alineación de botones dentro de la celda con clase privada */
+.acciones-productos .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.acciones-productos form {
+    margin: 0; /* Elimina margen del form */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+}
+
