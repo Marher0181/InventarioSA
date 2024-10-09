@@ -117,10 +117,9 @@
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.idRol }}</td>
                     <td>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
-                            <button type="submit" name="action" value="Modificar" class="float-center">Modificar</button>
-                        </form>
+                        <!-- Botón para abrir el modal de modificar -->
+                        <button type="button" data-toggle="modal" data-target="#modalModificarUsuario" onclick="llenarDatosModal('{{ usuario.idUsuario }}', '{{ usuario.nombre }}', '{{ usuario.email }}', '{{ usuario.idRol }}')">Modificar</button>
+
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
                             <button type="submit" name="action" value="Eliminar" class="float-center">Eliminar</button>
@@ -136,23 +135,62 @@
         </table>
     </div>
 
+    <!-- Modal para Modificar Usuario -->
+    <div class="modal" id="modalModificarUsuario" tabindex="-1" aria-labelledby="modalModificarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalModificarUsuarioLabel">Modificar Usuario</h5>
+                    <button type="button" class="close modal-close-button" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('usuarios.gestionar_usuarios') }}">
+                        <input type="hidden" id="modalUsuarioId" name="idUsuario">
+                        <div class="form-group">
+                            <label for="modalNombreUsuario">Nombre</label>
+                            <input type="text" class="form-control" id="modalNombreUsuario" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalEmailUsuario">Email</label>
+                            <input type="email" class="form-control" id="modalEmailUsuario" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalPasswordUsuario">Contraseña</label>
+                            <input type="password" class="form-control" id="modalPasswordUsuario" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalRolUsuario">Rol</label>
+                            <select class="form-control" id="modalRolUsuario" name="idRol" required>
+                                {% for rol in roles %}
+                                    <option value="{{ rol.idRol }}">{{ rol.nombreRol }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" name="action" value="Modificar">Guardar Cambios</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-close-button" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-
-        // Aplica los estilos inmediatamente después de la inicialización
-        forceApplyStyles();
-
-        // Observa cambios en el estilo y reaplica los estilos si Select2 los modifica
-        const observer = new MutationObserver(() => forceApplyStyles());
-        const targetNode = document.querySelector('.select2-container--default .select2-selection--single');
-        if (targetNode) {
-            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
+        function llenarDatosModal(id, nombre, email, idRol) {
+            document.getElementById('modalUsuarioId').value = id;
+            document.getElementById('modalNombreUsuario').value = nombre;
+            document.getElementById('modalEmailUsuario').value = email;
+            document.getElementById('modalRolUsuario').value = idRol;
         }
-    });
-</script>
+    </script>
 </body>
 </html>
