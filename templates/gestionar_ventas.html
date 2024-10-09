@@ -60,7 +60,7 @@
 
 <!-- Cuerpo principal -->
 <div class="container mt-5">
-    <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
+    <button class="mb-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
     <form method="GET" action="{{ url_for('ventas.gestionar_ventas') }}">
         <div class="input-group justify-content-end">
             <input type="text" class="form-control input" name="q" placeholder="Buscar producto por nombre o descripción" value="{{ request.args.get('q', '') }}">
