@@ -27,5 +27,5 @@ app.register_blueprint(movimientos_bp)
 app.register_blueprint(alertas_bp)
 app.register_blueprint(ventas_bp)
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)

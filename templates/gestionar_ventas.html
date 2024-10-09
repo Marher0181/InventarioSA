@@ -87,7 +87,8 @@
                 <td>{{ producto.precioVenta }}</td>
                 <td>{{ producto.cantidadEnStock }}</td>
                 <td>
-                    <button class="float-right" onclick="agregarProducto({{ producto.idProducto }}, '{{ producto.nombre }}', {{ producto.precioVenta }}, {{ producto.cantidadEnStock }})">Añadir</button>
+                    <button class="float-right" onclick="agregarProducto({{ producto.idProducto }}, '{{ producto.nombre }}', {{ producto.precioVenta }}, {{ producto.cantidadEnStock }})"
+                            data-toggle="modal" data-target="#modalProductosSeleccionados">Añadir</button>
                 </td>
             </tr>
             {% endfor %}
@@ -131,20 +132,40 @@
         </ul>
     </nav>
 
-    <h3 class="mt-5" style="color: #1a1446">Productos Seleccionados</h3>
-    <form action="{{ url_for('ventas.gestionar_ventas') }}" method="POST">
-        <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody id="productosSeleccionados"></tbody>
-        </table>
+    <!-- Modal para Productos Seleccionados -->
+    <div class="modal fade" id="modalProductosSeleccionados" tabindex="-1" aria-labelledby="modalProductosSeleccionadosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProductosSeleccionadosLabel">Productos Seleccionados</h5>
+                    <button type="button" class="close modal-close-button" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('ventas.gestionar_ventas') }}" method="POST">
+                        <table class="table table-bordered" id="tablaProductosSeleccionados" style="color: white;">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Subtotal</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productosSeleccionados"></tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-close-button" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="modal-close-button">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
         <div class="input-group">
             <label for="cliente" style="color: white">Cliente</label>
