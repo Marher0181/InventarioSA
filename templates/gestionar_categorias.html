@@ -71,7 +71,7 @@
 
         <!-- Lista de categorías -->
         <h2 class="mt-5 text-center">Categorías</h2>
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -85,20 +85,43 @@
                     <td>{{ categoria.idCategoria }}</td>
                     <td>{{ categoria.nombreCategoria }}</td>
                     <td>
-                        <!-- Formulario para modificar categoría -->
-                        <form method="POST" style="display:inline;">
-                            <button type="submit" name="modificar" class="mt-2 ml-2 float-right">Modificar</button>
-                        </form>
-
-                        <!-- Formulario para eliminar categoría -->
-                        <form method="POST" style="display:inline;">
-                            <button type="submit" name="eliminar" class="mt-2 float-right">Eliminar</button>
+                        <button class="float-right ml-2" type="button" data-toggle="modal" data-target="#modalModificarCategoria" onclick="abrirModalModificarCategoria('{{ categoria.idCategoria }}', '{{ categoria.nombreCategoria }}')">Modificar</button>
+                        <form method="POST" class="float-right">
+                            <input type="hidden" name="categoria_id" value="{{ categoria.idCategoria }}">
+                            <button type="submit" name="eliminar">Eliminar</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="modal fade" id="modalModificarCategoria" tabindex="-1" aria-labelledby="modalModificarCategoriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalModificarCategoriaLabel">Modificar Categoría</h5>
+                        <button type="button" class="close modal-close-button" data-dismiss="modal" aria-label="Close">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ url_for('categorias.gestionar_categorias') }}">
+                            <input type="hidden" id="modalCategoriaId" name="categoria_id">
+                            <div class="form-group">
+                                <label for="modalNombreCategoria">Nombre de Categoría</label>
+                                <input type="text" class="form-control" id="modalNombreCategoria" name="nombreCategoria" required>
+                            </div>
+                            <button type="submit" name="modificar" class="btn btn-primary">Guardar Cambios</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="modal-close-button" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="mt-4">
             {% if categorias.has_prev %}
@@ -114,5 +137,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function abrirModalModificarCategoria(id, nombre) {
+        // Asignar los valores a los campos del modal
+        document.getElementById('modalCategoriaId').value = id;
+        document.getElementById('modalNombreCategoria').value = nombre;
+
+        // Abrir el modal
+        $('#modalModificarCategoria').modal('show');
+    }
+    </script>
 </body>
 </html>

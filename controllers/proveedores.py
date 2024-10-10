@@ -37,7 +37,7 @@ def gestionar_proveedores():
                 db.session.execute(sql, {'nombre': nombre, 'direccion': direccion, 'telefono': telefono, 'email': email})
                 db.session.commit()
                 flash("Proveedor agregado correctamente.")
-                return redirect(url_for('gestionar_proveedores'))
+                return redirect(url_for('proveedores.gestionar_proveedores'))
             except Exception as e:
                 db.session.rollback()
                 flash(f"Error al agregar proveedor: {e}")
@@ -52,7 +52,7 @@ def gestionar_proveedores():
                 proveedor.email = request.form['email']
                 db.session.commit()
                 flash("Proveedor modificado exitosamente.")
-                return redirect(url_for('gestionar_proveedores'))
+                return redirect(url_for('proveedores.gestionar_proveedores'))
             else:
                 flash("Proveedor no encontrado.")
 
@@ -63,7 +63,7 @@ def gestionar_proveedores():
                 db.session.delete(proveedor)
                 db.session.commit()
                 flash("Proveedor eliminado exitosamente.")
-                return redirect(url_for('gestionar_proveedores'))
+                return redirect(url_for('proveedores.gestionar_proveedores'))
             else:
                 flash("Proveedor no encontrado.")
         
