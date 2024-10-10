@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, Blueprint
-from models import db, Categorias, Roles, Usuarios, Proveedores, Productos, MovimientosInventario, Ventas, Productos, DetalleVentas
+from models import db
 from sqlalchemy import text, func
 dashboards_bp = Blueprint('dashboards', __name__)
 
@@ -11,7 +11,7 @@ def dashboardAdmin():
     
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
-    
+
     if idRol == 1:
         sql = db.text("SELECT COUNT(*) FROM Alertas")
         alertas = db.session.execute(sql).fetchall()
@@ -27,7 +27,8 @@ def dashboardAdmin():
         productos = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Categorias")
         categorias = db.session.execute(sql).fetchall()
-        return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos, productos=productos, categorias=categorias)
+
+        return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos, productos=productos, categorias=categorias, idRol=idRol)
 
 @dashboards_bp.route('/dashboardOperador')
 def dashboardOperador():
@@ -38,13 +39,13 @@ def dashboardOperador():
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
     if idRol == 2:
-        sql = db.text("SELECT COUNT(*) FROM Alertas")
-        alertas = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Ventas")
         ventas = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Proveedores")
         proveedores = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Productos")
         productos = db.session.execute(sql).fetchall()
-        return render_template('DashboardOperador.html', alertas=alertas, ventas=ventas,
-                               proveedores=proveedores, productos=productos)
+        sql = db.text("SELECT COUNT(*) FROM Categorias")
+        categorias = db.session.execute(sql).fetchall()
+        return render_template('DashboardOperador.html', ventas=ventas,
+                               proveedores=proveedores, productos=productos, idRol=idRol, categorias=categorias)

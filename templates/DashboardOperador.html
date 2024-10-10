@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
+    <title>Dashboard Operador</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_DashboardAdmin.css') }}">
 </head>
 <body>
-
-    <a class="dashboard-alertas dashboard-box-campana" href="{{ url_for('alertas.gestionar_alertas') }}">
-        <div class="icon-container">
-        <p class="alert-notification">{{ alertas[0][0] }}</p>
-        </div>
-    </a>
 
 
 
@@ -30,32 +24,38 @@
     </div>
 </header>
         <div class="row">
-
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-12 col-md-6 d-flex justify-content-center">
                 <a href="{{ url_for('ventas.gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
                     <div class="icon-container dashboard-ventas">
-                    <p class="notification">{{ ventas[0][0] }}</p>
+                        <p class="notification">{{ ventas[0][0] }}</p>
                     </div>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-12 col-md-6 d-flex justify-content-center">
                 <a href="{{ url_for('proveedores.gestionar_proveedores') }}" class="dashboard-box">
                     <h4>Proveedores</h4>
                     <div class="icon-container dashboard-proveedores">
-                    <p class="notification">{{ proveedores[0][0] }}</p>
+                        <p class="notification">{{ proveedores[0][0] }}</p>
                     </div>
                 </a>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <div class="col-12 col-md-6 d-flex justify-content-center">
                 <a href="{{ url_for('productos.gestionar_productos') }}" class="dashboard-box">
                     <h4>Productos</h4>
                     <div class="icon-container dashboard-productos">
-                    <p class="notification">{{ productos[0][0] }}</p>
+                        <p class="notification">{{ productos[0][0] }}</p>
                     </div>
                 </a>
             </div>
-
+            <div class="col-12 col-md-6 d-flex justify-content-center">
+                <a href="{{ url_for('categorias.gestionar_categorias') }}" class="dashboard-box">
+                    <h4>Categorias</h4>
+                    <div class="icon-container dashboard-categorias">
+                        <p class="notification">{{ categorias[0][0] }}</p>
+                    </div>
+                </a>
+            </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

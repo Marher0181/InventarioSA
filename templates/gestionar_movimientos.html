@@ -20,7 +20,11 @@
 <nav class="navbar navbar-vertical">
     <ul class="navbar-nav" style="margin-top: 250px;">
         <li class="nav-item active">
-            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+            {% if usuarioSesion.idRol == 1 %}
+                <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+            {% elif usuarioSesion.idRol == 2 %}
+                <a class="nav-link" href="/dashboardOperador" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+            {% endif %}
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
