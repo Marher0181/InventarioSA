@@ -34,6 +34,8 @@ def login():
                     if rol == 1:
                         return redirect(url_for('dashboards.dashboardAdmin'))
                     elif rol == 2:
+                        return redirect(url_for('dashboards.dashboardOperador'))
+                    elif rol == 3:
                         return redirect(url_for('ventas.gestionar_ventas'))
                 else:
                     flash("Error al iniciar sesión.")

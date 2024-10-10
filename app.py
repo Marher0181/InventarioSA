@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-mail = Mail(app) 
+mail = Mail(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(proveedores_bp)
@@ -27,5 +27,5 @@ app.register_blueprint(movimientos_bp)
 app.register_blueprint(alertas_bp)
 app.register_blueprint(ventas_bp)
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)

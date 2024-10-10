@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de inventario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_index.css') }}">
+</head>
+<body>
+    <div class="container scale-up-center" style="background-color: transparent">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <button class="button" onclick="closeModal()">
+                <div class="X"></div>
+                <div class="Y"></div>
+            </button>
+            <p id="errorMessage">Error: No se encontró el usuario o está inactivo.</p>
+        </div>
+    </div>
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <button class="button" onclick="closeModal()">
+                <div class="X"></div>
+                <div class="Y"></div>
+            </button>
+            <p id="errorMessage">Error: No se encontró el usuario o está inactivo.</p>
+        </div>
+    </div>
+
+
+    <script>
+        function showModal(errorMessage) {
+            document.getElementById('errorMessage').innerText = errorMessage;
+            document.getElementById('errorModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('errorModal').style.display = 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const flashMessage = document.querySelector('.flash-message');
+            if (flashMessage) {
+                showModal(flashMessage.textContent);
+            }
+        });
+    </script>
+</body>
+</html>

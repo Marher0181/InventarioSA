@@ -42,7 +42,7 @@ def gestionar_categorias():
                 flash("Categoría modificada exitosamente.")
             else:
                 flash("Categoría no encontrada.")
-            return redirect(url_for('gestionar_categorias'))
+            return redirect(url_for('categorias.gestionar_categorias'))
 
         elif 'eliminar' in request.form:
             categoria_id = request.form['categoria_id']

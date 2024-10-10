@@ -5,75 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .dashboard-box {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px;
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-        .dashboard-box:hover {
-            transform: scale(1.05);
-            background-color: #f8f9fa;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_DashboardAdmin.css') }}">
 </head>
 <body>
+
+    <a class="dashboard-alertas dashboard-box-campana" href="{{ url_for('alertas.gestionar_alertas') }}">
+        <div class="icon-container">
+        <p class="alert-notification">{{ alertas[0][0] }}</p>
+        </div>
+    </a>
+
+
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728163608/k0zlozb43i0zln4x0czs.jpg');">
+    <div class="overlay"></div>
     <div class="container">
-        <h1 class="my-4">Dashboard Administrador</h1>
         <div class="row">
-            <div class="col-md-2">
-                <a href="{{ url_for('alertas.gestionar_alertas') }}" class="dashboard-box">
-                    <h4>Alertas</h4>
-                    <p>{{ alertas[0][0] }}</p>
-                </a>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>DASHBOARD</h1>
+                </div>
             </div>
-            <div class="col-md-2">
+        </div>
+    </div>
+</header>
+        <div class="row">
+
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('ventas.gestionar_ventas') }}" class="dashboard-box">
                     <h4>Ventas</h4>
-                    <p>{{ ventas[0][0] }}</p>
+                    <div class="icon-container dashboard-ventas">
+                    <p class="notification">{{ ventas[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-            <div class="col-md-2">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('proveedores.gestionar_proveedores') }}" class="dashboard-box">
                     <h4>Proveedores</h4>
-                    <p>{{ proveedores[0][0] }}</p>
+                    <div class="icon-container dashboard-proveedores">
+                    <p class="notification">{{ proveedores[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-            <div class="col-md-2">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('movimientos.gestionar_movimientos') }}" class="dashboard-box">
                     <h4>Movimientos</h4>
-                    <p>{{ movimientos[0][0] }}</p>
+                    <div class="icon-container dashboard-movimientos">
+                    <p class="notification">{{ movimientos[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-            <div class="col-md-2">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('usuarios.gestionar_usuarios') }}" class="dashboard-box">
                     <h4>Usuarios</h4>
-                    <p>{{ usuarios[0][0] }}</p>
+                    <div class="icon-container dashboard-usuarios">
+                    <p class="notification">{{ usuarios[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-            <div class="row">
-            <div class="col-md-2"></div>
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('productos.gestionar_productos') }}" class="dashboard-box">
                     <h4>Productos</h4>
-                    <p>{{ productos[0][0] }}</p>
+                    <div class="icon-container dashboard-productos">
+                    <p class="notification">{{ productos[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                 <a href="{{ url_for('categorias.gestionar_categorias') }}" class="dashboard-box">
                     <h4>Categorias</h4>
-                    <p>{{ categorias[0][0] }}</p>
+                    <div class="icon-container dashboard-categorias">
+                    <p class="notification">{{ categorias[0][0] }}</p>
+                    </div>
                 </a>
             </div>
-        </div>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(notification => {
+                // Convertimos el contenido a número y verificamos si es 0
+                if (parseInt(notification.textContent.trim()) === 0) {
+                    notification.style.display = 'none'; // Oculta la notificación si es 0
+                }
+            });
+        });
+
+
+
+    </script>
 </body>
 </html>

@@ -4,20 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Movimientos</title>
+    <!-- Enlazar Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .modal-header {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Gestión de Movimientos de Inventario</h2>
 
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728510709/lvzlhx8jcn0rsizvsxuh.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE MOVIMIENTOS DE INVENTARIO</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <div class="container mt-4">
+        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
+
+        <a href="{{ url_for('movimientos.reporte_productos_mas_vendidos') }}" class="boton-descarga float-right mb-4">
+            <span class="button__text">Descargar Reporte de Productos Más Vendidos</span>
+            <span class="button__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" id="bdd05811-e15d-428c-bb53-8661459f9307" data-name="Layer 2" class="svg">
+                    <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path>
+                    <path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path>
+                    <path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
+                </svg>
+            </span>
+        </a>
+
+
+
+        <table class="table table-bordered mt-4">
+            <thead>
                 <tr>
                     <th>ID Movimiento</th>
                     <th>ID Producto</th>
@@ -28,7 +85,7 @@
                     <th>Motivo</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% if movimientos %}
                     {% for movimiento in movimientos %}
                         <tr>
@@ -43,53 +100,50 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="7" class="text-center">No hay movimientos registrados</td>
+                        <td colspan="7" class="text-center" style="color: white">No hay movimientos registrados</td>
                     </tr>
                 {% endif %}
             </tbody>
         </table>
 
-        <!-- Paginación -->
+        <!-- Paginación para productos -->
         <div class="text-center">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     {% if page > 1 %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=page - 1) }}">Anterior</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=page - 1) }}">Anterior</a>
                         </li>
                     {% endif %}
                     {% for p in range(1, total_pages + 1) %}
                         <li class="page-item {% if p == page %}active{% endif %}">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=p) }}">{{ p }}</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=p) }}">{{ p }}</a>
                         </li>
                     {% endfor %}
                     {% if page < total_pages %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url_for('movimientos.gestionar_movimientos', page=page + 1) }}">Siguiente</a>
+                            <a class="page-link" href="{{ url_for('productos.gestionar_productos', page=page + 1) }}">Siguiente</a>
                         </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
 
-        <div class="text-center mb-3">
-            <button class="btn btn-success" data-toggle="modal" data-target="#reporteProductosMasVendidos">Generar Reporte de Productos Más Vendidos</button>
-            <button class="btn btn-danger" data-toggle="modal" data-target="#reporteProductosMenosVendidos">Generar Reporte de Productos Menos Vendidos</button>
-            <button class="btn btn-warning" data-toggle="modal" data-target="#reporteMejoresVendedores">Generar Reporte de Mejores Vendedores</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#reporteMovimientosMes">Generar Reporte de Movimientos por Mes</button>
-        </div>
 
-        <div class="text-center">
-            <a href="/" class="btn btn-primary">Volver al menú principal</a>
+        <div class="text-center mb-3">
+            <button class="mr-2 ml-3 mb-2 mt-2" data-toggle="modal" data-target="#reporteProductosMasVendidos">Generar Reporte de Productos Más Vendidos</button>
+            <button class="mr-2 ml-2 mb-2 mt-2" data-toggle="modal" data-target="#reporteProductosMenosVendidos">Generar Reporte de Productos Menos Vendidos</button>
+            <button class="mr-2 ml-2 mb-2 mt-2" data-toggle="modal" data-target="#reporteMejoresVendedores">Generar Reporte de Mejores Vendedores</button>
+            <button class="mr-2 ml-2 mb-2 mt-2" data-toggle="modal" data-target="#reporteMovimientosMes">Generar Reporte de Movimientos por Mes</button>
         </div>
     </div>
 
     <!-- Modal para Productos Más Vendidos -->
     <div class="modal fade" id="reporteProductosMasVendidos" tabindex="-1" aria-labelledby="reporteProductosMasVendidosLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reporteProductosMasVendidosLabel">Reporte de Productos Más Vendidos</h5>
+                    <h5 class="modal-title mr-3" id="reporteProductosMasVendidosLabel">Reporte de Productos Más Vendidos</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span>&times;</span>
                     </button>
@@ -118,8 +172,8 @@
                             <label for="anio">Año:</label>
                             <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="float-center">Generar Reporte</button>
+                        <button type="button" data-dismiss="modal" class="float-center">Cerrar</button>
                     </form>
                 </div>
             </div>
@@ -131,7 +185,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reporteProductosMenosVendidosLabel">Reporte de Productos Menos Vendidos</h5>
+                    <h5 class="modal-title mr-3" id="reporteProductosMenosVendidosLabel">Reporte de Productos Menos Vendidos</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span>&times;</span>
                     </button>
@@ -160,8 +214,8 @@
                             <label for="anio">Año:</label>
                             <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit">Generar Reporte</button>
+                        <button type="button" data-dismiss="modal">Cerrar</button>
                     </form>
                 </div>
             </div>
@@ -173,7 +227,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reporteMejoresVendedoresLabel">Reporte de Mejores Vendedores</h5>
+                    <h5 class="modal-title mr-3" id="reporteMejoresVendedoresLabel">Reporte de Mejores Vendedores</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span>&times;</span>
                     </button>
@@ -202,8 +256,8 @@
                             <label for="anio">Año:</label>
                             <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit">Generar Reporte</button>
+                        <button type="button" data-dismiss="modal">Cerrar</button>
                     </form>
                 </div>
             </div>
@@ -215,7 +269,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reporteMovimientosMesLabel">Reporte de Movimientos por Mes</h5>
+                    <h5 class="modal-title mr-3" id="reporteMovimientosMesLabel">Reporte de Movimientos por Mes</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span>&times;</span>
                     </button>
@@ -244,8 +298,8 @@
                             <label for="anio">Año:</label>
                             <input type="number" class="form-control" id="anio" name="anio" min="2000" max="2100" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit">Generar Reporte</button>
+                        <button type="button" data-dismiss="modal">Cerrar</button>
                     </form>
                 </div>
             </div>
@@ -253,7 +307,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>

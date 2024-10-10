@@ -5,45 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_gestiones.css') }}">
+    <style>
+    .select2-container--default .select2-selection--single {
+        background-color: rgba(26, 20, 70, 0.2) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 0.7rem !important;
+        padding: 1rem !important;
+        color: #f5f5f5 !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+</style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Gestionar Usuarios</h1>
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-warning">
-                    {{ messages[0] }}
+<label class="burger-menu" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<input type="checkbox" id="menu-toggle" style="display: none;">
+
+<nav class="navbar navbar-vertical">
+    <ul class="navbar-nav" style="margin-top: 250px;">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categorias" style="color: white;">Categorias </a>
+        </li>
+    </ul>
+</nav>
+
+<header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330004/lenjo9wdp44phaxpxcjg.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>GESTIÓN DE USUARIOS</h1>
                 </div>
-            {% endif %}
-        {% endwith %}
+            </div>
+        </div>
+    </div>
+</header>
 
-        <form method="POST">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" required>
+
+    <div class="container mt-4">
+        <button class="mb-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
+
+        <form method="POST" class="mb-4">
+            <div class="input-group mb-3">
+                <label for="nombre" style="color: white">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="input" required>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control" required>
+            <div class="input-group mb-3">
+                <label for="email" style="color: white">Email</label>
+                <input type="email" name="email" id="email" class="input" required>
             </div>
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+            <div class="input-group mb-3">
+                <label for="password" style="color: white">Contraseña</label>
+                <input type="password" name="password" id="password" class="input" required>
             </div>
-            <div class="form-group">
-                <label for="idRol">Rol</label>
-                <select name="idRol" id="idRol" class="form-control" required>
+            <div class="input-group mb-3">
+                <label for="idRol" style="color: white">Rol</label>
+                <select class="input form-control" name="idRol" id="idRol" required>
                     {% for rol in roles %}
                         <option value="{{ rol.idRol }}">{{ rol.nombreRol }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" name="action" value="Agregar" class="btn btn-primary">Agregar</button>
+            <button type="submit" name="action" value="Agregar" style="color: white" class="float-right mb-4">Agregar</button>
         </form>
 
-        <h2>Lista de Usuarios</h2>
-        <table class="table table-striped">
+        <h1 class="mt-5" style="color: #1a1446">Lista de Usuarios</h1>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -53,7 +109,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 {% for usuario in usuarios %}
                 <tr>
                     <td>{{ usuario.idUsuario }}</td>
@@ -61,13 +117,12 @@
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.idRol }}</td>
                     <td>
+                        <!-- Botón para abrir el modal de modificar -->
+                        <button type="button" data-toggle="modal" data-target="#modalModificarUsuario" onclick="llenarDatosModal('{{ usuario.idUsuario }}', '{{ usuario.nombre }}', '{{ usuario.email }}', '{{ usuario.idRol }}')">Modificar</button>
+
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
-                            <button type="submit" name="action" value="Modificar" class="btn btn-warning btn-sm">Modificar</button>
-                        </form>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="idUsuario" value="{{ usuario.idUsuario }}">
-                            <button type="submit" name="action" value="Eliminar" class="btn btn-danger btn-sm">Eliminar</button>
+                            <button type="submit" name="action" value="Eliminar" class="float-center">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -80,8 +135,63 @@
         </table>
     </div>
 
+    <!-- Modal para Modificar Usuario -->
+    <div class="modal" id="modalModificarUsuario" tabindex="-1" aria-labelledby="modalModificarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalModificarUsuarioLabel">Modificar Usuario</h5>
+                    <button type="button" class="close modal-close-button" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('usuarios.gestionar_usuarios') }}">
+                        <input type="hidden" id="modalUsuarioId" name="idUsuario">
+                        <div class="form-group">
+                            <label for="modalNombreUsuario">Nombre</label>
+                            <input type="text" class="form-control" id="modalNombreUsuario" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalEmailUsuario">Email</label>
+                            <input type="email" class="form-control" id="modalEmailUsuario" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalPasswordUsuario">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="modalPasswordUsuario" name="password" placeholder="Dejar en blanco si no desea cambiarla">
+                        </div>
+                        <div class="form-group">
+                            <label for="modalRolUsuario">Rol</label>
+                            <select class="form-control" id="modalRolUsuario" name="idRol" required>
+                                {% for rol in roles %}
+                                    <option value="{{ rol.idRol }}">{{ rol.nombreRol }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" name="action" value="Modificar">Guardar Cambios</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-close-button" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function llenarDatosModal(id, nombre, email, idRol) {
+        document.getElementById('modalUsuarioId').value = id;
+        document.getElementById('modalNombreUsuario').value = nombre;
+        document.getElementById('modalEmailUsuario').value = email;
+        document.getElementById('modalRolUsuario').value = idRol;
+    }
+
+    </script>
 </body>
 </html>
