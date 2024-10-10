@@ -29,4 +29,22 @@ def dashboardAdmin():
         categorias = db.session.execute(sql).fetchall()
         return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos, productos=productos, categorias=categorias)
 
+@dashboards_bp.route('/dashboardOperador')
+def dashboardOperador():
+    if 'usuarioSesion' not in session:
+        flash("Debes iniciar sesión para acceder a esta página.")
+        return redirect(url_for('login'))
 
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+    if idRol == 2:
+        sql = db.text("SELECT COUNT(*) FROM Alertas")
+        alertas = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Ventas")
+        ventas = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Proveedores")
+        proveedores = db.session.execute(sql).fetchall()
+        sql = db.text("SELECT COUNT(*) FROM Productos")
+        productos = db.session.execute(sql).fetchall()
+        return render_template('DashboardOperador.html', alertas=alertas, ventas=ventas,
+                               proveedores=proveedores, productos=productos)

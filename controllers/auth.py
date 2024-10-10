@@ -34,7 +34,7 @@ def login():
                     if rol == 1:
                         return redirect(url_for('dashboards.dashboardAdmin'))
                     elif rol == 2:
-                        return redirect(url_for('ventas.gestionar_ventas'))
+                        return redirect(url_for('dashboards.dashboardOperador'))
                 else:
                     flash("Error al iniciar sesión.")
             else:
@@ -44,6 +44,7 @@ def login():
             flash(f"Error: {e}")
     
     return render_template('Login.html')
+
 
 
 @auth_bp.route('/logout')
