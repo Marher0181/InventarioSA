@@ -13,6 +13,8 @@ def cifrar_contraseña(contraseña):
 
 @auth_bp.route('/', methods=['GET', 'POST'])
 def login():
+    sql = db.text("SELECT COUNT(*) FROM Usuarios WHERE activo = 1")
+    usuarios = db.session.execute(sql).fetchall()
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password').encode('utf-8')
@@ -45,7 +47,7 @@ def login():
         except Exception as e:
             flash(f"Error: {e}")
     
-    return render_template('Login.html')
+    return render_template('Login.html', usuarios=usuarios)
 
 
 
