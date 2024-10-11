@@ -13,6 +13,7 @@ def gestionar_productos():
 
     usuario = session['usuarioSesion']
     idUsuario = usuario['idUsuario']
+    idRol = usuario['idRol']
 
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -77,4 +78,4 @@ def gestionar_productos():
     proveedores = Proveedores.query.all()
     categorias = Categorias.query.all()
     productos = Productos.query.order_by(Productos.nombre).paginate(page=page, per_page=per_page)
-    return render_template('gestionar_productos.html', productos=productos, proveedores=proveedores, categorias=categorias)
+    return render_template('gestionar_productos.html', productos=productos, proveedores=proveedores, categorias=categorias, idRol=idRol)

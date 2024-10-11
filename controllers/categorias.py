@@ -9,6 +9,9 @@ def gestionar_categorias():
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('auth.login'))
 
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -55,4 +58,4 @@ def gestionar_categorias():
                 flash("Categoría no encontrada.")
             return redirect(url_for('categorias.gestionar_categorias'))
 
-    return render_template('gestionar_categorias.html', categorias=categorias)
+    return render_template('gestionar_categorias.html', categorias=categorias, idRol=idRol)

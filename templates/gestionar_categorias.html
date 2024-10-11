@@ -9,6 +9,7 @@
 </head>
 <body>
 
+{% if idRol == 1 or idRol == 2 %}
 <label class="burger-menu" for="menu-toggle">
     <span></span>
     <span></span>
@@ -18,34 +19,52 @@
 
 <nav class="navbar navbar-vertical">
     <ul class="navbar-nav" style="margin-top: 250px;">
+
+        {% if idRol == 1 %}
         <li class="nav-item active">
-            {% if usuarioSesion.idRol == 1 %}
-                <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
-            {% elif usuarioSesion.idRol == 2 %}
-                <a class="nav-link" href="/dashboardOperador" style="color: white;">Página principal <span class="sr-only">(current)</span></a>
-            {% endif %}
+            <a class="nav-link" href="/dashboardAdmin" style="color: white;">Página principal</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas </a>
+            <a class="nav-link" href="/gestionar_alertas" style="color: white;">Alertas</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores </a>
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos </a>
+            <a class="nav-link" href="/movimientos" style="color: white;">Movimientos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios </a>
+            <a class="nav-link" href="/usuarios" style="color: white;">Usuarios</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/producto" style="color: white;">Productos </a>
+            <a class="nav-link" href="/producto" style="color: white;">Productos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/ventas" style="color: white;">Ventas </a>
+            <a class="nav-link" href="/Ventas" style="color: white;">Ventas</a>
+        </li>
+        {% endif %}
+
+        {% if idRol == 2 %}
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboardGerente" style="color: white;">Página principal</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/proveedores" style="color: white;">Proveedores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/producto" style="color: white;">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ventas" style="color: white;">Ventas</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item mt-auto">
+            <a class="nav-link" href="/logout" style="color: gray;">Cerrar sesión</a>
         </li>
     </ul>
 </nav>
-
+{% endif %}
 
 <!-- Encabezado principal -->
 <header class="masthead" style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728330970/ugmzqhfojoacefhr9gzl.jpg');">
@@ -62,7 +81,9 @@
 </header>
 
     <div class="container mt-4">
-        <button class="margin-4" onclick="location.href='{{ url_for('dashboards.dashboardAdmin') }}'">Volver al menú principal</button>
+        <button class="mt-4" onclick="location.href='{% if idRol == 1 %}{{ url_for('dashboards.dashboardAdmin') }}{% elif idRol == 2 %}{{ url_for('dashboards.dashboardGerente') }}{% endif %}'">
+            Volver al menú principal
+        </button>
 
         <!-- Formulario para agregar categoría -->
         <form method="POST" class="mt-4">

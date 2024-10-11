@@ -13,6 +13,9 @@ def gestionar_alertas():
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('auth.login'))
 
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+
     # Cargar alertas y destinatarios
     alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
     destinatarios = db.session.execute(text("SELECT * FROM dbo.vw_ProveedoresReqAbas")).fetchall()
@@ -54,7 +57,7 @@ def gestionar_alertas():
                 flash(f"Error al eliminar la alerta: {e}")
 
         alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
-        return render_template('gestionar_alertas.html', alertas=alertas)
+        return render_template('gestionar_alertas.html', alertas=alertas, idRol=idRol)
 
-    return render_template('gestionar_alertas.html', alertas=alertas)
+    return render_template('gestionar_alertas.html', alertas=alertas, idRol=idRol)
 

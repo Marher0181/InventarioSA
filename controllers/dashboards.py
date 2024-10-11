@@ -30,8 +30,8 @@ def dashboardAdmin():
 
         return render_template('DashboardAdmin.html', alertas=alertas, ventas=ventas, proveedores=proveedores, usuarios=usuarios, movimientos=movimientos, productos=productos, categorias=categorias, idRol=idRol)
 
-@dashboards_bp.route('/dashboardOperador')
-def dashboardOperador():
+@dashboards_bp.route('/dashboardGerente')
+def dashboardGerente():
     if 'usuarioSesion' not in session:
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('login'))
@@ -47,5 +47,5 @@ def dashboardOperador():
         productos = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Categorias")
         categorias = db.session.execute(sql).fetchall()
-        return render_template('DashboardOperador.html', ventas=ventas,
+        return render_template('DashboardGerente.html', ventas=ventas,
                                proveedores=proveedores, productos=productos, idRol=idRol, categorias=categorias)

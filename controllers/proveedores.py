@@ -10,6 +10,9 @@ def gestionar_proveedores():
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('auth.login'))
 
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -68,4 +71,4 @@ def gestionar_proveedores():
                 flash("Proveedor no encontrado.")
         
 
-    return render_template('gestionar_proveedores.html', proveedores=proveedores, proveedor_seleccionado=proveedor_seleccionado)
+    return render_template('gestionar_proveedores.html', proveedores=proveedores, proveedor_seleccionado=proveedor_seleccionado, idRol=idRol)

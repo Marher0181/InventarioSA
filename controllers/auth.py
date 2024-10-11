@@ -34,7 +34,7 @@ def login():
                     if rol == 1:
                         return redirect(url_for('dashboards.dashboardAdmin'))
                     elif rol == 2:
-                        return redirect(url_for('dashboards.dashboardOperador'))
+                        return redirect(url_for('dashboards.dashboardGerente'))
                     elif rol == 3:
                         return redirect(url_for('ventas.gestionar_ventas'))
                 else:

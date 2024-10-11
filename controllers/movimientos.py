@@ -14,6 +14,9 @@ def gestionar_movimientos():
         flash("Debes iniciar sesión para acceder a esta página.")
         return redirect(url_for('auth.login'))
 
+    usuario = session['usuarioSesion']
+    idRol = usuario['idRol']
+
     # Obtener el número de página de la consulta (por defecto es 1)
     page = request.args.get('page', 1, type=int)
     per_page = 10  # Número de movimientos por página
@@ -38,7 +41,8 @@ def gestionar_movimientos():
         'gestionar_movimientos.html', 
         movimientos=movimientos_pagina,
         page=page,
-        total_pages=total_pages
+        total_pages=total_pages,
+        idRol=idRol
     )
 
 
