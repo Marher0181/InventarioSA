@@ -22,6 +22,7 @@ def gestionar_alertas():
 
     # Si la solicitud es POST y se envía un correo
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo':
+        from app import mail
         for destinatario in destinatarios:
             email = destinatario[0]
             print(destinatario[0])
@@ -43,7 +44,7 @@ def gestionar_alertas():
                     <p><strong>Inventario S.A.</strong></p>
                 """
             )
-            current_app.mail.send(msg)
+            mail.send(msg)
 
             idAlerta = destinatario[2]
             print('Este es el ID de la alerta:', idAlerta)

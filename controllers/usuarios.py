@@ -90,9 +90,6 @@ def registrar_usuario():
         nombre = request.form.get('nombre')
         email = request.form.get('email')
         password = request.form.get('password')
-
-        usuario = session['usuarioSesion']
-        idRol = usuario['idRol']
         password = password.encode('utf-8')  
         sal = bcrypt.gensalt() 
         hashed_password = bcrypt.hashpw(password, sal)
@@ -106,6 +103,7 @@ def registrar_usuario():
             })
             db.session.commit()
             flash("Usuario registrado correctamente.")
+            return redirect(url_for('auth.login'))
         except Exception as e:
             db.session.rollback()
             flash(f"Error al registrar usuario: {e}")
