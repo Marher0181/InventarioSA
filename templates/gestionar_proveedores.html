@@ -60,7 +60,7 @@
         {% endif %}
 
         <li class="nav-item mt-auto">
-            <a class="nav-link" href="/logout" style="color: gray;">Cerrar sesión</a>
+            <a class="nav-link" href="/logout" style="color: #c1c1c1;">Cerrar sesión</a>
         </li>
     </ul>
 </nav>
@@ -79,7 +79,7 @@
     </div>
 </header>
     <div class="container mt-4">
-        <button class="mt-4" onclick="location.href='{% if idRol == 1 %}{{ url_for('dashboards.dashboardAdmin') }}{% elif idRol == 2 %}{{ url_for('dashboards.dashboardGerente') }}{% endif %}'">
+        <button class="mb-4" onclick="location.href='{% if idRol == 1 %}{{ url_for('dashboards.dashboardAdmin') }}{% elif idRol == 2 %}{{ url_for('dashboards.dashboardGerente') }}{% endif %}'">
             Volver al menú principal
         </button>
 
