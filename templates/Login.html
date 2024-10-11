@@ -1,5 +1,6 @@
 {% extends "index.html" %}
 
+
 {% block content %}
     <div>
         <h1 class="text-center mt-4" style="color: #ffffff h1">Iniciar Sesion</h1>
@@ -16,10 +17,12 @@
                 <button type="submit" class="float-right ml-3 mb-4">Iniciar Sesion</button>
                 <button type="reset" class="float-right mr-3 mb-4">Limpiar</button>
             </div>
-            <div class="text-center float-center color: #ffffff">
-                <p style="color: white;"> ¿No tienes un usuario?</p>
-                <a href="{{ url_for('usuarios.registrar_usuario') }}" style="color: #33fcff;">Crea un usuario</a>
-            </div>
+                {% if numero_usuarios == 0 %}
+                    <div class="text-center float-center color: #ffffff">
+                        <p style="color: white;"> ¿No tienes un usuario?</p>
+                        <a href="{{ url_for('usuarios.registrar_usuario') }}" style="color: #33fcff;">Crea un usuario</a>
+                    </div>
+                {% endif %}
         </form>
     </div>
 {% endblock %}

@@ -15,6 +15,7 @@ def cifrar_contraseña(contraseña):
 def login():
     sql = db.text("SELECT COUNT(*) FROM Usuarios WHERE activo = 1")
     usuarios = db.session.execute(sql).fetchall()
+    numero_usuarios = usuarios[0][0]
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password').encode('utf-8')
@@ -47,7 +48,7 @@ def login():
         except Exception as e:
             flash(f"Error: {e}")
     
-    return render_template('Login.html', usuarios=usuarios)
+    return render_template('Login.html', numero_usuarios=numero_usuarios)
 
 
 
