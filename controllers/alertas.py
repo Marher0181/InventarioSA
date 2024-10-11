@@ -16,11 +16,9 @@ def gestionar_alertas():
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
 
-    # Cargar alertas y destinatarios
     alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
     destinatarios = db.session.execute(text("SELECT * FROM dbo.vw_ProveedoresReqAbas")).fetchall()
 
-    # Si la solicitud es POST y se envía un correo
     if request.method == 'POST' and request.form.get('action') == 'enviarcorreo':
         from app import mail
         for destinatario in destinatarios:
@@ -44,7 +42,11 @@ def gestionar_alertas():
                     <p><strong>Inventario S.A.</strong></p>
                 """
             )
-            mail.send(msg)
+            try:
+                mail.send(msg)
+                print(f"Correo enviado a {email}")
+            except Exception as e:
+                print(f"Error al enviar el correo a {email}: {e}")
 
             idAlerta = destinatario[2]
             print('Este es el ID de la alerta:', idAlerta)

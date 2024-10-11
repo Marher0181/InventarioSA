@@ -18,14 +18,5 @@
         <div class="text-center float-left color: #ffffff">
             <a href="{{ url_for('usuarios.registrar_usuario') }}" class="btn btn-light">Crear un usuario</a>
         </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-message" style="display: none;">
-                    {% for category, message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
     </div>
 {% endblock %}
