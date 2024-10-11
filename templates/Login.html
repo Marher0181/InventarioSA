@@ -16,13 +16,10 @@
                 <button type="submit" class="float-right ml-3 mb-4">Iniciar Sesion</button>
                 <button type="reset" class="float-right mr-3 mb-4">Limpiar</button>
             </div>
-            <div class=" float-center color: #ffffff">
+            <div class="text-center float-center color: #ffffff">
                 <p style="color: white;"> ¿No tienes un usuario?</p>
                 <a href="{{ url_for('usuarios.registrar_usuario') }}" style="color: #33fcff;">Crea un usuario</a>
             </div>
         </form>
-        <div class="text-center float-left color: #ffffff">
-            <a href="{{ url_for('usuarios.registrar_usuario') }}" class="btn btn-light">Crear un usuario</a>
-        </div>
     </div>
 {% endblock %}
