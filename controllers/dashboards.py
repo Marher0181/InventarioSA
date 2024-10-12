@@ -11,6 +11,8 @@ def dashboardAdmin():
     
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
+    if idRol not in [1, 2]:
+        return render_template('sin_permisos.html')
 
     if idRol == 1:
         sql = db.text("SELECT COUNT(*) FROM Alertas")
@@ -38,6 +40,10 @@ def dashboardGerente():
 
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
+    
+    if idRol not in [1, 2]:
+        return render_template('sin_permisos.html')
+
     if idRol == 2:
         sql = db.text("SELECT COUNT(*) FROM Ventas")
         ventas = db.session.execute(sql).fetchall()

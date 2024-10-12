@@ -12,7 +12,8 @@ def gestionar_proveedores():
 
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
-
+    if idRol not in [1, 2]:
+        return render_template('sin_permisos.html')
     query = request.args.get('q')
     page = request.args.get('page', 1, type=int)
     per_page = 5

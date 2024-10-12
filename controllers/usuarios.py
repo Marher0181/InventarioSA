@@ -19,7 +19,9 @@ def gestionar_usuarios():
 
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
-
+    if idRol not in [1, 2]:
+        return render_template('sin_permisos.html')
+        
     if request.method == 'POST':
         if idRol == 1:
             action = request.form.get('action')

@@ -16,6 +16,9 @@ def gestionar_alertas():
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
 
+    if idRol != 1:
+        return render_template('sin_permisos.html') 
+
     alertas = db.session.execute(text("SELECT * FROM ALERTAS")).fetchall()
     destinatarios = db.session.execute(text("SELECT * FROM dbo.vw_ProveedoresReqAbas")).fetchall()
 
@@ -23,12 +26,11 @@ def gestionar_alertas():
         from app import mail
         for destinatario in destinatarios:
             email = destinatario[0]
-            print(destinatario[0])
             msg = Message(
                 subject="Solicitud de reabastecimiento de producto",
                 recipients=[email],
-                body="Estimado proveedor,\n\n"
-                     "Nos dirigimos a usted para informarle que uno de sus productos, más especificamente el producto: " + destinatario[3] + " ha alcanzado niveles mínimos de inventario. Confiamos en su excelente servicio para gestionar el reabastecimiento de este artículo a la mayor brevedad posible.\n\n"
+                body=f"Estimado proveedor,\n\n"
+                     f"Nos dirigimos a usted para informarle que uno de sus productos, más especificamente el producto: {destinatario[3]} ha alcanzado niveles mínimos de inventario. Confiamos en su excelente servicio para gestionar el reabastecimiento de este artículo a la mayor brevedad posible.\n\n"
                      "Agradecemos su atención y quedamos a su disposición para coordinar la entrega.\n\n"
                      "Atentamente,\n"
                      "Inventario S.A.",
@@ -44,13 +46,10 @@ def gestionar_alertas():
             )
             try:
                 mail.send(msg)
-                print(f"Correo enviado a {email}")
             except Exception as e:
                 print(f"Error al enviar el correo a {email}: {e}")
 
             idAlerta = destinatario[2]
-            print('Este es el ID de la alerta:', idAlerta)
-
             sql = text("EXEC sp_EliminarAlerta :idAlerta")
             try:
                 db.session.execute(sql, {'idAlerta': idAlerta})

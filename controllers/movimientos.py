@@ -16,7 +16,8 @@ def gestionar_movimientos():
 
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
-
+    if idRol not in [1, 2]:
+        return render_template('sin_permisos.html')
     # Obtener el número de página de la consulta (por defecto es 1)
     page = request.args.get('page', 1, type=int)
     per_page = 10  # Número de movimientos por página
