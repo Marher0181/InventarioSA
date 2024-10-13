@@ -136,6 +136,32 @@
                 {% endfor %}
             </tbody>
         </table>
+        <!-- Modal para reabastecer producto -->
+        <div class="modal fade" id="reabastecerModal" tabindex="-1" role="dialog" aria-labelledby="reabastecerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reabastecerModalLabel">Reabastecer Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body">
+                            <input type="hidden" name="idProductoReabastecer" id="reabastecerIdProducto">
+                            <div class="form-group">
+                                <label for="cantidadReabastecer">Cantidad</label>
+                                <input type="number" class="form-control" id="cantidadReabastecer" name="cantidadReabastecer" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="reabastecer" class="btn btn-primary">Reabastecer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -251,11 +277,15 @@
         });
 
         $('#reabastecerModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-            var idProducto = button.datamodal.find('.modal-title').text('Reabastecer ' + nombreProducto);
-            $('#reabastecerIdProducto').val(idProducto);
-        });
+        var button = $(event.relatedTarget);
+        var idProducto = button.data('id');
+        var nombreProducto = button.data('nombre');
+        
+        var modal = $(this);
+        modal.find('.modal-title').text('Reabastecer ' + nombreProducto);
+        $('#reabastecerIdProducto').val(idProducto);
+    });
+
     </script>
 </body>
 </html>

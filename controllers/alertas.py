@@ -35,13 +35,23 @@ def gestionar_alertas():
                      "Atentamente,\n"
                      "Inventario S.A.",
                 html=f"""
-                    <h1>Reabastecimiento de Producto</h1>
-                    <p>Estimados Sres {destinatario[4]}:</p>
-                    <p>Le informamos que uno de sus productos, más especificamente el producto: <strong>{destinatario[3]}</strong> ha alcanzado niveles críticos en nuestro inventario.</p>
-                    <p>Confiamos en su capacidad para suministrarnos el artículo en cuestión lo antes posible, asegurando la continuidad de nuestras operaciones.</p>
-                    <p>Quedamos atentos a cualquier consulta o coordinación que necesite realizar.</p>
-                    <p>Atentamente,</p>
-                    <p><strong>Inventario S.A.</strong></p>
+                    <table role="presentation" style="width: 100%; border: none; border-spacing: 0;">
+                        <tr>
+                            <td style="background-image: url('https://res.cloudinary.com/dlggyukyk/image/upload/v1728163608/k0zlozb43i0zln4x0czs.jpg'); background-size: cover; background-position: center; padding: 20px; text-align: center; border-bottom: 1px solid #dee2e6;">
+                                <h1 style="margin: 0; color: #ffffff;">Inventario S.A.</h1>
+                                <p style="margin: 0; color: #ffffff;">Gestión de inventarios y reabastecimiento eficiente</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <main style="padding: 20px;">
+                        <h2>Solicitud urgente de reabastecimiento</h2>
+                        <p>Estimados Sres. {destinatario[4]},</p>
+                        <p>Nos permitimos informarle que uno de sus productos, <strong>{destinatario[3]}</strong>, ha alcanzado niveles críticos en nuestro inventario.</p>
+                        <p>Agradecemos su colaboración para suministrarnos este artículo lo antes posible, a fin de evitar cualquier interrupción en nuestras operaciones.</p>
+                        <p>Por favor, no dude en contactarnos para coordinar la entrega o resolver cualquier consulta.</p>
+                        <p>Atentamente,</p>
+                        <p><strong>Inventario S.A.</strong></p>
+                    </main>
                 """
             )
             try:
