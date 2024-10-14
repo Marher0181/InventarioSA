@@ -23,7 +23,7 @@ def dashboardAdmin():
         proveedores = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM MovimientosInventario")
         movimientos = db.session.execute(sql).fetchall()
-        sql = db.text("SELECT COUNT(*) FROM Usuarios")
+        sql = db.text("SELECT COUNT(*) FROM Usuarios where Activo = 1")
         usuarios = db.session.execute(sql).fetchall()
         sql = db.text("SELECT COUNT(*) FROM Productos")
         productos = db.session.execute(sql).fetchall()
