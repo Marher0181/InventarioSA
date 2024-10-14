@@ -11,7 +11,7 @@ def dashboardAdmin():
     
     usuario = session['usuarioSesion']
     idRol = usuario['idRol']
-    if idRol not in [1, 2]:
+    if idRol not in [1]:
         return render_template('sin_permisos.html')
 
     if idRol == 1:
